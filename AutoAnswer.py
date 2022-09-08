@@ -1,6 +1,6 @@
+from DataBaseProcess import *
 from Post import *
 from PracticeSendProcess import *
-from DataBaseProcess import *
 
 QUIZ_ITT001_USER_ANSWER_SPLIT = '%$$%'
 
@@ -40,7 +40,7 @@ class AutoAnswer(Post):
                 quizType = quiz['quizTypeId']
                 preAnswer = submitStatus['userAnswer']
                 answerIdList = [quizOption['optionId'] for quizOption in quiz['quizOptionses']]
-                # print(preAnswer,'ssssssss',answerIdList)
+                # print('ssssssss', preAnswer, answerIdList)
                 # if quizType == "itt002" or quizType == "itt003" or quizType == "itt004":
                 #     _qAnswer = practiceSendDict[i]['userAnswer'].split(",")
                 # elif quiz.baseType == "itt001":
@@ -84,25 +84,28 @@ class AutoAnswer(Post):
                     usingAnswerId.pop()
 
     def Get(self):
-        self.getNewResult()
         self.practiceSendList = self.drive.execute_script('return $("#exam_paper").quiz().getPractice()')
+        self.submit(self.practiceSendList)
+        self.getNewResult()
 
         print(self.submitContentList)
         print(self.practiceSendList)
 
         self.Enumerate()
 
-    def insertDataJudge(self):
+    def InsertDataJudge(self):
         self.gotoExamTest()
         getDataJudge = self.drive.execute_script('return $("#exam_paper").quiz().getData()')
         print('khgkhf', getDataJudge)
         for quizItem in getDataJudge:
             insertDataBaseJudge(quizItem)
 
+
 if __name__ == '__main__':
     my = AutoAnswer()
     my.getCookies()
+    my.selectCourses()
     my.gotoExamTest()
     my.Get()
-    my.insertDataJudge()
+    my.InsertDataJudge()
     del my

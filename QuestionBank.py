@@ -31,10 +31,10 @@ def search_answer(quizId: int):
     if quizId:
         db = sqlite3.connect(dataBaseName)
         res = db.cursor().execute(
-            'SELECT quizId, quizContent, answerId, answerContent, quizType FROM QuestionBank WHERE quizId =?',(quizId,))
+            'SELECT quizId, quizContent, answerId, answerContent, quizType FROM QuestionBank WHERE quizId =?', (quizId,))
         for answer in res:
-            print("找到题目：{}\n 答案：{}\n".format(answer[0], answer[2]))
-            answers.append(answer[3])
+            print("找到题目：{}\n 答案：{}\n".format(answer[1], answer[3]))
+            answers.append(answer[2])
         db.close()
     return answers
 

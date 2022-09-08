@@ -35,7 +35,7 @@ class Post(WebProcess):
             'testPaperId': examTestPaperId,
             'postoken': self.cookies['cpstk']
         }
-        response = self.session.post(url=submitUrl, data=submitData, headers=WebProcess().headers)
+        response = self.session.post(url=submitUrl, data=submitData, headers=self.headers)
         print('submit', response)
 
     def getNewResult(self):
@@ -54,11 +54,11 @@ class Post(WebProcess):
             'postoken': self.cookies['cpstk']
         }
         resp = self.session.post(getnewUrl, headers=self.headers, data=getData)
+        print('getnew', resp)
         self.paperStruct = resp.json()["paper"]['paperStruct']
         sourceSubmitContent = resp.json()['examSubmit']['submitContent']
         submitContent = sourceSubmitContent.split('{')  # 获取submitContent列表
         submitContent.remove('["')
-        print('getnew', resp)
         self.submitContentList = []
         pattern = re.compile(
             r'.*?userAnswer\\":\\"(?P<userAnswer>.*?)\\",\\"quizId\\":\\"'
