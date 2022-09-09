@@ -71,4 +71,3 @@ class Post(WebProcess):
                 "quizId": result.group("quizId"),
                 "errorFlag": result.group("errorFlag")
             })
-        # print(self.submitContentList)

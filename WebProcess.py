@@ -8,17 +8,23 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from Encrypt import *
+
 
 class WebProcess:
     def __init__(self):
+        self.exam_select = None
         self.domain = 'http://spoc.wzu.edu.cn'
         self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
+            'Host': 'spoc.wzu.edu.cn',
             'Referer': '',
-            'Host': 'spoc.wzu.edu.cn'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                          'Chrome/105.0.0.0 Safari/537.36',
         }
         self.session = requests.session()
-        self.drive = webdriver.Chrome()
+        options = webdriver.ChromeOptions()
+        options.headless = True
+        self.drive = webdriver.Chrome(options=options)
         self.wait = WebDriverWait(self.drive, timeout=3, poll_frequency=1)
         self.courseOpenId = None
         self.cookies = {}
@@ -26,25 +32,49 @@ class WebProcess:
     def __del__(self):
         self.drive.quit()
 
+    def loginHall(self, username, password):
+        session = requests.session()
+        headers = {
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,'
+                      'image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Accept-Language': 'zh-CN,zh;q=0.9',
+            'Cache-Control': 'max-age=0',
+            'Connection': 'keep-alive',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                          'Chrome/105.0.0.0 Safari/537.36',
+        }
+        # 访问任意网址，返回包含认证页面链接的内容（自动跳转）
+        resp = session.get('http://spoc.wzu.edu.cn/oauth/toMoocAuth.mooc', headers=headers)
+        # 提取认证链接并访问，经历一次重定向得到认证页面，且会返回一个cookie值：session
+        croypto = re.search(r'"login-croypto">(.*?)<', resp.text, re.S).group(1)
+        execution = re.search(r'"login-page-flowkey">(.*?)<', resp.text, re.S).group(1)
+        # 构建post数据 填入自己的学号 密码
+        data = {
+            'username': username,  # 学号
+            'type': 'UsernamePassword',
+            '_eventId': 'submit',
+            'geolocation': '',
+            'execution': execution,
+            'captcha_code': '',
+            'croypto': croypto,  # 密钥 base64格式
+            'password': encrypt(password, croypto)  # 密码 经过des加密 base64格式
+        }
+
+        # 提交cookie，进行登录(重定向)
+        session.cookies.update({'isPortal': 'false'})
+        resp = session.post('https://source.wzu.edu.cn/login', data=data)
+        self.drive.get('http://spoc.wzu.edu.cn/oauth/toMoocAuth.mooc')
+        for key, value in session.cookies.get_dict().items():
+            self.drive.add_cookie({"name": key, "value": value})
+        self.drive.get('http://spoc.wzu.edu.cn/home/login.mooc')
+        self.wait.until(EC.title_contains("SPOC"))
+        self.drive.find_element(By.CLASS_NAME, 'oauthLogin').click()
+        self.getCookies()
+        print('login success', resp.status_code)
+
     def getCookies(self):
-        # if os.path.exists('cookies1.json') and os.path.getsize('cookies.json') != 0:
-        #     with open(file='cookies.json', mode='r') as f:
-        #         self.drive.get(url='http://spoc.wzu.edu.cn/')
-        #         WebDriverWait(self.drive, timeout=3, poll_frequency=1).until(EC.title_contains("SPOC"))
-        #         dictCookies = json.load(f)
-        #         for cookie in dictCookies:
-        #             self.drive.add_cookie(cookie)
-        #         time.sleep(2)
-        #         self.drive.get(url='http://spoc.wzu.edu.cn/portal/myCourseIndex/1.mooc?checkEmail=false')
-        #         print(self.drive.get_cookies())
-        # else:
-        #     with open(file='cookies.json', mode='w') as f:
-        #         self.drive.get(url='http://spoc.wzu.edu.cn/oauth/toMoocAuth.mooc')
-        #         WebDriverWait(self.drive, timeout=30, poll_frequency=1).until(EC.title_contains("SPOC"))
-        #         dictCookies = self.drive.get_cookies()
-        #         json.dump(dictCookies, f)
-        self.drive.get(url='http://spoc.wzu.edu.cn/oauth/toMoocAuth.mooc')
-        WebDriverWait(self.drive, timeout=9999, poll_frequency=1).until(EC.title_contains("SPOC"))
         dictCookies = self.drive.get_cookies()
         cookiejar = requests.cookies.RequestsCookieJar()
         for cookie in dictCookies:
@@ -54,7 +84,10 @@ class WebProcess:
         print(self.cookies)
 
     def selectCourses(self):
-        self.drive.find_element(By.CLASS_NAME, "introjs-skipbutton").click()
+        self.drive.get('http://spoc.wzu.edu.cn/portal/myCourseIndex/1.mooc?checkEmail=false')
+        self.wait.until(EC.title_contains("SPOC"))
+        if self.drive.find_elements(By.CLASS_NAME, 'introjs-skipbutton'):
+            self.drive.find_element(By.CLASS_NAME, 'introjs-skipbutton').click()
         self.wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'view-title')))
         soup = BeautifulSoup(self.drive.page_source, 'lxml')
         courses = [{'title': h3.text.replace('\n', '').replace(' ', ''), 'href': self.domain + a.attrs['href']}
@@ -64,19 +97,20 @@ class WebProcess:
             print(i, '、课程名称:', course['title'])
             hrefs.append(course['href'])
         select = int(input())
-        self.courseOpenId = re.search('index/(?P<courseOpenId>.*?).mooc', hrefs[select-1]).group('courseOpenId')
+        self.courseOpenId = re.search('index/(?P<courseOpenId>.*?).mooc', hrefs[select - 1]).group('courseOpenId')
         self.headers['Referer'] = self.domain + '/examTest/stuExamList/' + self.courseOpenId + '.mooc'
         print(self.headers['Referer'])
 
-    def gotoExamTest(self):
+    def gotoExamTest(self, flag):
         self.drive.get(self.headers['Referer'])
         time.sleep(1)
-        soup = BeautifulSoup(self.drive.page_source, 'lxml')
-        exams = [h3.text.replace('\n', '').replace(' ', '') for h3 in soup.find_all('td', class_='td1')]
-        for i, exam in zip(range(1, len(exams) + 1), exams):
-            print(i, '、课程名称:', exam)
-        select = int(input())
-        self.drive.find_elements(By.CLASS_NAME, 'link-action')[select-1].click()
+        if flag:
+            soup = BeautifulSoup(self.drive.page_source, 'lxml')
+            exams = [h3.text.replace('\n', '').replace(' ', '') for h3 in soup.find_all('td', class_='td1')]
+            for i, exam in zip(range(1, len(exams) + 1), exams):
+                print(i, '、课程名称:', exam)
+            self.exam_select = int(input())
+        self.drive.find_elements(By.CLASS_NAME, 'link-action')[self.exam_select - 1].click()
         time.sleep(1)
         if self.drive.find_elements(By.CLASS_NAME, 'doObjExam'):
             self.drive.find_element(By.CLASS_NAME, 'doObjExam').click()

@@ -1,3 +1,5 @@
+import json
+
 from DataBaseProcess import *
 from Post import *
 from PracticeSendProcess import *
@@ -11,8 +13,11 @@ class AutoAnswer(Post):
         self.practiceSendList = None
 
     def Enumerate(self):
+        # itt001 填空题
+        # itt002 判断题
+        # itt003 单选题
+        # itt004 多选题
         locate = 0
-        # print('ttttttt:', self.submitContentList)
         submitStatus = None
         nowQuizId = None
         while locate < len(self.submitContentList):
@@ -27,7 +32,6 @@ class AutoAnswer(Post):
             quizId = str(quiz['quizId'])
             dbSearchAnswer = search_answer(int(quizId))
             practiceSendDict = PracticeSendFromList2Dict(self.practiceSendList)
-            # print('kkkkkkkkk', quiz, quizId, nowQuizId)
             if dbSearchAnswer:
                 for i in range(len(practiceSendDict)):
                     if str(practiceSendDict[i]['quizId']) == quizId:
@@ -40,7 +44,6 @@ class AutoAnswer(Post):
                 quizType = quiz['quizTypeId']
                 preAnswer = submitStatus['userAnswer']
                 answerIdList = [quizOption['optionId'] for quizOption in quiz['quizOptionses']]
-                # print('ssssssss', preAnswer, answerIdList)
                 # if quizType == "itt002" or quizType == "itt003" or quizType == "itt004":
                 #     _qAnswer = practiceSendDict[i]['userAnswer'].split(",")
                 # elif quiz.baseType == "itt001":
@@ -59,6 +62,7 @@ class AutoAnswer(Post):
                             else:
                                 print('error:', str(quizId), str(testAnswer))
                     self.Enumerate()
+                # elif quizType == "itt002":
                 elif quizType == "itt004":  # 多选
                     usingAnswerId = []
                     self.multiAnswerCombine(practiceSendDict, quizId, answerIdList, usingAnswerId)
@@ -88,24 +92,30 @@ class AutoAnswer(Post):
         self.submit(self.practiceSendList)
         self.getNewResult()
 
-        print(self.submitContentList)
-        print(self.practiceSendList)
+        print('submitContentList:', self.submitContentList)
+        print('practiceSendList', self.practiceSendList)
 
         self.Enumerate()
 
     def InsertDataJudge(self):
-        self.gotoExamTest()
+        self.gotoExamTest(False)
         getDataJudge = self.drive.execute_script('return $("#exam_paper").quiz().getData()')
-        print('khgkhf', getDataJudge)
+        print('insert:', getDataJudge)
         for quizItem in getDataJudge:
             insertDataBaseJudge(quizItem)
 
 
 if __name__ == '__main__':
+    with open("config.json", "r") as f:
+        config = json.load(f)
     my = AutoAnswer()
-    my.getCookies()
-    my.selectCourses()
-    my.gotoExamTest()
-    my.Get()
-    my.InsertDataJudge()
+    my.loginHall(config['username'], config['password'])
+    while True:
+        my.selectCourses()
+        my.gotoExamTest(True)
+        my.Get()
+        my.InsertDataJudge()
+        print('输1继续')
+        if int(input()) != 1:
+            break
     del my
