@@ -17,5 +17,4 @@ def PracticeSendFromDict2List(practiceDict):
     practiceList = []
     for item in practiceDict:
         practiceList.append('{"quizId":"' + str(item["quizId"]) + '","userAnswer":"' + str(item["userAnswer"]) + '"}')
-    print(practiceList)
     return practiceList
