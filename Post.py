@@ -13,7 +13,6 @@ class Post(WebProcess):
         self.getNewResult()
         for item in self.submitContentList:
             if quizId == str(item["quizId"]):
-                print(quizId, item["errorFlag"])
                 return item["errorFlag"]
 
     def submit(self, practiceSend):
