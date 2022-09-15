@@ -15,5 +15,6 @@ def insertDataBaseJudge(quizItem):
             if option['optionId'] in userAnswerIdList:
                 answerContentList.append(chr(ord('A') + option['displayOrder']) + '、' + option['optionContent'] + '\n')
         answerContent = ''.join(answerContentList)
-        print(int(quizId), quizContent, answerId, answerContent, quizType)
+        print('quizid:', quizId, 'answerId:', answerId, 'quizType:', quizType,
+              '\nquizContent:\n', quizContent, '\nanswerContent:\n', answerContent)
         insert_answer(int(quizId), quizContent, answerId, answerContent, quizType)

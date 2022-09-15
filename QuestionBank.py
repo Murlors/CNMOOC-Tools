@@ -33,7 +33,7 @@ def search_answer(quizId: int):
         res = db.cursor().execute(
             'SELECT quizId, quizContent, answerId, answerContent, quizType FROM QuestionBank WHERE quizId =?', (quizId,))
         for answer in res:
-            print("找到题目：{}\n 答案：{}\n".format(answer[1], answer[3]))
+            print("找到题目：{}\n答案：{}\n".format(answer[1], answer[3]))
             answers.append(answer[2])
         db.close()
     return answers
