@@ -48,7 +48,7 @@ class AutoAnswer(Post):
                 #     _qAnswer = practiceSendDict[i]['userAnswer'].split(",")
                 # elif quiz.baseType == "itt001":
                 #     _qAnswer = practiceSendDict[i]['userAnswer'].split(QUIZ_ITT001_USER_ANSWER_SPLIT)
-                if quizType == "itt003":  # 单选
+                if quizType == "itt003" or quizType == "itt002":  # 单选 And 判断
                     for testAnswer in answerIdList:
                         if testAnswer != preAnswer:
                             for i in range(len(practiceSendDict)):
@@ -62,7 +62,6 @@ class AutoAnswer(Post):
                             else:
                                 print('error:', str(quizId), str(testAnswer))
                     self.Enumerate()
-                # elif quizType == "itt002":
                 elif quizType == "itt004":  # 多选
                     usingAnswerId = []
                     self.multiAnswerCombine(practiceSendDict, quizId, answerIdList, usingAnswerId)
@@ -100,7 +99,8 @@ class AutoAnswer(Post):
     def InsertDataJudge(self):
         self.gotoExamTest(False)
         getDataJudge = self.drive.execute_script('return $("#exam_paper").quiz().getData()')
-        print('insert:', getDataJudge)
+        print('Insert:')
+        print('practiceSendList', self.practiceSendList)
         for quizItem in getDataJudge:
             insertDataBaseJudge(quizItem)
 
@@ -115,7 +115,7 @@ if __name__ == '__main__':
         my.gotoExamTest(True)
         my.Get()
         my.InsertDataJudge()
-        print('输1继续')
+        print('扣1继续：')
         if int(input()) != 1:
             break
     del my
