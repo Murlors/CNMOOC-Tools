@@ -21,51 +21,52 @@ class AutoAnswer(Post):
         submitStatus = None
         nowQuizId = None
         while locate < len(self.submitContentList):
-            submitStatus = self.submitContentList[locate]
-            if submitStatus['errorFlag'] == 'error':
-                nowQuizId = str(submitStatus['quizId'])
-                break
-            else:
-                locate += 1
-        if submitStatus and locate != len(self.submitContentList):
-            quiz = [item['quiz'] for item in self.paperStruct if str(item['quiz']['quizId']) == nowQuizId][0]
-            quizId = str(quiz['quizId'])
-            dbSearchAnswer = search_answer(int(quizId))
-            practiceSendDict = PracticeSendFromList2Dict(self.practiceSendList)
-            if dbSearchAnswer:
-                for i in range(len(practiceSendDict)):
-                    if str(practiceSendDict[i]['quizId']) == quizId:
-                        practiceSendDict[i]['userAnswer'] = dbSearchAnswer[0]
-                self.practiceSendList = PracticeSendFromDict2List(practiceSendDict)
-                if self.testPost(self.practiceSendList, quizId) == 'right':
-                    print('right:', quizId)
-                    self.Enumerate()
-            else:
-                quizType = quiz['quizTypeId']
-                preAnswer = submitStatus['userAnswer']
-                answerIdList = [quizOption['optionId'] for quizOption in quiz['quizOptionses']]
-                # if quizType == "itt002" or quizType == "itt003" or quizType == "itt004":
-                #     _qAnswer = practiceSendDict[i]['userAnswer'].split(",")
-                # elif quiz.baseType == "itt001":
-                #     _qAnswer = practiceSendDict[i]['userAnswer'].split(QUIZ_ITT001_USER_ANSWER_SPLIT)
-                if quizType == "itt003" or quizType == "itt002":  # 单选 And 判断
-                    for testAnswer in answerIdList:
-                        if testAnswer != preAnswer:
-                            for i in range(len(practiceSendDict)):
-                                if str(practiceSendDict[i]['quizId']) == quizId:
-                                    practiceSendDict[i]['userAnswer'] = testAnswer
+            while locate < len(self.submitContentList):
+                submitStatus = self.submitContentList[locate]
+                if submitStatus['errorFlag'] == 'error':
+                    nowQuizId = str(submitStatus['quizId'])
+                    break
+                else:
+                    locate += 1
+            if submitStatus and locate != len(self.submitContentList):
+                quiz = [item['quiz'] for item in self.paperStruct if str(item['quiz']['quizId']) == nowQuizId][0]
+                quizId = str(quiz['quizId'])
+                dbSearchAnswer = search_answer(int(quizId))
+                practiceSendDict = PracticeSendFromList2Dict(self.practiceSendList)
+                if dbSearchAnswer:
+                    for i in range(len(practiceSendDict)):
+                        if str(practiceSendDict[i]['quizId']) == quizId:
+                            practiceSendDict[i]['userAnswer'] = dbSearchAnswer[0]
+                    self.practiceSendList = PracticeSendFromDict2List(practiceSendDict)
+                    if self.testPost(self.practiceSendList, quizId) == 'right':
+                        print('right:', quizId)
+                        continue
+                else:
+                    quizType = quiz['quizTypeId']
+                    preAnswer = submitStatus['userAnswer']
+                    answerIdList = [quizOption['optionId'] for quizOption in quiz['quizOptionses']]
+                    # if quizType == "itt002" or quizType == "itt003" or quizType == "itt004":
+                    #     _qAnswer = practiceSendDict[i]['userAnswer'].split(",")
+                    # elif quiz.baseType == "itt001":
+                    #     _qAnswer = practiceSendDict[i]['userAnswer'].split(QUIZ_ITT001_USER_ANSWER_SPLIT)
+                    if quizType == "itt003" or quizType == "itt002":  # 单选 And 判断
+                        for testAnswer in answerIdList:
+                            if testAnswer != preAnswer:
+                                for i in range(len(practiceSendDict)):
+                                    if str(practiceSendDict[i]['quizId']) == quizId:
+                                        practiceSendDict[i]['userAnswer'] = testAnswer
+                                        break
+                                self.practiceSendList = PracticeSendFromDict2List(practiceSendDict)
+                                if self.testPost(self.practiceSendList, quizId) == 'right':
+                                    print('right:', str(quizId), str(testAnswer))
                                     break
-                            self.practiceSendList = PracticeSendFromDict2List(practiceSendDict)
-                            if self.testPost(self.practiceSendList, quizId) == 'right':
-                                print('right:', str(quizId), str(testAnswer))
-                                break
-                            else:
-                                print('error:', str(quizId), str(testAnswer))
-                    self.Enumerate()
-                elif quizType == "itt004":  # 多选
-                    usingAnswerId = []
-                    self.multiAnswerCombine(practiceSendDict, quizId, answerIdList, usingAnswerId)
-                    self.Enumerate()
+                                else:
+                                    print('error:', str(quizId), str(testAnswer))
+                        continue
+                    elif quizType == "itt004":  # 多选
+                        usingAnswerId = []
+                        self.multiAnswerCombine(practiceSendDict, quizId, answerIdList, usingAnswerId)
+                        continue
 
     def multiAnswerCombine(self, practiceSendDict, quizId, answerIdList, usingAnswerId):
         for i in answerIdList:
