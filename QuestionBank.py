@@ -20,8 +20,7 @@ def insert_answer(quizId: int, quizContent, answerId, answerContent, quizType):
     if not (search_answer(quizId)):
         db = sqlite3.connect(dataBaseName)
         db.cursor().execute(
-            'INSERT INTO QuestionBank (quizId, quizContent, answerId, answerContent, quizType) VALUES (?,?,?,?,?)',
-            (quizId, quizContent, answerId, answerContent, quizType))
+            'INSERT INTO QuestionBank VALUES (?,?,?,?,?)', (quizId, quizContent, answerId, answerContent, quizType))
         db.commit()
         db.close()
 
@@ -31,7 +30,7 @@ def search_answer(quizId: int):
     if quizId:
         db = sqlite3.connect(dataBaseName)
         res = db.cursor().execute(
-            'SELECT quizId, quizContent, answerId, answerContent, quizType FROM QuestionBank WHERE quizId =?', (quizId,))
+            'SELECT quizId,quizContent,answerId,answerContent,quizType FROM QuestionBank WHERE quizId=?', (quizId,))
         for answer in res:
             print("找到题目：{}\n答案：{}\n".format(answer[1], answer[3]))
             answers.append(answer[2])
