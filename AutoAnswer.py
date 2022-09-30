@@ -4,8 +4,6 @@ from DataBaseProcess import *
 from Post import *
 from PracticeSendProcess import *
 
-QUIZ_ITT001_USER_ANSWER_SPLIT = '%$$%'
-
 
 class AutoAnswer(Post):
     def __init__(self):
@@ -40,7 +38,6 @@ class AutoAnswer(Post):
                     self.practiceSendList = PracticeSendFromDict2List(practiceSendDict)
                     if self.testPost(self.practiceSendList, quizId) == 'right':
                         print('right:', quizId)
-                        continue
                 else:
                     quizType = quiz['quizTypeId']
                     preAnswer = submitStatus['userAnswer']
@@ -62,11 +59,12 @@ class AutoAnswer(Post):
                                     break
                                 else:
                                     print('error:', str(quizId), str(testAnswer))
-                        continue
                     elif quizType == "itt004":  # 多选
                         usingAnswerId = []
                         self.multiAnswerCombine(practiceSendDict, quizId, answerIdList, usingAnswerId)
-                        continue
+                    elif quizType == "itt001":  # 填空
+                        locate += 1
+                        print('题库中找不到这个填空题呢，自己加油罢')
 
     def multiAnswerCombine(self, practiceSendDict, quizId, answerIdList, usingAnswerId):
         for i in answerIdList:
