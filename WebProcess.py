@@ -101,16 +101,20 @@ class WebProcess:
         self.headers['Referer'] = self.domain + '/examTest/stuExamList/' + self.courseOpenId + '.mooc'
         print(self.headers['Referer'])
 
-    def gotoExamTest(self, flag):
+    def getExamSelect(self):
         self.drive.get(self.headers['Referer'])
         time.sleep(1)
-        if flag:
-            soup = BeautifulSoup(self.drive.page_source, 'lxml')
-            exams = [h3.text.replace('\n', '').replace(' ', '') for h3 in soup.find_all('td', class_='td1')]
-            for i, exam in zip(range(1, len(exams) + 1), exams):
-                print(i, '、课程名称:', exam)
-            self.exam_select = int(input())
-        self.drive.find_elements(By.CLASS_NAME, 'link-action')[self.exam_select - 1].click()
+        soup = BeautifulSoup(self.drive.page_source, 'lxml')
+        exams = [h3.text.replace('\n', '').replace(' ', '') for h3 in soup.find_all('td', class_='td1')]
+        for i, exam in zip(range(1, len(exams) + 1), exams):
+            print(i, '、试卷名称:', exam)
+        print("多选试卷用`,`分割")
+        self.exam_select = list(map(int, input().split(',')))
+
+    def gotoExamTest(self, exam_select):
+        self.drive.get(self.headers['Referer'])
+        time.sleep(1)
+        self.drive.find_elements(By.CLASS_NAME, 'link-action')[exam_select - 1].click()
         time.sleep(1)
         if self.drive.find_elements(By.CLASS_NAME, 'doObjExam'):
             self.drive.find_element(By.CLASS_NAME, 'doObjExam').click()

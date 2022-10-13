@@ -95,8 +95,8 @@ class AutoAnswer(Post):
 
         self.Enumerate()
 
-    def InsertDataJudge(self):
-        self.gotoExamTest(False)
+    def InsertDataJudge(self,exam_select):
+        self.gotoExamTest(exam_select)
         getDataJudge = self.drive.execute_script('return $("#exam_paper").quiz().getData()')
         print('Insert:')
         print('practiceSendList', self.practiceSendList)
@@ -111,9 +111,11 @@ if __name__ == '__main__':
     my.loginHall(config['username'], config['password'])
     while True:
         my.selectCourses()
-        my.gotoExamTest(True)
-        my.Get()
-        my.InsertDataJudge()
+        my.getExamSelect()
+        for i in my.exam_select:
+            my.gotoExamTest(i)
+            my.Get()
+            my.InsertDataJudge(i)
         print('扣1继续：')
         if int(input()) != 1:
             break
