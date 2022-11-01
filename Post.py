@@ -1,5 +1,4 @@
 from WebProcess import *
-import re
 
 
 class Post(WebProcess):
