@@ -7,7 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 from Encrypt import *
 
@@ -20,12 +20,12 @@ class WebProcess:
             'Host': 'spoc.wzu.edu.cn',
             'Referer': '',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/105.0.0.0 Safari/537.36',
+                          'Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.26',
         }
         self.session = requests.session()
-        options = webdriver.ChromeOptions()
+        options = webdriver.EdgeOptions()
         options.headless = True
-        self.drive = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+        self.drive = webdriver.ChromiumEdge(EdgeChromiumDriverManager().install(), options=options)
         self.wait = WebDriverWait(self.drive, timeout=3, poll_frequency=1)
         self.courseOpenId = None
         self.cookies = {}
@@ -44,7 +44,7 @@ class WebProcess:
             'Connection': 'keep-alive',
             'Content-Type': 'application/x-www-form-urlencoded',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/105.0.0.0 Safari/537.36',
+                          'Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.26',
         }
         # 访问任意网址，返回包含认证页面链接的内容（自动跳转）
         resp = session.get('http://spoc.wzu.edu.cn/oauth/toMoocAuth.mooc', headers=headers)
