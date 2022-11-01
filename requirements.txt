@@ -1,5 +1,7 @@
 requests
 pydes
-beautifulsoup4
 lxml
+beautifulsoup4
 selenium
+packaging
+webdriver-manager

@@ -5,8 +5,9 @@ import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+from webdriver_manager.chrome import ChromeDriverManager
 
 from Encrypt import *
 
@@ -24,7 +25,7 @@ class WebProcess:
         self.session = requests.session()
         options = webdriver.ChromeOptions()
         options.headless = True
-        self.drive = webdriver.Chrome(options=options)
+        self.drive = webdriver.Chrome(ChromeDriverManager().install(), options=options)
         self.wait = WebDriverWait(self.drive, timeout=3, poll_frequency=1)
         self.courseOpenId = None
         self.cookies = {}
