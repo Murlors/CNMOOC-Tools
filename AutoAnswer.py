@@ -9,6 +9,7 @@ class AutoAnswer(Post):
     def __init__(self):
         super().__init__()
         self.practiceSendList = None
+        self.enumerationCount = 0
 
     def Enumerate(self):
         # itt001 填空题
@@ -39,6 +40,7 @@ class AutoAnswer(Post):
                     if self.testPost(self.practiceSendList, quizId) == 'right':
                         print('right:', quizId)
                 else:
+                    self.enumerationCount += 1
                     quizType = quiz['quizTypeId']
                     preAnswer = submitStatus['userAnswer']
                     answerIdList = [quizOption['optionId'] for quizOption in quiz['quizOptionses']]
@@ -95,14 +97,14 @@ class AutoAnswer(Post):
 
         self.Enumerate()
 
-    def InsertDataJudge(self,exam_select):
-        self.gotoExamTest(exam_select)
-        getDataJudge = self.drive.execute_script('return $("#exam_paper").quiz().getData()')
-        print('Insert:')
-        print('practiceSendList', self.practiceSendList)
-        for quizItem in getDataJudge:
-            insertDataBaseJudge(quizItem)
-
+    def InsertDataJudge(self, exam_select):
+        if self.enumerationCount:
+            self.gotoExamTest(exam_select)
+            getDataJudge = self.drive.execute_script('return $("#exam_paper").quiz().getData()')
+            print('Insert:')
+            print('practiceSendList', self.practiceSendList)
+            for quizItem in getDataJudge:
+                insertDataBaseJudge(quizItem)
 
 if __name__ == '__main__':
     with open("config.json", "r") as f:
