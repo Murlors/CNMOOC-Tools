@@ -25,7 +25,7 @@ class WebProcess:
         self.session = requests.session()
         options = webdriver.EdgeOptions()
         options.headless = True
-        self.drive = webdriver.ChromiumEdge(EdgeChromiumDriverManager().install(), options=options)
+        self.drive = webdriver.ChromiumEdge(EdgeChromiumDriverManager(cache_valid_range=7).install(), options=options)
         self.wait = WebDriverWait(self.drive, timeout=3, poll_frequency=1)
         self.courseOpenId = None
         self.cookies = {}
