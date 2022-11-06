@@ -66,14 +66,19 @@ class WebProcess:
         # 提交cookie，进行登录(重定向)
         session.cookies.update({'isPortal': 'false'})
         resp = session.post('https://source.wzu.edu.cn/login', data=data)
-        self.drive.get('http://spoc.wzu.edu.cn/oauth/toMoocAuth.mooc')
-        for key, value in session.cookies.get_dict().items():
-            self.drive.add_cookie({"name": key, "value": value})
-        self.drive.get('http://spoc.wzu.edu.cn/home/login.mooc')
-        self.wait.until(EC.title_contains("SPOC"))
-        self.drive.find_element(By.CLASS_NAME, 'oauthLogin').click()
-        self.getCookies()
-        print('login success', resp.status_code)
+        if resp.status_code == 200:
+            self.drive.get('http://spoc.wzu.edu.cn/oauth/toMoocAuth.mooc')
+            for key, value in session.cookies.get_dict().items():
+                self.drive.add_cookie({"name": key, "value": value})
+            self.drive.get('http://spoc.wzu.edu.cn/home/login.mooc')
+            self.wait.until(EC.title_contains("SPOC"))
+            self.drive.find_element(By.CLASS_NAME, 'oauthLogin').click()
+            self.getCookies()
+            print('login success', resp.status_code)
+            return True
+        else:
+            print('login failed, please check username and password')
+            return False
 
     def getCookies(self):
         dictCookies = self.drive.get_cookies()

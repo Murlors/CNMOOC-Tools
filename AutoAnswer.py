@@ -66,7 +66,7 @@ class AutoAnswer(Post):
                         self.multiAnswerCombine(practiceSendDict, quizId, answerIdList, usingAnswerId)
                     elif quizType == "itt001":  # 填空
                         locate += 1
-                        print('题库中找不到这个填空题呢，自己加油罢')
+                        print("I can't find this fill-in-the-blank question in the QuestionBank, so go for it yourself!")
 
     def multiAnswerCombine(self, practiceSendDict, quizId, answerIdList, usingAnswerId):
         for i in answerIdList:
@@ -106,19 +106,20 @@ class AutoAnswer(Post):
             for quizItem in getDataJudge:
                 insertDataBaseJudge(quizItem)
 
+
 if __name__ == '__main__':
     with open("config.json", "r") as f:
         config = json.load(f)
     my = AutoAnswer()
-    my.loginHall(config['username'], config['password'])
-    while True:
-        my.selectCourses()
-        my.getExamSelect()
-        for i in my.exam_select:
-            my.gotoExamTest(i)
-            my.Get()
-            my.InsertDataJudge(i)
-        print('扣1继续：')
-        if int(input()) != 1:
-            break
+    if my.loginHall(config['username'], config['password']):
+        while True:
+            my.selectCourses()
+            my.getExamSelect()
+            for i in my.exam_select:
+                my.gotoExamTest(i)
+                my.Get()
+                my.InsertDataJudge(i)
+            print('扣1继续：')
+            if int(input()) != 1:
+                break
     del my
