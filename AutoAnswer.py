@@ -119,7 +119,7 @@ if __name__ == '__main__':
                 my.gotoExamTest(i)
                 my.Get()
                 my.InsertDataJudge(i)
-            print('扣1继续：')
+            print('Input 1 to continue.')
             if int(input()) != 1:
                 break
     del my

@@ -74,10 +74,10 @@ class WebProcess:
             self.wait.until(EC.title_contains("SPOC"))
             self.drive.find_element(By.CLASS_NAME, 'oauthLogin').click()
             self.getCookies()
-            print('login success', resp.status_code)
+            print('Login success.', resp.status_code)
             return True
         else:
-            print('login failed, please check username and password')
+            print('Login failed, please check username and password.')
             return False
 
     def getCookies(self):
