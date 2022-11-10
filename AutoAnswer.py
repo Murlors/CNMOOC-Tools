@@ -8,10 +8,11 @@ from PracticeSendProcess import *
 class AutoAnswer(Post):
     def __init__(self):
         super().__init__()
+        self.enumerateFlag = None
         self.practiceSendList = None
         self.enumerationCount = 0
 
-    def Enumerate(self):
+    def Enumerate(self,validate:bool):
         # itt001 填空题
         # itt002 判断题
         # itt003 单选题
@@ -32,14 +33,21 @@ class AutoAnswer(Post):
                 quizId = str(quiz['quizId'])
                 dbSearchAnswer = search_answer(int(quizId))
                 practiceSendDict = PracticeSendFromList2Dict(self.practiceSendList)
-                if dbSearchAnswer:
+                if dbSearchAnswer and not self.enumerateFlag:
                     for i in range(len(practiceSendDict)):
                         if str(practiceSendDict[i]['quizId']) == quizId:
                             practiceSendDict[i]['userAnswer'] = dbSearchAnswer[0]
-                    self.practiceSendList = PracticeSendFromDict2List(practiceSendDict)
-                    if self.testPost(self.practiceSendList, quizId) == 'right':
-                        print('right:', quizId)
+                            self.practiceSendList = PracticeSendFromDict2List(practiceSendDict)
+                            break
+                    if validate:
+                        if self.testPost(self.practiceSendList, quizId) == 'right':
+                            print('right:', quizId)
+                        else:
+                            self.enumerateFlag = True
+                            break
+                    locate += 1
                 else:
+                    self.enumerateFlag = False
                     self.enumerationCount += 1
                     quizType = quiz['quizTypeId']
                     preAnswer = submitStatus['userAnswer']
@@ -95,7 +103,13 @@ class AutoAnswer(Post):
         print('submitContentList:', self.submitContentList)
         print('practiceSendList', self.practiceSendList)
 
-        self.Enumerate()
+        self.Enumerate(validate=False)
+        self.submit(self.practiceSendList)
+        self.getNewResult()
+        print('submitContentList:', self.submitContentList)
+        if sum([1 if i['errorFlag'] == 'right' else 0 for i in self.submitContentList]) != len(self.submitContentList):
+            self.Enumerate(validate=True)
+        print('All right!')
 
     def InsertDataJudge(self, exam_select):
         if self.enumerationCount:
