@@ -1,42 +1,48 @@
 import sqlite3
 
-dataBaseName = 'QuestionBank.sqlite'
 
+class QuestionBank:
+    DATABASE_NAME = 'QuestionBank.sqlite'
+    VALID_QUIZ_TYPES = ['itt001', 'itt002', 'itt003', 'itt004']
 
-def database_init():
-    db = sqlite3.connect(dataBaseName)
-    db.cursor().execute('''CREATE TABLE QuestionBank
-                (   quizId  INT PRIMARY KEY  NOT NULL ,
-                    quizContent  TEXT  NOT NULL ,
-                    answerId  TEXT  NOT NULL ,
-                    answerContent  TEXT ,
-                    quizType  TEXT  NOT NULL
-                );''')
-    db.close()
-    print("数据表创建成功")
+    def __init__(self):
+        self.db = sqlite3.connect(self.DATABASE_NAME)
 
+    def __del__(self):
+        self.db.close()
 
-def insert_answer(quiz_id: int, quiz_content: str, answer_id: str, answer_content: str, quiz_type: str):
-    if not (search_answer(quiz_id)):
-        db = sqlite3.connect(dataBaseName)
-        db.cursor().execute('INSERT INTO QuestionBank VALUES (?,?,?,?,?)',
-                            (quiz_id, quiz_content, answer_id, answer_content, quiz_type))
-        db.commit()
-        db.close()
+    def database_init(self):
+        self.db.cursor().execute('''CREATE TABLE QuestionBank
+                    (   quiz_id  INT PRIMARY KEY  NOT NULL ,
+                        quiz_content  TEXT  NOT NULL ,
+                        answer_id  TEXT  NOT NULL ,
+                        answer_content  TEXT ,
+                        quiz_type  TEXT  NOT NULL
+                    );''')
+        print("数据表创建成功")
 
+    def insert_answer(self, quiz_id: int, quiz_content: str, answer_id: str, answer_content: str, quiz_type: str):
+        if quiz_type not in self.VALID_QUIZ_TYPES:
+            raise ValueError('Invalid quiz_type')
+        if not (self.search_answer(quiz_id)):
+            try:
+                self.db.cursor().execute('INSERT INTO QuestionBank VALUES (?,?,?,?,?)',
+                                         (quiz_id, quiz_content, answer_id, answer_content, quiz_type))
+                self.db.commit()
+            except sqlite3.Error as e:
+                print(e)
 
-def search_answer(quiz_id: int):
-    answers = []
-    if quiz_id:
-        db = sqlite3.connect(dataBaseName)
-        res = db.cursor().execute(
-            'SELECT quizId,quizContent,answerId,answerContent,quizType FROM QuestionBank WHERE quizId=?', (quiz_id,))
-        for answer in res:
-            print(f'找到题目：{answer[1]}\n答案：{answer[3]}\n')
-            answers.append(answer[2])
-        db.close()
-    return answers
-
-
-if __name__ == '__main__':
-    database_init()
+    def search_answer(self, quiz_id: int) -> list[str]:
+        answers = []
+        if quiz_id is None:
+            raise KeyError('Invalid quiz_id')
+        try:
+            res = self.db.cursor().execute(
+                'SELECT quiz_id,quiz_content,answer_id,answer_content,quiz_type FROM QuestionBank WHERE quiz_id=?',
+                (quiz_id,))
+            for answer in res:
+                print(f'找到题目：{answer[1]}\n答案：{answer[3]}\n')
+                answers.append(answer[2])
+        except sqlite3.Error as e:
+            print(e)
+        return answers

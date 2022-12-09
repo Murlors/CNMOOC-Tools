@@ -1,71 +1,98 @@
-from WebProcess import *
+import json
+import re
+
+from WebProcess import WebProcess
+
+SUBMIT_DATA = {'gradeId': '', 'reSubmit': '', 'submitquizs[]': [],
+               'submitFlag': 0, 'useTime': 30, 'totalScore': 10000, 'testPaperId': '', 'postoken': '', }
+GET_NEW_RESULT_DATA = {'testPaperId': '', 'paperId': '', 'limitTime': -60,
+                       'modelType': 'practice', 'examQuizNum': 25, 'curSubmitNum': 0, 'postoken': '', }
+
+ANSWER_PATTERN = re.compile(r'.*?userAnswer\\":\\"(?P<userAnswer>.*?)\\",\\"quizId\\":\\"'
+                            r'(?P<quizId>.*?)\\",\\".*?errorFlag\\":\\"(?P<errorFlag>.*?)\\"', re.S)
 
 
 class Post(WebProcess):
     def __init__(self):
         super().__init__()
+        self._submit_data = SUBMIT_DATA
+        self._get_new_result_data = GET_NEW_RESULT_DATA
+        self._submit_url = None
+        self._get_result_url = None
+        self._exam_submit_id = None
+        self._exam_test_paper_id = None
+        self._exam_paper_id = None
+        self._grade_id = None
+        self._re_submit = None
         self.submit_content_list = None
         self.paper_struct = None
 
-    def test_post(self, practice_send: list, quiz_id: str):
-        self.submit(practice_send)
-        self.get_new_result()
-        for item in self.submit_content_list:
-            if quiz_id == str(item["quizId"]):
-                return item["errorFlag"]
+    def set_submit_url(self):
+        self._submit_url = f'{self.BASE_URL}/examSubmit/{self._course_open_id}/saveExam/1/{self._exam_paper_id}' \
+                           f'/{self._exam_submit_id}{self.SUFFIX}?testPaperId={self._exam_test_paper_id}'
 
-    def submit(self, practice_send: list):
-        course_open_id = self.drive.execute_script('return courseOpenId')
-        exam_submit_id = self.drive.execute_script('return examSubmitId')
-        exam_test_paper_id = exam_submit_id.split('_')[0]
-        exam_paper_id = self.drive.execute_script('return examPaperId')
-        grade_id = self.drive.execute_script("return $('#gradeId').val()")
-        re_submit = self.drive.execute_script("return $('#reSubmit').val()")
-        submit_url = 'http://spoc.wzu.edu.cn/examSubmit/' + str(course_open_id) + '/saveExam/1/' + \
-                     str(exam_paper_id) + '/' + str(exam_submit_id) + '.mooc?testPaperId=' + str(exam_test_paper_id)
-        submit_data = {
-            'gradeId': grade_id,
-            'reSubmit': re_submit,
-            'submitquizs[]': practice_send,
-            'submitFlag': 0,
-            'useTime': 30,
-            'totalScore': 10000,
-            'testPaperId': exam_test_paper_id,
-            'postoken': self.cookies['cpstk']
-        }
-        response = self.session.post(url=submit_url, data=submit_data, headers=self.headers)
-        print(f'submit status_code: {response.status_code}')
+    def set_get_result_url(self):
+        self._get_result_url = f'{self.BASE_URL}/examSubmit/{self._course_open_id}' \
+                               f'/getExamPaper-{self._exam_submit_id}{self.SUFFIX}'
+
+    def set_url(self, url_type: str):
+        self._course_open_id = self.drive.execute_script('return courseOpenId')
+        self._exam_submit_id = self.drive.execute_script('return examSubmitId')
+        self._exam_test_paper_id = self._exam_submit_id.partition('_')[0]
+        self._exam_paper_id = self.drive.execute_script('return examPaperId')
+        if url_type == 'submit':
+            self.set_submit_url()
+        elif url_type == 'get_result':
+            self.set_get_result_url()
+        else:
+            raise ValueError('Invalid url_type')
+
+    def set_submit_data(self, quiz_submissions_list: list[str]):
+        self._submit_data = SUBMIT_DATA
+        self._submit_data['gradeId'] = self.drive.execute_script("return $('#gradeId').val()")
+        self._submit_data['reSubmit'] = self.drive.execute_script("return $('#reSubmit').val()")
+        self._submit_data['submitquizs[]'] = quiz_submissions_list
+        self._submit_data['testPaperId'] = self._exam_test_paper_id
+        self._submit_data['postoken'] = self.cookies['cpstk']
+
+    def set_get_new_result_data(self):
+        self._get_new_result_data = GET_NEW_RESULT_DATA
+        self._get_new_result_data['testPaperId'] = self._exam_test_paper_id
+        self._get_new_result_data['paperId'] = self._exam_paper_id
+        self._get_new_result_data['curSubmitNum'] = int(self._exam_submit_id.split('_')[2]) + 1
+        self._get_new_result_data['postoken'] = self.cookies['cpstk']
+
+    def check_answer(self, quiz_submissions_list: list[str], quiz_id: str) -> str:
+        self.submit(quiz_submissions_list)
+        self.get_new_result()
+        return next((item["errorFlag"] for item in self.submit_content_list if quiz_id == str(item["quizId"])), None)
+
+    def submit(self, quiz_submissions_list: list[str]):
+        """
+        提交答案。
+        :param quiz_submissions_list: 答案的列表
+        :return: 加密后字符串，16进制
+        """
+        self.set_url(url_type='submit')  # 构造提交答案的 URL
+        self.set_submit_data(quiz_submissions_list)  # 构造提交答案的POST请求的数据
+        response = self.session.post(url=self._submit_url, data=self._submit_data, headers=self.headers)
+        if response.status_code != 200:
+            raise RuntimeError("提交失败，请检查网络连接")
 
     def get_new_result(self):
-        course_open_id = self.drive.execute_script('return courseOpenId')
-        exam_submit_id = self.drive.execute_script('return examSubmitId')
-        exam_test_paper_id = exam_submit_id.split('_')[0]
-        exam_paper_id = self.drive.execute_script('return examPaperId')
-        getnew_url = 'http://spoc.wzu.edu.cn/examSubmit/' + course_open_id + '/getExamPaper-' + exam_submit_id + '.mooc'
-        get_data = {
-            'testPaperId': exam_test_paper_id,
-            'paperId': exam_paper_id,
-            'limitTime': -60,
-            'modelType': 'practice',
-            'examQuizNum': 25,
-            'curSubmitNum': int(exam_submit_id.split('_')[2]) + 1,
-            'postoken': self.cookies['cpstk']
-        }
-        response = self.session.post(getnew_url, headers=self.headers, data=get_data)
-        print(f'getnew status_code: {response.status_code}')
-        self.paper_struct = response.json()["paper"]['paperStruct']
-        source_submit_content = response.json()['examSubmit']['submitContent']
-        submit_content = source_submit_content.split('{')  # 获取submitContent列表
-        submit_content.remove('["')
-        self.submit_content_list = []
-        pattern = re.compile(
-            r'.*?userAnswer\\":\\"(?P<userAnswer>.*?)\\",\\"quizId\\":\\"'
-            r'(?P<quizId>.*?)\\",\\".*?errorFlag\\":\\"(?P<errorFlag>.*?)\\"',
-            re.S)
-        for item in submit_content:
-            result = pattern.search(item)
-            self.submit_content_list.append({
-                "userAnswer": result.group("userAnswer"),
-                "quizId": result.group("quizId"),
-                "errorFlag": result.group("errorFlag")
-            })
+        """
+        获取最新提交结果。
+        """
+        self.set_url(url_type='get_result')  # 构造获取提交结果的 URL
+        self.set_get_new_result_data()  # 构造获取提交结果的POST请求的数据
+        response = self.session.post(url=self._get_result_url, data=self._get_new_result_data, headers=self.headers)
+        if response.status_code == 200:
+            result = json.loads(response.text)
+            self.paper_struct = result['paper']['paperStruct']
+            # 将答案列表中的字符串转换为字典
+            self.submit_content_list = [match.groupdict()
+                                        for match in (ANSWER_PATTERN.search(item)
+                                                      for item in result['examSubmit']['submitContent'].split('{'))
+                                        if match is not None]
+        else:
+            raise RuntimeError("获取最新提交结果失败，请检查网络连接")
