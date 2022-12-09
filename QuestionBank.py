@@ -16,23 +16,23 @@ def database_init():
     print("数据表创建成功")
 
 
-def insert_answer(quizId: int, quizContent, answerId, answerContent, quizType):
-    if not (search_answer(quizId)):
+def insert_answer(quiz_id: int, quiz_content: str, answer_id: str, answer_content: str, quiz_type: str):
+    if not (search_answer(quiz_id)):
         db = sqlite3.connect(dataBaseName)
-        db.cursor().execute(
-            'INSERT INTO QuestionBank VALUES (?,?,?,?,?)', (quizId, quizContent, answerId, answerContent, quizType))
+        db.cursor().execute('INSERT INTO QuestionBank VALUES (?,?,?,?,?)',
+                            (quiz_id, quiz_content, answer_id, answer_content, quiz_type))
         db.commit()
         db.close()
 
 
-def search_answer(quizId: int):
+def search_answer(quiz_id: int):
     answers = []
-    if quizId:
+    if quiz_id:
         db = sqlite3.connect(dataBaseName)
         res = db.cursor().execute(
-            'SELECT quizId,quizContent,answerId,answerContent,quizType FROM QuestionBank WHERE quizId=?', (quizId,))
+            'SELECT quizId,quizContent,answerId,answerContent,quizType FROM QuestionBank WHERE quizId=?', (quiz_id,))
         for answer in res:
-            print("找到题目：{}\n答案：{}\n".format(answer[1], answer[3]))
+            print(f'找到题目：{answer[1]}\n答案：{answer[3]}\n')
             answers.append(answer[2])
         db.close()
     return answers
