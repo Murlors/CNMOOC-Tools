@@ -1,3 +1,4 @@
+import itertools
 import json
 
 from DataBaseProcess import *
@@ -32,6 +33,7 @@ class AutoAnswer(Post):
                 quiz = [item['quiz'] for item in self.paper_struct if str(item['quiz']['quizId']) == now_quiz_id][0]
                 quiz_id = str(quiz['quizId'])
                 db_search_answer = search_answer(int(quiz_id))
+                # db_search_answer = False
                 practice_send_dict = practice_send_from_list2dict(self.practice_send_list)
                 if db_search_answer and not self.enumerate_flag:
                     for i in range(len(practice_send_dict)):
@@ -50,8 +52,8 @@ class AutoAnswer(Post):
                     self.enumerate_flag = False
                     self.enumeration_count += 1
                     quiz_type = quiz['quizTypeId']
-                    pre_answer = submit_status['userAnswer']
-                    answer_id_list = [quiz_option['optionId'] for quiz_option in quiz['quizOptionses']]
+                    pre_answer = str(submit_status['userAnswer'])
+                    answer_id_list = [str(quiz_option['optionId']) for quiz_option in quiz['quizOptionses']]
                     # if quizType == "itt002" or quizType == "itt003" or quizType == "itt004":
                     #     _qAnswer = practiceSendDict[i]['userAnswer'].split(",")
                     # elif quiz.baseType == "itt001":
@@ -70,31 +72,25 @@ class AutoAnswer(Post):
                                 else:
                                     print(f"error: {quiz_id} {test_answer}")
                     elif quiz_type == "itt004":  # 多选
-                        using_answer_id = []
-                        self.multi_answer_combine(practice_send_dict, quiz_id, answer_id_list, using_answer_id)
+                        error_flag = 'error'
+                        for i in range(1, len(answer_id_list) + 1):
+                            if error_flag == 'right':
+                                break
+                            for answer_id_tuple in itertools.combinations(answer_id_list, i):
+                                user_answer = ','.join(answer_id_tuple)
+                                for practice_send in practice_send_dict:
+                                    if str(practice_send['quizId']) == quiz_id:
+                                        practice_send['userAnswer'] = user_answer
+                                self.practice_send_list = practice_send_from_dict2list(practice_send_dict)
+                                error_flag = self.test_post(self.practice_send_list, quiz_id)
+                                if error_flag == 'right':
+                                    print(f"right: {quiz_id} {user_answer}")
+                                    break
+                                else:
+                                    print(f"error: {quiz_id} {user_answer}")
                     elif quiz_type == "itt001":  # 填空
                         locate += 1
                         print("I can't find this fill-in-the-blank question in QuestionBank, so go for it yourself!")
-
-    def multi_answer_combine(self, practice_send_dict: dict, quiz_id: str, answer_id_list: list, using_answer_id: list):
-        for i in answer_id_list:
-            if str(i) not in using_answer_id:
-                if len(using_answer_id) == 0 or i > int(using_answer_id[-1]):
-                    using_answer_id.append(str(i))
-                    for item in range(len(practice_send_dict)):
-                        if str(practice_send_dict[item]['quizId']) == quiz_id:
-                            practice_send_dict[item]['userAnswer'] = ','.join(using_answer_id)
-                    self.practice_send_list = practice_send_from_dict2list(practice_send_dict)
-                    error_flag = self.test_post(self.practice_send_list, quiz_id)
-                    if error_flag == 'right':
-                        print(f"right: {quiz_id} {','.join(using_answer_id)}")
-                        return 'right'
-                    else:
-                        print(f"error: {quiz_id} {','.join(using_answer_id)}")
-                        if self.multi_answer_combine(practice_send_dict, quiz_id, answer_id_list,
-                                                     using_answer_id) == 'right':
-                            return 'right'
-                    using_answer_id.pop()
 
     def get_content(self):
         self.practice_send_list = self.drive.execute_script('return $("#exam_paper").quiz().getPractice()')
