@@ -9,7 +9,7 @@ from PracticeSendProcess import *
 class AutoAnswer(Post):
     def __init__(self):
         super().__init__()
-        self.enumerate_flag = None
+        self.enumerate_flag = False
         self.practice_send_list = None
         self.enumeration_count = 0
 
@@ -29,16 +29,17 @@ class AutoAnswer(Post):
                     break
                 else:
                     locate += 1
-            if submit_status and locate != len(self.submit_content_list):
+            # 存在error题目,尝试枚举
+            if submit_status and locate < len(self.submit_content_list):
                 quiz = [item['quiz'] for item in self.paper_struct if str(item['quiz']['quizId']) == now_quiz_id][0]
                 quiz_id = str(quiz['quizId'])
                 db_search_answer = search_answer(int(quiz_id))
                 # db_search_answer = False
                 practice_send_dict = practice_send_from_list2dict(self.practice_send_list)
                 if db_search_answer and not self.enumerate_flag:
-                    for i in range(len(practice_send_dict)):
-                        if str(practice_send_dict[i]['quizId']) == quiz_id:
-                            practice_send_dict[i]['userAnswer'] = db_search_answer[0]
+                    for practice_send in practice_send_dict:
+                        if str(practice_send['quizId']) == quiz_id:
+                            practice_send['userAnswer'] = db_search_answer[0]
                             self.practice_send_list = practice_send_from_dict2list(practice_send_dict)
                             break
                     if validate:
@@ -51,7 +52,7 @@ class AutoAnswer(Post):
                 else:
                     self.enumerate_flag = False
                     self.enumeration_count += 1
-                    quiz_type = quiz['quizTypeId']
+                    quiz_type: str = quiz['quizTypeId']
                     pre_answer = str(submit_status['userAnswer'])
                     answer_id_list = [str(quiz_option['optionId']) for quiz_option in quiz['quizOptionses']]
                     # if quizType == "itt002" or quizType == "itt003" or quizType == "itt004":
@@ -61,9 +62,9 @@ class AutoAnswer(Post):
                     if quiz_type == "itt003" or quiz_type == "itt002":  # 单选 And 判断
                         for test_answer in answer_id_list:
                             if test_answer != pre_answer:
-                                for i in range(len(practice_send_dict)):
-                                    if str(practice_send_dict[i]['quizId']) == quiz_id:
-                                        practice_send_dict[i]['userAnswer'] = test_answer
+                                for practice_send in practice_send_dict:
+                                    if str(practice_send['quizId']) == quiz_id:
+                                        practice_send['userAnswer'] = test_answer
                                         break
                                 self.practice_send_list = practice_send_from_dict2list(practice_send_dict)
                                 if self.test_post(self.practice_send_list, quiz_id) == 'right':
@@ -92,7 +93,7 @@ class AutoAnswer(Post):
                         locate += 1
                         print("I can't find this fill-in-the-blank question in QuestionBank, so go for it yourself!")
 
-    def get_content(self):
+    def auto_answer(self):
         self.practice_send_list = self.drive.execute_script('return $("#exam_paper").quiz().getPractice()')
         self.submit(self.practice_send_list)
         self.get_new_result()
@@ -101,16 +102,26 @@ class AutoAnswer(Post):
         print(f'practice_send_list: {self.practice_send_list}')
 
         self.enumerate(validate=False)
+
+        # 校验是否全为right
         self.submit(self.practice_send_list)
         self.get_new_result()
         print(f'submit_content_list: {self.submit_content_list}')
-        if sum([1 if i['errorFlag'] == 'right' else 0 for i in self.submit_content_list]) != len(
-                self.submit_content_list):
+        if sum([1 if i['errorFlag'] == 'right' else 0 for i in self.submit_content_list]) \
+                != len(self.submit_content_list):
+            # 若枚举之后仍存在error题目,则开始验证题库答案
             self.enumerate(validate=True)
         print('all right!')
 
     def insert_data(self, exam_select: int):
-        if self.enumeration_count:
+        """
+        判断是否对题库进行插入:
+        有经历过枚举则插入新的题目
+
+        :param exam_select:当前所选择的试卷
+        :return:
+        """
+        if self.enumeration_count != 0:
             self.goto_exam_test(exam_select)
             get_data_judge = self.drive.execute_script('return $("#exam_paper").quiz().getData()')
             print('Insert:')
@@ -121,17 +132,18 @@ class AutoAnswer(Post):
 
 if __name__ == '__main__':
     with open("config.json", "r") as f:
+        # 加载学号和密码
         config = json.load(f)
     my = AutoAnswer()
     if my.login_hall(config['username'], config['password']):
         while True:
-            my.select_courses()
-            my.get_exam_select()
+            my.select_courses()  # 课程选择
+            my.get_exam_select()  # 试卷选择
             for exam in my.exam_select:
                 if my.goto_exam_test(exam):
-                    my.get_content()
+                    my.auto_answer()
                     my.insert_data(exam)
-            print('input 1 to continue.')
-            if int(input()) != 1:
+            print('input continue to continue.')
+            if input() != 'continue':
                 break
     del my
