@@ -1,9 +1,9 @@
 import itertools
 import json
 
-from DataBaseProcess import insert_database
-from Post import Post
-from QuestionBank import QuestionBank
+from database_process import insert_database
+from post import Post
+from question_bank import QuestionBank
 
 
 class AutoAnswer(Post):

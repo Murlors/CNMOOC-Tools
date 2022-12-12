@@ -1,7 +1,7 @@
 import json
 import re
 
-from WebProcess import WebProcess
+from web_process import WebProcess
 
 SUBMIT_DATA = {'gradeId': '', 'reSubmit': '', 'submitquizs[]': [],
                'submitFlag': 0, 'useTime': 30, 'totalScore': 10000, 'testPaperId': '', 'postoken': '', }
