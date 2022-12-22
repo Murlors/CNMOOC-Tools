@@ -3,20 +3,20 @@ import re
 
 from web_process import WebProcess
 
-SUBMIT_DATA = {'gradeId': '', 'reSubmit': '', 'submitquizs[]': [],
-               'submitFlag': 0, 'useTime': 30, 'totalScore': 10000, 'testPaperId': '', 'postoken': '', }
-GET_NEW_RESULT_DATA = {'testPaperId': '', 'paperId': '', 'limitTime': -60,
-                       'modelType': 'practice', 'examQuizNum': 25, 'curSubmitNum': 0, 'postoken': '', }
-
-ANSWER_PATTERN = re.compile(r'.*?userAnswer\\":\\"(?P<userAnswer>.*?)\\",\\"quizId\\":\\"'
-                            r'(?P<quizId>.*?)\\",\\".*?errorFlag\\":\\"(?P<errorFlag>.*?)\\"', re.S)
-
 
 class Post(WebProcess):
+    SUBMIT_DATA = {'gradeId': '', 'reSubmit': '', 'submitquizs[]': [],
+                   'submitFlag': 0, 'useTime': 30, 'totalScore': 10000, 'testPaperId': '', 'postoken': '', }
+    GET_NEW_RESULT_DATA = {'testPaperId': '', 'paperId': '', 'limitTime': -60,
+                           'modelType': 'practice', 'examQuizNum': 25, 'curSubmitNum': 0, 'postoken': '', }
+
+    ANSWER_PATTERN = re.compile(r'.*?userAnswer\\":\\"(?P<userAnswer>.*?)\\",\\"quizId\\":\\"'
+                                r'(?P<quizId>.*?)\\",\\".*?errorFlag\\":\\"(?P<errorFlag>.*?)\\"', re.S)
+
     def __init__(self):
         super().__init__()
-        self._submit_data = SUBMIT_DATA
-        self._get_new_result_data = GET_NEW_RESULT_DATA
+        self._submit_data = Post.SUBMIT_DATA
+        self._get_new_result_data = Post.GET_NEW_RESULT_DATA
         self._submit_url = None
         self._get_result_url = None
         self._exam_submit_id = None
@@ -48,7 +48,7 @@ class Post(WebProcess):
             raise ValueError('Invalid url_type')
 
     def set_submit_data(self, quiz_submissions_list: list[str]):
-        self._submit_data = SUBMIT_DATA
+        self._submit_data = Post.SUBMIT_DATA
         self._submit_data['gradeId'] = self.drive.execute_script("return $('#gradeId').val()")
         self._submit_data['reSubmit'] = self.drive.execute_script("return $('#reSubmit').val()")
         self._submit_data['submitquizs[]'] = quiz_submissions_list
@@ -56,7 +56,7 @@ class Post(WebProcess):
         self._submit_data['postoken'] = self.cookies['cpstk']
 
     def set_get_new_result_data(self):
-        self._get_new_result_data = GET_NEW_RESULT_DATA
+        self._get_new_result_data = Post.GET_NEW_RESULT_DATA
         self._get_new_result_data['testPaperId'] = self._exam_test_paper_id
         self._get_new_result_data['paperId'] = self._exam_paper_id
         self._get_new_result_data['curSubmitNum'] = int(self._exam_submit_id.split('_')[2]) + 1
@@ -91,7 +91,7 @@ class Post(WebProcess):
             self.paper_struct = result['paper']['paperStruct']
             # 将答案列表中的字符串转换为字典
             self.submit_content_list = [match.groupdict()
-                                        for match in (ANSWER_PATTERN.search(item)
+                                        for match in (Post.ANSWER_PATTERN.search(item)
                                                       for item in result['examSubmit']['submitContent'].split('{'))
                                         if match is not None]
         else:

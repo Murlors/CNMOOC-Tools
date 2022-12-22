@@ -6,14 +6,22 @@ from post import Post
 from question_bank import QuestionBank
 
 
-class AutoAnswer(Post):
+class AutoAnswer(Post, QuestionBank):
     def __init__(self):
         super().__init__()
         self.process_locate = 0
         self.quiz_submissions_list = None
         self.quiz_submissions_dict = None
         self.enumeration_count = 0
-        self.question_bank = QuestionBank()
+
+    @staticmethod
+    def quiz_submissions_list2dict(quiz_submissions_list: list[str]) -> list[dict[str, any]]:
+        return [json.loads(item) for item in quiz_submissions_list]
+
+    @staticmethod
+    def quiz_submissions_dict2list(quiz_submissions_dict: list[dict[str, any]]) -> list[str]:
+        return [f'{{"quizId":"{item["quizId"]}","userAnswer":"{item["userAnswer"]}"}}'
+                for item in quiz_submissions_dict]
 
     def auto_answer(self):
         self.quiz_submissions_list = self.drive.execute_script('return $("#exam_paper").quiz().getPractice()')
@@ -36,7 +44,7 @@ class AutoAnswer(Post):
         print('all right!')
 
     def db_search(self, quiz_id: str, validate: bool) -> bool:
-        db_search_answer = self.question_bank.search_answer(int(quiz_id))
+        db_search_answer = self.search_answer(int(quiz_id))
         # 搜索到答案
         if db_search_answer:
             for quiz_submission in self.quiz_submissions_dict:
@@ -87,6 +95,19 @@ class AutoAnswer(Post):
             else:
                 self.process_locate += 1
 
+    def process_single_choice_or_judgment_quiz(self, quiz_id: str, answer_id_list: list, pre_answer: str):
+        for user_answer in answer_id_list:
+            if user_answer != pre_answer:
+                if self.test_answer(quiz_id, user_answer):
+                    return
+
+    def process_multiple_choice_quiz(self, quiz_id: str, answer_id_list: list):
+        for i in range(1, len(answer_id_list) + 1):
+            for answer_id_tuple in itertools.combinations(answer_id_list, i):
+                user_answer = ','.join(answer_id_tuple)
+                if self.test_answer(quiz_id, user_answer):
+                    return
+
     def test_answer(self, quiz_id, user_answer) -> bool:
         """
         更新答案并检查答案的正确性
@@ -103,19 +124,6 @@ class AutoAnswer(Post):
         print(f"{error_flag}: {quiz_id} {user_answer}")
         return True if error_flag == 'right' else False
 
-    def process_single_choice_or_judgment_quiz(self, quiz_id: str, answer_id_list: list, pre_answer: str):
-        for user_answer in answer_id_list:
-            if user_answer != pre_answer:
-                if self.test_answer(quiz_id, user_answer):
-                    return
-
-    def process_multiple_choice_quiz(self, quiz_id: str, answer_id_list: list):
-        for i in range(1, len(answer_id_list) + 1):
-            for answer_id_tuple in itertools.combinations(answer_id_list, i):
-                user_answer = ','.join(answer_id_tuple)
-                if self.test_answer(quiz_id, user_answer):
-                    return
-
     def insert_data(self, exam_select: int):
         """
         判断是否对题库进行插入；有经历过枚举则插入新的题目。
@@ -127,16 +135,7 @@ class AutoAnswer(Post):
             print('Insert:')
             print(f'quiz_submissions_list: {self.quiz_submissions_list}')
             for quiz_item in get_data_judge:
-                insert_database(self.question_bank, quiz_item)
-
-    @staticmethod
-    def quiz_submissions_list2dict(quiz_submissions_list: list[str]) -> list[dict[str, any]]:
-        return [json.loads(item) for item in quiz_submissions_list]
-
-    @staticmethod
-    def quiz_submissions_dict2list(quiz_submissions_dict: list[dict[str, any]]) -> list[str]:
-        return [f'{{"quizId":"{item["quizId"]}","userAnswer":"{item["userAnswer"]}"}}'
-                for item in quiz_submissions_dict]
+                insert_database(self.insert_answer, quiz_item)
 
 
 if __name__ == '__main__':
@@ -144,7 +143,7 @@ if __name__ == '__main__':
         # 加载学号和密码
         config = json.load(f)
     my = AutoAnswer()
-    if my.login_hall(config['username'], config['password']):
+    if my.login(config['username'], config['password']):
         while True:
             my.select_courses()  # 课程选择
             my.get_exam_select()  # 试卷选择

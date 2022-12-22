@@ -15,4 +15,4 @@ If you want to use this script on the CNMOOC platform, you need to modify the lo
 
 1. Run `pip install -r requirements.txt` in the terminal
 2. Change `username` and `password` in `config.json`
-3. Run `AutoAnswer.py`
+3. Run `auto_answer.py`

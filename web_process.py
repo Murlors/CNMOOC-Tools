@@ -10,13 +10,14 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
-from encrypt import *
+from encrypt import encrypt
 
 
 class WebProcess:
+    BASE_URL = 'http://spoc.wzu.edu.cn'
+    SUFFIX = '.mooc'
+
     def __init__(self):
-        self.BASE_URL = 'http://spoc.wzu.edu.cn'
-        self.SUFFIX = '.mooc'
         self.headers = {
             'Host': 'spoc.wzu.edu.cn',
             'Referer': '',
@@ -35,12 +36,28 @@ class WebProcess:
     def __del__(self):
         self.drive.quit()
 
-    def login_hall(self, username: str, password: str) -> bool:
+    def login(self, username: str, password: str) -> bool:
+        """
+        登录SPOC平台
+        :param username: 学号
+        :param password: 密码
+        :return: 是否登录成功
+        """
+        hall_cookies = self.login_hall(username, password)
+        if hall_cookies:
+            self.login_mooc(hall_cookies)
+            self.get_mooc_cookies()
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def login_hall(username: str, password: str):
         """
         登录门户网站
         :param username: 学号
         :param password: 密码
-        :return 是否登录成功
+        :return 门户网站登录成功的cookies字典
         """
         session = requests.session()
         headers = {
@@ -55,8 +72,8 @@ class WebProcess:
                           'Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.26',
         }
         # 访问任意网址，返回包含认证页面链接的内容（自动跳转）
-        response = session.get(f'{self.BASE_URL}/oauth/toMoocAuth.mooc', headers=headers)
-        # 提取认证链接并访问，经历一次重定向得到认证页面，且会返回一个cookie值：session
+        response = session.get(f'{WebProcess.BASE_URL}/oauth/toMoocAuth.mooc', headers=headers)
+        # 提取认证链接并访问，经历一次重定向得到认证页面
         croypto = re.search(r'"login-croypto">(.*?)<', response.text, re.S).group(1)
         execution = re.search(r'"login-page-flowkey">(.*?)<', response.text, re.S).group(1)
         # 构建post数据 填入自己的学号 密码
@@ -75,13 +92,11 @@ class WebProcess:
         response = session.post('https://source.wzu.edu.cn/login', data=data)
         # 门户网站登录成功，登录mooc平台
         if response.status_code == 200:
-            self.login_mooc(session.cookies.get_dict())
-            self.get_mooc_cookies()
             print(f'login success. status_code: {response.status_code}')
-            return True
+            return session.cookies.get_dict()
         else:
             print('login failed, please check username and password.')
-            return False
+            return None
 
     def login_mooc(self, hall_cookies):
         """

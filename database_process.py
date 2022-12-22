@@ -1,10 +1,10 @@
 QUIZ_ITT001_USER_ANSWER_SPLIT = '%$$%'
 
 
-def insert_database(question_bank, quiz_item: dict):
+def insert_database(insert_answer_function, quiz_item: dict):
     """
     向数据库中插入问题和答案。
-    :param question_bank: 数据库对象
+    :param insert_answer_function: 插入答案的函数
     :param quiz_item: 包含问题和答案信息的字典
     """
     error_flag = quiz_item['submit']['errorFlag']
@@ -20,7 +20,7 @@ def insert_database(question_bank, quiz_item: dict):
         print(f'quizId: {quiz_id} answerId: {answer_id} quizType:{quiz_type}\n'
               f'quizContent:\n{quiz_content}\n'
               f'answerContent:\n{answer_content}')
-        question_bank.insert_answer(quiz_id, quiz_content, answer_id, answer_content, quiz_type)
+        insert_answer_function(quiz_id, quiz_content, answer_id, answer_content, quiz_type)
 
 
 def get_answer_content_list(quiz_type: str, quiz_optionses: list, answer_id: str):
