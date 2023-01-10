@@ -9,10 +9,34 @@ It aims to help students save time and improve learning efficiency by automatica
 
 ## Attention
 
-If you want to use this script on the CNMOOC platform, you need to modify the login script and change the way cookies are obtained.(TODO)
+If you want to use this script on the CNMOOC platform, you need to modify the login script and change the way cookies are obtained.
 
 ## Usage
 
-1. Run `pip install -r requirements.txt` in the terminal
-2. Change `username` and `password` in `config.json`
-3. Run `auto_answer.py`
+1. Run `pip install -r requirements.txt` in the terminal to install the required packages.
+2. For first time, you have two choice to run the script:
+    1. Run `python run.py -u <username> -p <password>` in the terminal.
+    2. Change `username` and `password` in `config.json` and run `python run.py` in the terminal.
+3. After the first time, you can run `python run.py` in the terminal to start the script.
+
+## TODO
+
+- [ ] Add support for CNMOOC login.
+- [ ] Add support for other platforms.
+
+## Supported Platforms
+
+- [ ] [CNMOOC](https://www.cnmooc.org/)
+- [x] [WZU-SPOC](http://spoc.wzu.edu.cn/)
+
+## Contributing
+
+1. Fork it.
+2. Create your feature branch.
+3. Commit your changes.
+4. Push to the branch.
+5. Submit a pull request.
+
+## License
+
+[GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)

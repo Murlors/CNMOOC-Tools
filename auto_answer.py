@@ -2,11 +2,11 @@ import itertools
 import json
 
 from database_process import insert_database
-from post import Post
+from post_process import PostProcess
 from question_bank import QuestionBank
 
 
-class AutoAnswer(Post, QuestionBank):
+class AutoAnswer(PostProcess, QuestionBank):
     def __init__(self):
         super().__init__()
         self.process_locate = 0
@@ -136,22 +136,3 @@ class AutoAnswer(Post, QuestionBank):
             print(f'quiz_submissions_list: {self.quiz_submissions_list}')
             for quiz_item in get_data_judge:
                 insert_database(self.insert_answer, quiz_item)
-
-
-if __name__ == '__main__':
-    with open("config.json", "r") as f:
-        # 加载学号和密码
-        config = json.load(f)
-    my = AutoAnswer()
-    if my.login(config['username'], config['password']):
-        while True:
-            my.select_courses()  # 课程选择
-            my.get_exam_select()  # 试卷选择
-            for exam in my.exam_select:
-                if my.goto_exam_test(exam):  # 进入对应试卷
-                    my.auto_answer()
-                    my.insert_data(exam)
-            print('input continue to continue.')
-            if input() != 'continue':
-                break
-    del my
