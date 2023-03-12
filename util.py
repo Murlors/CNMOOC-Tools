@@ -1,3 +1,15 @@
+import json
+
+
+def quiz_submissions_list2dict(quiz_submissions_list: list[str]) -> list[dict[str, any]]:
+    return [json.loads(item) for item in quiz_submissions_list]
+
+
+def quiz_submissions_dict2list(quiz_submissions_dict: list[dict[str, any]]) -> list[str]:
+    return [f'{{"quizId":"{item["quizId"]}","userAnswer":"{item["userAnswer"]}"}}'
+            for item in quiz_submissions_dict]
+
+
 QUIZ_ITT001_USER_ANSWER_SPLIT = '%$$%'
 
 
@@ -30,13 +42,14 @@ def get_answer_content_list(quiz_type: str, quiz_optionses: list, answer_id: str
     :param quiz_optionses: 问题选项的列表
     :param answer_id: 问题题号
     """
-    if quiz_type == 'itt003' or quiz_type == 'itt004' or quiz_type == 'itt002':
+    if quiz_type == 'itt002' or quiz_type == 'itt003' or quiz_type == 'itt004' :
         user_answer_id_list = list(map(int, answer_id.split(',')))
         return [
-            f"{chr(ord('A') + option['displayOrder'])}、{option['optionContent']}\n"
+            f"{chr(ord('A') + option['displayOrder'])}、{option['optionContent'].strip()}\n"
             for option in quiz_optionses if option['optionId'] in user_answer_id_list
         ]
     elif quiz_type == 'itt001':
         return [answer_id]
     else:
         raise ValueError('Invalid quiz_type')
+

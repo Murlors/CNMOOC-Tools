@@ -86,13 +86,12 @@ class PostProcess(WebProcess):
         self.set_url(url_type='get_result')  # 构造获取提交结果的 URL
         self.set_get_new_result_data()  # 构造获取提交结果的POST请求的数据
         response = self.session.post(url=self._get_result_url, data=self._get_new_result_data, headers=self.headers)
-        if response.status_code == 200:
-            result = json.loads(response.text)
-            self.paper_struct = result['paper']['paperStruct']
-            # 将答案列表中的字符串转换为字典
-            self.submit_content_list = [match.groupdict()
-                                        for match in (PostProcess.ANSWER_PATTERN.search(item)
-                                                      for item in result['examSubmit']['submitContent'].split('{'))
-                                        if match is not None]
-        else:
+        if response.status_code != 200:
             raise RuntimeError("获取最新提交结果失败，请检查网络连接")
+        result = json.loads(response.text)
+        self.paper_struct = result['paper']['paperStruct']
+        # 将答案列表中的字符串转换为字典
+        self.submit_content_list = [match.groupdict()
+                                    for match in (PostProcess.ANSWER_PATTERN.search(item)
+                                                  for item in result['examSubmit']['submitContent'].split('{'))
+                                    if match is not None]

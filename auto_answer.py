@@ -4,6 +4,7 @@ import json
 from database_process import insert_database
 from post_process import PostProcess
 from question_bank import QuestionBank
+from util import quiz_submissions_list2dict, quiz_submissions_dict2list, insert_database
 
 
 class AutoAnswer(PostProcess, QuestionBank):
@@ -13,15 +14,6 @@ class AutoAnswer(PostProcess, QuestionBank):
         self.quiz_submissions_list = None
         self.quiz_submissions_dict = None
         self.enumeration_count = 0
-
-    @staticmethod
-    def quiz_submissions_list2dict(quiz_submissions_list: list[str]) -> list[dict[str, any]]:
-        return [json.loads(item) for item in quiz_submissions_list]
-
-    @staticmethod
-    def quiz_submissions_dict2list(quiz_submissions_dict: list[dict[str, any]]) -> list[str]:
-        return [f'{{"quizId":"{item["quizId"]}","userAnswer":"{item["userAnswer"]}"}}'
-                for item in quiz_submissions_dict]
 
     def auto_answer(self):
         self.quiz_submissions_list = self.drive.execute_script('return $("#exam_paper").quiz().getPractice()')
@@ -37,8 +29,7 @@ class AutoAnswer(PostProcess, QuestionBank):
         self.submit(self.quiz_submissions_list)
         self.get_new_result()
         print(f'submit_content_list: {self.submit_content_list}')
-        if sum([1 if i['errorFlag'] == 'right' else 0 for i in self.submit_content_list]) \
-                != len(self.submit_content_list):
+        if sum(1 for i in self.submit_content_list if i['errorFlag'] == 'right') != len(self.submit_content_list):
             # 若枚举之后仍存在error题目,则开始验证题库答案
             self.enumerate(validate=True)
         print('all right!')
@@ -50,8 +41,9 @@ class AutoAnswer(PostProcess, QuestionBank):
             for quiz_submission in self.quiz_submissions_dict:
                 if str(quiz_submission['quizId']) == quiz_id:
                     quiz_submission['userAnswer'] = db_search_answer[0]
-                    self.quiz_submissions_list = self.quiz_submissions_dict2list(self.quiz_submissions_dict)
+                    self.quiz_submissions_list = quiz_submissions_dict2list(self.quiz_submissions_dict)
                     break
+
             if validate:
                 if self.check_answer(self.quiz_submissions_list, quiz_id) == 'right':
                     print(f'right: {quiz_id}')
@@ -63,20 +55,19 @@ class AutoAnswer(PostProcess, QuestionBank):
     def enumerate(self, validate: bool):
         """
         枚举答案并测试
+        itt001 填空题, itt002 判断题, itt003 单选题, itt004 多选题
         :param validate: 是否需要进行数据库验证
         """
-        # itt001 填空题, itt002 判断题, itt003 单选题, itt004 多选题
         while self.process_locate < len(self.submit_content_list):
             next_error_submit_status = self.find_next_error()
             if next_error_submit_status:  # 存在error题目
                 now_quiz_id = str(next_error_submit_status['quizId'])
                 quiz = [item['quiz'] for item in self.paper_struct if str(item['quiz']['quizId']) == now_quiz_id][0]
                 quiz_id = str(quiz['quizId'])
-                self.quiz_submissions_dict = self.quiz_submissions_list2dict(self.quiz_submissions_list)
+                self.quiz_submissions_dict = quiz_submissions_list2dict(self.quiz_submissions_list)
                 # 在数据库中寻找答案
                 found_in_db = self.db_search(quiz_id, validate)
-                # 找不到答案则进行枚举
-                if not found_in_db:
+                if not found_in_db:  # 找不到答案则进行枚举
                     self.enumeration_count += 1
                     quiz_type: str = quiz['quizTypeId']
                     pre_answer: str = next_error_submit_status['userAnswer']
@@ -119,7 +110,7 @@ class AutoAnswer(PostProcess, QuestionBank):
             if str(quiz_submission['quizId']) == quiz_id:
                 quiz_submission['userAnswer'] = user_answer
                 break
-        self.quiz_submissions_list = self.quiz_submissions_dict2list(self.quiz_submissions_dict)
+        self.quiz_submissions_list = quiz_submissions_dict2list(self.quiz_submissions_dict)
         error_flag = self.check_answer(self.quiz_submissions_list, quiz_id)
         print(f"{error_flag}: {quiz_id} {user_answer}")
         return True if error_flag == 'right' else False

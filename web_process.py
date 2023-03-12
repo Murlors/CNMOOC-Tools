@@ -44,15 +44,14 @@ class WebProcess:
         :return: 是否登录成功
         """
         hall_cookies = self.login_hall(username, password)
-        if hall_cookies:
-            self.login_mooc(hall_cookies)
-            self.get_mooc_cookies()
-            return True
-        else:
+        if not hall_cookies:
             return False
+        self.login_mooc(hall_cookies)
+        self.get_mooc_cookies()
+        return True
 
-    @staticmethod
-    def login_hall(username: str, password: str):
+
+    def login_hall(self, username: str, password: str):
         """
         登录门户网站
         :param username: 学号
@@ -61,13 +60,6 @@ class WebProcess:
         """
         session = requests.session()
         headers = {
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,'
-                      'image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Accept-Language': 'zh-CN,zh;q=0.9',
-            'Cache-Control': 'max-age=0',
-            'Connection': 'keep-alive',
-            'Content-Type': 'application/x-www-form-urlencoded',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                           'Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.26',
         }
@@ -139,15 +131,18 @@ class WebProcess:
         # 获取课程信息
         courses = [{'title': h3.text.replace('\n', '').replace(' ', ''), 'href': self.BASE_URL + a.attrs['href']}
                    for h3, a in zip(soup.find_all('h3', class_='view-title'), soup.find_all('a', class_='view-shadow'))]
-        course_hrefs = []  # 课程所对应的链接
-        for i, course in zip(range(1, len(courses) + 1), courses):
+
+        for i, course in enumerate(courses, start=1):
             print(f"{i}、课程名称: {course['title']}")
-            course_hrefs.append(course['href'])
+
+        course_hrefs = [course['href'] for course in courses]  # 课程所对应的链接
+
         while True:
             select = input()
             if select.isdigit() and 0 < int(select) <= len(course_hrefs):
                 break
             print("输入错误，请重新输入！")
+
         self._course_open_id = re.search('index/(?P<course_open_id>.*?).mooc',
                                          course_hrefs[int(select) - 1]).group('course_open_id')
         self.headers['Referer'] = f'{self.BASE_URL}/examTest/stuExamList/{self._course_open_id}{self.SUFFIX}'
@@ -163,8 +158,10 @@ class WebProcess:
         soup = BeautifulSoup(self.drive.page_source, 'lxml')
         # 获取试卷信息
         exams = [h3.text.replace('\n', '').replace(' ', '') for h3 in soup.find_all('td', class_='td1')]
-        for i, exam in zip(range(1, len(exams) + 1), exams):
+
+        for i, exam in enumerate(exams, start=1):
             print(f'{i}、试卷名称: {exam}')
+
         while True:
             # 提示、读取输入
             print("多选试卷用`,`分割")
