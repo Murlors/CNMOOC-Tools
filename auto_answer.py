@@ -1,15 +1,14 @@
 import itertools
-import json
 
-from database_process import insert_database
 from post_process import PostProcess
 from question_bank import QuestionBank
 from util import quiz_submissions_list2dict, quiz_submissions_dict2list, insert_database
 
 
-class AutoAnswer(PostProcess, QuestionBank):
+class AutoAnswer(PostProcess):
     def __init__(self):
-        super().__init__()
+        super(PostProcess, self).__init__()
+        self.question_bank = QuestionBank()
         self.process_locate = 0
         self.quiz_submissions_list = None
         self.quiz_submissions_dict = None
@@ -35,9 +34,8 @@ class AutoAnswer(PostProcess, QuestionBank):
         print('all right!')
 
     def db_search(self, quiz_id: str, validate: bool) -> bool:
-        db_search_answer = self.search_answer(int(quiz_id))
-        # 搜索到答案
-        if db_search_answer:
+        db_search_answer = self.question_bank.search_answer(int(quiz_id))
+        if db_search_answer:  # 搜索到答案
             for quiz_submission in self.quiz_submissions_dict:
                 if str(quiz_submission['quizId']) == quiz_id:
                     quiz_submission['userAnswer'] = db_search_answer[0]
@@ -77,7 +75,8 @@ class AutoAnswer(PostProcess, QuestionBank):
                     elif quiz_type == "itt004":  # 多选
                         self.process_multiple_choice_quiz(quiz_id, answer_id_list)
                     elif quiz_type == "itt001":  # 填空
-                        print(f"在QuestionBank中找不到这个填空题，自己尝试做做吧!\n")
+                        self.process_locate += 1
+                        print("在QuestionBank中找不到这个填空题，自己尝试做做吧!\n")
 
     def find_next_error(self) -> dict:
         for submit_status in self.submit_content_list[self.process_locate:]:
@@ -126,4 +125,4 @@ class AutoAnswer(PostProcess, QuestionBank):
             print('Insert:')
             print(f'quiz_submissions_list: {self.quiz_submissions_list}')
             for quiz_item in get_data_judge:
-                insert_database(self.insert_answer, quiz_item)
+                insert_database(self.question_bank.insert_answer, quiz_item)

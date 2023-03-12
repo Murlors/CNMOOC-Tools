@@ -1,5 +1,6 @@
 import argparse
 import json
+import os.path
 
 from auto_answer import AutoAnswer
 
@@ -13,10 +14,11 @@ def get_hparams():
         with open('config.json', 'w') as f:
             json.dump({'username': args.username, 'password': args.password}, f, indent=4)
     else:
-        with open('config.json', 'r') as f:
-            config = json.load(f)
-            args.username = config['username']
-            args.password = config['password']
+        if os.path.exists('config.json'):
+            with open('config.json', 'r') as f:
+                config = json.load(f)
+                args.username = config['username']
+                args.password = config['password']
     return args
 
 

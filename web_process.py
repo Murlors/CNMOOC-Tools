@@ -146,7 +146,7 @@ class WebProcess:
         self._course_open_id = re.search('index/(?P<course_open_id>.*?).mooc',
                                          course_hrefs[int(select) - 1]).group('course_open_id')
         self.headers['Referer'] = f'{self.BASE_URL}/examTest/stuExamList/{self._course_open_id}{self.SUFFIX}'
-        print(self.headers['Referer'])
+        print(f"Referer: {self.headers['Referer']}")
 
     def get_exam_select(self):
         """
@@ -164,8 +164,7 @@ class WebProcess:
 
         while True:
             # 提示、读取输入
-            print("多选试卷用`,`分割")
-            exam_select = input().split(',')
+            exam_select = input("多选试卷用`,`分割").split(',')
             # 检查输入的编号是否合法
             if all(map(lambda x: x.isdigit() and 0 < int(x) <= len(exams), exam_select)):
                 break
