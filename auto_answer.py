@@ -6,8 +6,8 @@ from util import quiz_submissions_list2dict, quiz_submissions_dict2list, insert_
 
 
 class AutoAnswer(PostProcess):
-    def __init__(self):
-        super(PostProcess, self).__init__()
+    def __init__(self, driver):
+        super(PostProcess, self).__init__(driver=driver)
         self.question_bank = QuestionBank()
         self.process_locate = 0
         self.quiz_submissions_list = None
@@ -15,7 +15,7 @@ class AutoAnswer(PostProcess):
         self.enumeration_count = 0
 
     def auto_answer(self):
-        self.quiz_submissions_list = self.drive.execute_script('return $("#exam_paper").quiz().getPractice()')
+        self.quiz_submissions_list = self.driver.execute_script('return $("#exam_paper").quiz().getPractice()')
         self.submit(self.quiz_submissions_list)
         self.get_new_result()
 
@@ -121,7 +121,7 @@ class AutoAnswer(PostProcess):
         """
         if self.enumeration_count != 0:
             self.goto_exam_test(exam_select)
-            get_data_judge = self.drive.execute_script('return $("#exam_paper").quiz().getData()')
+            get_data_judge = self.driver.execute_script('return $("#exam_paper").quiz().getData()')
             print('Insert:')
             print(f'quiz_submissions_list: {self.quiz_submissions_list}')
             for quiz_item in get_data_judge:

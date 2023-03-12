@@ -4,20 +4,58 @@ import requests
 import selenium.common.exceptions
 from bs4 import BeautifulSoup
 from requests.cookies import RequestsCookieJar
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 from encrypt import encrypt
+
+
+def login_hall(username: str, password: str):
+    """
+    登录门户网站
+    :param username: 学号
+    :param password: 密码
+    :return 门户网站登录成功的cookies字典
+    """
+    session = requests.session()
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.26',
+    }
+    # 访问任意网址，返回包含认证页面链接的内容（自动跳转）
+    response = session.get(f'{WebProcess.BASE_URL}/oauth/toMoocAuth.mooc', headers=headers)
+    # 提取认证链接并访问，经历一次重定向得到认证页面
+    croypto = re.search(r'"login-croypto">(.*?)<', response.text, re.S).group(1)
+    execution = re.search(r'"login-page-flowkey">(.*?)<', response.text, re.S).group(1)
+    # 构建post数据 填入自己的学号 密码
+    data = {
+        'username': username,  # 学号
+        'type': 'UsernamePassword',
+        '_eventId': 'submit',
+        'geolocation': '',
+        'execution': execution,
+        'captcha_code': '',
+        'croypto': croypto,  # 密钥 base64格式
+        'password': encrypt(password, croypto),  # 密码 经过des加密 base64格式
+    }
+    # 提交cookie，进行登录(重定向)
+    session.cookies.update({'isPortal': 'false'})
+    response = session.post('https://source.wzu.edu.cn/login', data=data)
+    # 门户网站登录成功，登录mooc平台
+    if response.status_code == 200:
+        print(f'login success. status_code: {response.status_code}')
+        return session.cookies.get_dict()
+    else:
+        print('login failed, please check username and password.')
+        return None
 
 
 class WebProcess:
     BASE_URL = 'http://spoc.wzu.edu.cn'
     SUFFIX = '.mooc'
 
-    def __init__(self):
+    def __init__(self, driver):
         self.headers = {
             'Host': 'spoc.wzu.edu.cn',
             'Referer': '',
@@ -25,16 +63,14 @@ class WebProcess:
                           'Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.26',
         }
         self.session = requests.session()
-        options = webdriver.EdgeOptions()
-        options.headless = True
-        self.drive = webdriver.ChromiumEdge(EdgeChromiumDriverManager(cache_valid_range=7).install(), options=options)
-        self.wait = WebDriverWait(self.drive, timeout=3, poll_frequency=1)
+        self.driver = driver
+        self.wait = WebDriverWait(self.driver, timeout=3, poll_frequency=1)
         self.cookies = {}
         self.exam_select = None
         self._course_open_id = None
 
     def __del__(self):
-        self.drive.quit()
+        self.driver.quit()
 
     def login(self, username: str, password: str) -> bool:
         """
@@ -43,15 +79,15 @@ class WebProcess:
         :param password: 密码
         :return: 是否登录成功
         """
-        hall_cookies = self.login_hall(username, password)
+        hall_cookies = login_hall(username, password)
         if not hall_cookies:
             return False
         self.login_mooc(hall_cookies)
         self.get_mooc_cookies()
         return True
 
-
-    def login_hall(self, username: str, password: str):
+    @staticmethod
+    def login_hall(username: str, password: str):
         """
         登录门户网站
         :param username: 学号
@@ -95,18 +131,18 @@ class WebProcess:
         访问认证页面
         :param hall_cookies: 门户网站的cookies
         """
-        self.drive.get(f'{self.BASE_URL}/oauth/toMoocAuth.mooc')
+        self.driver.get(f'{self.BASE_URL}/oauth/toMoocAuth.mooc')
         for key, value in hall_cookies.items():
-            self.drive.add_cookie({"name": key, "value": value})
-        self.drive.get(f'{self.BASE_URL}/home/login.mooc')
+            self.driver.add_cookie({"name": key, "value": value})
+        self.driver.get(f'{self.BASE_URL}/home/login.mooc')
         self.wait.until(ec.title_contains("SPOC"))
-        self.drive.find_element(By.CLASS_NAME, 'oauthLogin').click()
+        self.driver.find_element(By.CLASS_NAME, 'oauthLogin').click()
 
     def get_mooc_cookies(self):
         """
         获取mooc的cookies
         """
-        dict_cookies = self.drive.get_cookies()
+        dict_cookies = self.driver.get_cookies()
         cookiejar = requests.cookies.RequestsCookieJar()
         for cookie in dict_cookies:
             cookiejar.set(cookie['name'], cookie['value'])
@@ -119,15 +155,15 @@ class WebProcess:
         选择课程
         """
         # 访问课程列表页面
-        self.drive.get(f'{self.BASE_URL}/portal/myCourseIndex/1.mooc?checkEmail=false')
+        self.driver.get(f'{self.BASE_URL}/portal/myCourseIndex/1.mooc?checkEmail=false')
         self.wait.until(ec.title_contains("SPOC"))
         # 如果存在引导按钮，则点击
-        skip_button = self.drive.find_elements(By.CLASS_NAME, 'introjs-skipbutton')
+        skip_button = self.driver.find_elements(By.CLASS_NAME, 'introjs-skipbutton')
         if skip_button:
             skip_button[0].click()
         # 等待课程列表页面加载完成
         self.wait.until(ec.presence_of_all_elements_located((By.CLASS_NAME, 'view-title')))
-        soup = BeautifulSoup(self.drive.page_source, 'lxml')
+        soup = BeautifulSoup(self.driver.page_source, 'lxml')
         # 获取课程信息
         courses = [{'title': h3.text.replace('\n', '').replace(' ', ''), 'href': self.BASE_URL + a.attrs['href']}
                    for h3, a in zip(soup.find_all('h3', class_='view-title'), soup.find_all('a', class_='view-shadow'))]
@@ -153,9 +189,9 @@ class WebProcess:
         选择试卷
         """
         # 访问试卷列表页面
-        self.drive.get(self.headers['Referer'])
+        self.driver.get(self.headers['Referer'])
         self.wait.until(ec.presence_of_element_located((By.CLASS_NAME, 'homework-table')))
-        soup = BeautifulSoup(self.drive.page_source, 'lxml')
+        soup = BeautifulSoup(self.driver.page_source, 'lxml')
         # 获取试卷信息
         exams = [h3.text.replace('\n', '').replace(' ', '') for h3 in soup.find_all('td', class_='td1')]
 
@@ -178,9 +214,9 @@ class WebProcess:
         :return: 是否成功进入试卷
         """
         # 访问试卷列表页面
-        self.drive.get(self.headers['Referer'])
+        self.driver.get(self.headers['Referer'])
         self.wait.until(ec.presence_of_element_located((By.CLASS_NAME, 'link-action')))
-        elements = self.drive.find_elements(By.CLASS_NAME, 'link-action')
+        elements = self.driver.find_elements(By.CLASS_NAME, 'link-action')
         try:
             elements[exam_select - 1].click()
             # 等待页面加载完成
@@ -189,12 +225,12 @@ class WebProcess:
             print(f'所选测试: {exam_select} 无效\n')
             return False
         # 如果存在再测一次按钮，点击再测一次进入试卷
-        do_obj_exam = self.drive.find_elements(By.CLASS_NAME, 'doObjExam')
+        do_obj_exam = self.driver.find_elements(By.CLASS_NAME, 'doObjExam')
         if do_obj_exam:
             do_obj_exam[0].click()
         else:
             # 如果存在继续按钮，点击继续进入试卷
-            enter_exam = self.drive.find_elements(By.CLASS_NAME, 'enter_exam')
+            enter_exam = self.driver.find_elements(By.CLASS_NAME, 'enter_exam')
             try:
                 enter_exam[-1].click()
             except IndexError:

@@ -9,6 +9,14 @@ def get_hparams():
     parser = argparse.ArgumentParser()
     parser.add_argument('-u', '--username', type=str, help='学号')
     parser.add_argument('-p', '--password', type=str, help='密码')
+
+    parser.add_argument('-wm', '--webdriver_manager', action='store_true', default=False, help='是否使用webdriver_manager')
+    parser.add_argument('--headless', action='store_true', default=False, help='是否使用无头模式')
+
+    return parser
+
+
+def parse_args(parser):
     args = parser.parse_args()
     if args.username and args.password:
         with open('config.json', 'w') as f:
@@ -19,13 +27,30 @@ def get_hparams():
                 config = json.load(f)
                 args.username = config['username']
                 args.password = config['password']
+
+    from selenium import webdriver
+    options = webdriver.EdgeOptions()
+    if args.headless:
+        options.headless = True
+
+    if args.webdriver_manager:
+        from webdriver_manager.microsoft import EdgeChromiumDriverManager
+        args.driver = webdriver.ChromiumEdge(
+            EdgeChromiumDriverManager(cache_valid_range=7).install(), options=options)
+    else:
+        args.driver = webdriver.ChromiumEdge(options=options)
+
     return args
 
 
 def main():
-    username, password = get_hparams().username, get_hparams().password
+    parser = get_hparams()
+    hparams = parse_args(parser)
+
+    username, password = hparams.username, hparams.password
     print(f'username: {username}, password: {password}')
-    auto_answer = AutoAnswer()  # 实例化
+
+    auto_answer = AutoAnswer(hparams.driver)  # 实例化
     # run auto_answer.py
     if auto_answer.login(username, password):  # 登录
         while True:

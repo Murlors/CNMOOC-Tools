@@ -13,8 +13,8 @@ class PostProcess(WebProcess):
     ANSWER_PATTERN = re.compile(r'.*?userAnswer\\":\\"(?P<userAnswer>.*?)\\",\\"quizId\\":\\"'
                                 r'(?P<quizId>.*?)\\",\\".*?errorFlag\\":\\"(?P<errorFlag>.*?)\\"', re.S)
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, driver):
+        super().__init__(driver=driver)
         self._submit_data = PostProcess.SUBMIT_DATA
         self._get_new_result_data = PostProcess.GET_NEW_RESULT_DATA
         self._submit_url = None
@@ -36,10 +36,10 @@ class PostProcess(WebProcess):
                                f'/getExamPaper-{self._exam_submit_id}{self.SUFFIX}'
 
     def set_url(self, url_type: str):
-        self._course_open_id = self.drive.execute_script('return courseOpenId')
-        self._exam_submit_id = self.drive.execute_script('return examSubmitId')
+        self._course_open_id = self.driver.execute_script('return courseOpenId')
+        self._exam_submit_id = self.driver.execute_script('return examSubmitId')
         self._exam_test_paper_id = self._exam_submit_id.partition('_')[0]
-        self._exam_paper_id = self.drive.execute_script('return examPaperId')
+        self._exam_paper_id = self.driver.execute_script('return examPaperId')
         if url_type == 'submit':
             self.set_submit_url()
         elif url_type == 'get_result':
@@ -49,8 +49,8 @@ class PostProcess(WebProcess):
 
     def set_submit_data(self, quiz_submissions_list: list[str]):
         self._submit_data = PostProcess.SUBMIT_DATA
-        self._submit_data['gradeId'] = self.drive.execute_script("return $('#gradeId').val()")
-        self._submit_data['reSubmit'] = self.drive.execute_script("return $('#reSubmit').val()")
+        self._submit_data['gradeId'] = self.driver.execute_script("return $('#gradeId').val()")
+        self._submit_data['reSubmit'] = self.driver.execute_script("return $('#reSubmit').val()")
         self._submit_data['submitquizs[]'] = quiz_submissions_list
         self._submit_data['testPaperId'] = self._exam_test_paper_id
         self._submit_data['postoken'] = self.cookies['cpstk']
