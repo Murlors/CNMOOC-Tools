@@ -126,3 +126,5 @@ class AutoAnswer(PostProcess):
             print(f'quiz_submissions_list: {self.quiz_submissions_list}')
             for quiz_item in get_data_judge:
                 insert_database(self.question_bank.insert_answer, quiz_item)
+
+            self.question_bank.export_sqlite3_to_sql()  # 导出sql

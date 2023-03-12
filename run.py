@@ -10,7 +10,8 @@ def get_hparams():
     parser.add_argument('-u', '--username', type=str, help='学号')
     parser.add_argument('-p', '--password', type=str, help='密码')
 
-    parser.add_argument('-wm', '--webdriver_manager', action='store_true', default=False, help='是否使用webdriver_manager')
+    parser.add_argument('-wm', '--webdriver_manager', action='store_true', default=False,
+                        help='是否使用webdriver_manager')
     parser.add_argument('--headless', action='store_true', default=False, help='是否使用无头模式')
 
     return parser
@@ -52,6 +53,8 @@ def main():
     print(f'username: {username}, password: {password}')
 
     auto_answer = AutoAnswer(hparams.driver)  # 实例化
+
+    auto_answer.question_bank.check_sql_hash()  # 检查hash值
     # run auto_answer.py
     if auto_answer.login(username, password):  # 登录
         while True:
