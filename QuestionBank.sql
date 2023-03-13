@@ -1698,6 +1698,29 @@ INSERT INTO "QuestionBank" VALUES(301398,'定义外部类的类头时，不可�
 ',3);
 INSERT INTO "QuestionBank" VALUES(301399,'关于Object类中定义的toString方法，以下说法正确的是（ &nbsp;）','985716','C、toString方法可以将所有其他类型转换为字符串类型
 ',3);
+INSERT INTO "QuestionBank" VALUES(306044,'<p>大数据的特点包括：</p>','996264,996265,996266,996267,996268','A、<p>Velocity</p>
+B、<p>Variety</p>
+C、<p>Volume</p>
+D、<p>Value</p>
+E、<p>Veracity</p>',4);
+INSERT INTO "QuestionBank" VALUES(306045,'<p>云是一个平台，是一个业务模式，为客户提供 IT 服务，包括 （ ？ ）等部分。</p>','996269,996270,996271','A、<p>管理平台</p>
+B、<p>服务提供</p>
+C、<p>构建服务</p>',4);
+INSERT INTO "QuestionBank" VALUES(306046,'在云计算中，虚拟层主要包括（？）','996274,996275,996276,996277','B、存储虚拟化
+C、网络虚拟化
+D、桌面虚拟化
+E、应用级虚拟化',4);
+INSERT INTO "QuestionBank" VALUES(306048,'大数据的数据来源包括：（ &nbsp; &nbsp;）','996283,996284,996285,996286,996287','A、企业和用户的交易数据
+B、日常的行为数据
+C、机器和传感器创建或生成的数据
+D、移动通信设备的移动通信数据
+E、从其他系统中迁移的数据',4);
+INSERT INTO "QuestionBank" VALUES(306050,'大数据的发展历程大致包括：','996288,996291,996292','A、萌芽期
+D、成熟期
+E、大规模应用期',4);
+INSERT INTO "QuestionBank" VALUES(306051,'信息科技为大数据时代提供的支撑技术包括：','996293,996294,996295','A、存储技术
+B、微电子技术
+C、通信技术',4);
 ANALYZE "sqlite_master";
 INSERT INTO "sqlite_stat1" VALUES('QuestionBank','quiz_id','790 1');
 CREATE UNIQUE INDEX "quiz_id"

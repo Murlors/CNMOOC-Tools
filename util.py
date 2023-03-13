@@ -45,7 +45,7 @@ def get_answer_content_list(quiz_type: str, quiz_optionses: list, answer_id: str
     if quiz_type == 'itt002' or quiz_type == 'itt003' or quiz_type == 'itt004':
         user_answer_id_list = list(map(int, answer_id.split(',')))
         return [
-            f"{chr(ord('A') + option['displayOrder'])}、{option['optionContent'].strip()}\n"
+            f"{chr(ord('A') + option['displayOrder'])}、{option['optionContent'].strip()}"
             for option in quiz_optionses if option['optionId'] in user_answer_id_list
         ]
     elif quiz_type == 'itt001':

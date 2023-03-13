@@ -200,7 +200,7 @@ class WebProcess:
 
         while True:
             # 提示、读取输入
-            exam_select = input("多选试卷用`,`分割").split(',')
+            exam_select = input("多选试卷用`,`分割\n").split(',')
             # 检查输入的编号是否合法
             if all(map(lambda x: x.isdigit() and 0 < int(x) <= len(exams), exam_select)):
                 break

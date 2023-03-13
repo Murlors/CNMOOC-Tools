@@ -54,7 +54,6 @@ def main():
 
     auto_answer = AutoAnswer(hparams.driver)  # 实例化
 
-    auto_answer.question_bank.check_sql_hash()  # 检查hash值
     # run auto_answer.py
     if auto_answer.login(username, password):  # 登录
         while True:

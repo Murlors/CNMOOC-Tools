@@ -1,6 +1,6 @@
+import hashlib
 import os.path
 import sqlite3
-import hashlib
 
 
 class QuestionBank:
@@ -10,7 +10,12 @@ class QuestionBank:
     VALID_QUIZ_TYPES = ['itt001', 'itt002', 'itt003', 'itt004']
 
     def __init__(self, database_name=DATABASE_NAME):
-        self.conn = sqlite3.connect(database_name)
+        if not os.path.exists(database_name):
+            self.conn = sqlite3.connect(database_name)
+            self.sql_to_sqlite3()
+        else:
+            self.conn = sqlite3.connect(database_name)
+            self.check_sql_hash()  # 检查hash值
 
     def __del__(self):
         self.conn.close()
@@ -84,4 +89,3 @@ class QuestionBank:
         if self.get_sql_hash() != self.sql_hash_file():
             self.update_sql_hash_file()
             self.sql_to_sqlite3()
-
