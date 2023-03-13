@@ -9,12 +9,15 @@ class AutoAnswer(PostProcess):
     def __init__(self, driver):
         super(PostProcess, self).__init__(driver=driver)
         self.question_bank = QuestionBank()
-        self.process_locate = 0
+        self.process_locate = None
         self.quiz_submissions_list = None
         self.quiz_submissions_dict = None
-        self.enumeration_count = 0
+        self.enumeration_count = None
 
     def auto_answer(self):
+        self.process_locate = 0
+        self.enumeration_count = 0
+
         self.quiz_submissions_list = self.driver.execute_script('return $("#exam_paper").quiz().getPractice()')
         self.submit(self.quiz_submissions_list)
         self.get_new_result()
