@@ -131,3 +131,4 @@ class AutoAnswer(PostProcess):
                 insert_database(self.question_bank.insert_answer, quiz_item)
 
             self.question_bank.export_sqlite3_to_sql()  # 导出sql
+            self.question_bank.update_sql_hash_file()  # 更新hash文件
