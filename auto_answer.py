@@ -122,12 +122,12 @@ class AutoAnswer(PostProcess):
         判断是否对题库进行插入；有经历过枚举则插入新的题目。
         :param exam_select: 当前所选择的试卷
         """
-        if self.enumeration_count != 0:
-            self.goto_exam_test(exam_select)
-            get_data_judge = self.driver.execute_script('return $("#exam_paper").quiz().getData()')
-            print('Insert:')
-            print(f'quiz_submissions_list: {self.quiz_submissions_list}')
-            for quiz_item in get_data_judge:
-                insert_database(self.question_bank.insert_answer, quiz_item)
+        # if self.enumeration_count != 0:
+        self.goto_exam_test(exam_select)
+        get_data_judge = self.driver.execute_script('return $("#exam_paper").quiz().getData()')
+        print('Insert:')
+        print(f'quiz_submissions_list: {self.quiz_submissions_list}')
+        for quiz_item in get_data_judge:
+            insert_database(self.question_bank.insert_answer, quiz_item)
 
-            self.question_bank.export_sqlite3_to_sql()  # 导出sql
+        self.question_bank.export_sqlite3_to_sql()  # 导出sql

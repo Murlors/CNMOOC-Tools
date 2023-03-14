@@ -32,13 +32,13 @@ def parse_args(parser):
     from selenium import webdriver
     options = webdriver.EdgeOptions()
     if args.headless:
-        options.headless = True
+        options.add_argument("--headless=new")
 
     if args.webdriver_manager:
         from selenium.webdriver.edge.service import Service as EdgeService
         from webdriver_manager.microsoft import EdgeChromiumDriverManager
         args.driver = webdriver.Edge(
-            service=EdgeService(EdgeChromiumDriverManager(cache_valid_range=7).install()), options=options)
+            service=EdgeService(EdgeChromiumDriverManager(path='', cache_valid_range=7).install()), options=options)
     else:
         args.driver = webdriver.Edge(options=options)
 
