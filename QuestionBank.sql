@@ -338,6 +338,22 @@ INSERT INTO "QuestionBank" VALUES(183647,'以下数组初始化形式正确的�
 ',3);
 INSERT INTO "QuestionBank" VALUES(183648,'下述概念中不属于面向对象方法的是（ &nbsp;）。','637692','D、过程调用
 ',3);
+INSERT INTO "QuestionBank" VALUES(201412,'Hadoop-2.x集群中的HDFS的默认的数据块的大小是？','702547','C、128M;',3);
+INSERT INTO "QuestionBank" VALUES(201413,'Hadoop-2.x集群中的HDFS的默认的副本块的个数是？','702551','C、3;',3);
+INSERT INTO "QuestionBank" VALUES(201414,'如果我们现有一个安装2.x版本的hadoop集群，在不修改默认配置的情况下存储200个每个200M的文本文件，请问最终会在集群中产生多少个数据块（包括副本）？','702556','D、1200',3);
+INSERT INTO "QuestionBank" VALUES(201415,'以下哪个不是HDFS的守护进程？','702559','C、mrappmaster/yarnchild;',3);
+INSERT INTO "QuestionBank" VALUES(201418,'<p>现在在hadoop集群当中的配置文件中有这么两个配置，请问假如集群当中有一个节点宕机，主节点namenode需要多长时间才能感知到？hdfs-xml中&lt;name&gt;dfs.heartbeat.interval&lt;/name&gt;&lt;value&gt;2&lt;/value&gt;&lt;name&gt;heartbeat.recheck.interval&lt;/name&gt;&lt;value&gt;2000&lt;/value&gt;</p>','702570','B、<p>24秒;</p>',3);
+INSERT INTO "QuestionBank" VALUES(201420,'HDFS集群中的namenode职责不包括？','702579','C、负责保存客户端上传的数据;',3);
+INSERT INTO "QuestionBank" VALUES(201434,'下列关于HDFS的描述正确的是？','702635','C、NameNode磁盘元数据不保存Block的位置信息;',3);
+INSERT INTO "QuestionBank" VALUES(202309,'<p>试述大数据的4个V基本特征的英文单词(按字母升序写出):<span><span class="fill-placeholder">（1）</span>,<span><span class="fill-placeholder">（2）</span>,<span><span class="fill-placeholder">（3）</span>,<span><span class="fill-placeholder">（4）</span>。</span></span></span></span></p>','Value%$$%Variety%$$%Velocity%$$%Volume','Value%$$%Variety%$$%Velocity%$$%Volume',1);
+INSERT INTO "QuestionBank" VALUES(202312,'<p>信息技术的三次浪潮发生的年代分别是<span><span class="fill-placeholder">（1）</span>，<span><span class="fill-placeholder">（2）</span>，<span><span class="fill-placeholder">（3）</span>（填写四位数字便可）<span>。</span></span></span></span></p>','1980%$$%1995%$$%2010','1980%$$%1995%$$%2010',1);
+INSERT INTO "QuestionBank" VALUES(207725,'<p>如何使用hdfs getconf命令查看目前系统的默认副本数的参数值,写出完整的命令，单词之间保留一个空格：<span class="fill-placeholder">（1）</span></p>','hdfs getconf -confKey dfs.replication','hdfs getconf -confKey dfs.replication',1);
+INSERT INTO "QuestionBank" VALUES(207726,'<p>集群分为紧密型(1)的和分布型(2)的，天河2号计算系统属于<span class="fill-placeholder">（1）</span>，hadoop属于<span class="fill-placeholder">（2）</span>.（回答1或者2）</p>','1%$$%2','1%$$%2',1);
+INSERT INTO "QuestionBank" VALUES(207727,'<p>namenode会主动去datanode下面读取文件块的存储列表信息？</p>','720080','B、<p>否</p>',2);
+INSERT INTO "QuestionBank" VALUES(207728,'<p>datanode和datanode 之间存在数据就传送的要求？</p>','720081','A、<p>是</p>',2);
+INSERT INTO "QuestionBank" VALUES(207729,'<p>nanenode的内存中的元数据等同于FSImage和Editlog的合并而成的内容 ？</p>','720083','A、<p>否</p>',2);
+INSERT INTO "QuestionBank" VALUES(207730,'<p>namenode的节点为192.168.1.120，hdfs文件访问端口为9000，现在我们hadoop客户机的地址为192.168.1.100 ,则访问 hdfs的/user/hadoop/下的myfile.txt文件内容，命令为：hdfs dfs -cat /user/hdoop/myfile.txt</p>','720085','A、<p>否</p>',2);
+INSERT INTO "QuestionBank" VALUES(207731,'<p>客户端从某一个名字节点读取一个文件快，读到块正确与否和只要取决于&nbsp;&nbsp;</p>','720087','A、<p><span>检验和</span></p>',3);
 INSERT INTO "QuestionBank" VALUES(229036,'<p><span>将类成员的访问权限设置为默认时，则该成员能被（ ）</span></p><p><span>If we set data modifier as default, then the data can be accessed?</span></p>','778080','A、<p><span>同一包中的类访问</span><span>&nbsp;</span></p><p><span>within the package</span></p>
 ',3);
 INSERT INTO "QuestionBank" VALUES(229040,'<p><span>下面的程序段创建了</span><span>BufferedReader</span><span>类的对象</span><span>in</span><span>，以便读取本机</span><span>c</span><span>盘</span><span>my</span><span>文件夹下的文件</span><span>1.txt</span><span>。</span><span>File</span><span>构造函数中正确的路径和文件名的表示是（ ）。</span></p><p><span>File f=new File(填代码处);</span></p><p><span>file =new FileReader(f);</span></p><p><span>in=new BufferedReader(file);</span></p>','778098','C、<p><span>&quot;c:\\my\\1.txt&quot;</span></p>
