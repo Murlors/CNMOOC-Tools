@@ -1898,6 +1898,34 @@ E、大规模应用期',4);
 INSERT INTO "QuestionBank" VALUES(306051,'信息科技为大数据时代提供的支撑技术包括：','996293,996294,996295','A、存储技术
 B、微电子技术
 C、通信技术',4);
+INSERT INTO "QuestionBank" VALUES(306794,'1. 在Linux中，哪个命令用于创建目录？','998190','C、mkdir;',3);
+INSERT INTO "QuestionBank" VALUES(306795,'2. Linux中，哪个命令用于查看文件内容？','998192','A、cat',3);
+INSERT INTO "QuestionBank" VALUES(306796,'3. 哪个命令用于在Linux中列出所有正在运行的进程？','998196','A、ps',3);
+INSERT INTO "QuestionBank" VALUES(306797,'4. 在Linux中，如何重启系统？','998200,998202,998203','A、reboot
+C、shutdown -r now
+D、init 6',4);
+INSERT INTO "QuestionBank" VALUES(306798,'5. 在Linux中，哪个命令用于列出当前工作目录下的文件和目录？','998204','A、ls',3);
+INSERT INTO "QuestionBank" VALUES(306799,'6. 在Linux中，哪个命令用于复制文件？','998210','C、cp',3);
+INSERT INTO "QuestionBank" VALUES(306800,'7. 在Linux中，哪个命令用于移动文件或目录？','998212','A、mv',3);
+INSERT INTO "QuestionBank" VALUES(306801,'8. 在Linux中，哪个命令用于删除文件或目录？','998216','A、rm',3);
+INSERT INTO "QuestionBank" VALUES(306802,'9. 在Linux中，哪个命令用于压缩文件或目录？','998220,998221,998222,998223','A、tar
+B、zip
+C、gzip
+D、bzip2',4);
+INSERT INTO "QuestionBank" VALUES(306803,'10. 在Linux中，哪个命令用于解压缩文件或目录？','998224,998225,998226,998227','A、tar &nbsp;
+B、unzip &nbsp;
+C、gunzip &nbsp;
+D、bunzip2',4);
+INSERT INTO "QuestionBank" VALUES(306848,'Docker中的“镜像”（image）指的是什么？','998401','C、一个可重复生成的文件，包含了运行应用程序所需的所有文件和配置信息',3);
+INSERT INTO "QuestionBank" VALUES(306849,'在Docker中，容器的作用是什么？','998405','C、&nbsp; &nbsp;执行Docker镜像中的应用程序',3);
+INSERT INTO "QuestionBank" VALUES(306850,'在Docker中，如何创建一个新的容器？','998409','A、docker run',3);
+INSERT INTO "QuestionBank" VALUES(306851,'在Docker中，如何列出所有正在运行的容器？','998413','A、docker ps',3);
+INSERT INTO "QuestionBank" VALUES(306852,'在Docker中，如何停止一个正在运行的容器？','998420','D、docker stop',3);
+INSERT INTO "QuestionBank" VALUES(306853,'在Docker中，如何删除一个容器？','998423','C、&nbsp; &nbsp;docker rm',3);
+INSERT INTO "QuestionBank" VALUES(306854,'在Docker中，如何列出所有可用的镜像？','998426','B、&nbsp; &nbsp;docker images',3);
+INSERT INTO "QuestionBank" VALUES(306855,'在Docker中，如何从Docker Hub下载一个镜像？','998430','B、&nbsp; &nbsp;docker pull',3);
+INSERT INTO "QuestionBank" VALUES(306856,'在Docker中，如何将一个本地镜像推送到Docker Hub？','998433','A、docker push',3);
+INSERT INTO "QuestionBank" VALUES(306857,'在Docker中，如何查看一个容器的日志输出？','998437','A、docker logs',3);
 ANALYZE "sqlite_master";
 INSERT INTO "sqlite_stat1" VALUES('QuestionBank','quiz_id','790 1');
 CREATE UNIQUE INDEX "quiz_id"
