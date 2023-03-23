@@ -6,9 +6,10 @@ from util import quiz_submissions_list2dict, quiz_submissions_dict2list, insert_
 
 
 class AutoAnswer(PostProcess):
-    def __init__(self, driver):
+    def __init__(self, driver, update_anyway=False):
         super(PostProcess, self).__init__(driver=driver)
         self.question_bank = QuestionBank()
+        self.update_anyway = update_anyway
         self.process_locate = None
         self.quiz_submissions_list = None
         self.quiz_submissions_dict = None
@@ -122,7 +123,7 @@ class AutoAnswer(PostProcess):
         判断是否对题库进行插入；有经历过枚举则插入新的题目。
         :param exam_select: 当前所选择的试卷
         """
-        if self.enumeration_count != 0:
+        if self.enumeration_count != 0 or self.update_anyway:
             self.goto_exam_test(exam_select)
             get_data_judge = self.driver.execute_script('return $("#exam_paper").quiz().getData()')
             print('Insert:')

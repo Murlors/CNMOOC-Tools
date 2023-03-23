@@ -14,6 +14,7 @@ def get_hparams():
                         help='是否使用webdriver_manager')
     parser.add_argument('--headless', action='store_true', default=False, help='是否使用无头模式')
 
+    parser.add_argument('--update_anyway', action='store_true', default=False, help='是否强制更新题库')
     return parser
 
 
@@ -52,8 +53,7 @@ def main():
     username, password = hparams.username, hparams.password
     print(f'username: {username}, password: {password}')
 
-    auto_answer = AutoAnswer(hparams.driver)  # 实例化
-
+    auto_answer = AutoAnswer(hparams.driver, hparams.update_anyway)  # 实例化
     # run auto_answer.py
     if auto_answer.login(username, password):  # 登录
         while True:
