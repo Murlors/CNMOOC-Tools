@@ -10,11 +10,10 @@ def get_hparams():
     parser.add_argument('-u', '--username', type=str, help='学号')
     parser.add_argument('-p', '--password', type=str, help='密码')
 
-    parser.add_argument('-wm', '--webdriver_manager', action='store_true', default=False,
-                        help='是否使用webdriver_manager')
-    parser.add_argument('--headless', action='store_true', default=False, help='是否使用无头模式')
+    parser.add_argument('-wm', '--webdriver_manager', action='store_true', help='是否使用webdriver_manager')
+    parser.add_argument('--headless', action='store_true', help='是否使用无头模式')
 
-    parser.add_argument('--update_anyway', action='store_true', default=False, help='是否强制更新题库')
+    parser.add_argument('--update_anyway', action='store_true', help='是否强制更新题库')
     return parser
 
 
@@ -23,12 +22,11 @@ def parse_args(parser):
     if args.username and args.password:
         with open('config.json', 'w') as f:
             json.dump({'username': args.username, 'password': args.password}, f, indent=4)
-    else:
-        if os.path.exists('config.json'):
-            with open('config.json', 'r') as f:
-                config = json.load(f)
-                args.username = config['username']
-                args.password = config['password']
+    elif os.path.exists('config.json'):
+        with open('config.json', 'r') as f:
+            config = json.load(f)
+            args.username = config['username']
+            args.password = config['password']
 
     from selenium import webdriver
     options = webdriver.EdgeOptions()

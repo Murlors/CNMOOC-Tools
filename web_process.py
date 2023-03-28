@@ -10,47 +10,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from encrypt import encrypt
 
-
-def login_hall(username: str, password: str):
-    """
-    登录门户网站
-    :param username: 学号
-    :param password: 密码
-    :return 门户网站登录成功的cookies字典
-    """
-    session = requests.session()
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                      'Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.26',
-    }
-    # 访问任意网址，返回包含认证页面链接的内容（自动跳转）
-    response = session.get(f'{WebProcess.BASE_URL}/oauth/toMoocAuth.mooc', headers=headers)
-    # 提取认证链接并访问，经历一次重定向得到认证页面
-    croypto = re.search(r'"login-croypto">(.*?)<', response.text, re.S).group(1)
-    execution = re.search(r'"login-page-flowkey">(.*?)<', response.text, re.S).group(1)
-    # 构建post数据 填入自己的学号 密码
-    data = {
-        'username': username,  # 学号
-        'type': 'UsernamePassword',
-        '_eventId': 'submit',
-        'geolocation': '',
-        'execution': execution,
-        'captcha_code': '',
-        'croypto': croypto,  # 密钥 base64格式
-        'password': encrypt(password, croypto),  # 密码 经过des加密 base64格式
-    }
-    # 提交cookie，进行登录(重定向)
-    session.cookies.update({'isPortal': 'false'})
-    response = session.post('https://source.wzu.edu.cn/login', data=data)
-    # 门户网站登录成功，登录mooc平台
-    if response.status_code == 200:
-        print(f'login success. status_code: {response.status_code}')
-        return session.cookies.get_dict()
-    else:
-        print('login failed, please check username and password.')
-        return None
-
-
 class WebProcess:
     BASE_URL = 'http://spoc.wzu.edu.cn'
     SUFFIX = '.mooc'
@@ -79,7 +38,7 @@ class WebProcess:
         :param password: 密码
         :return: 是否登录成功
         """
-        hall_cookies = login_hall(username, password)
+        hall_cookies = self.login_hall(username, password)
         if not hall_cookies:
             return False
         self.login_mooc(hall_cookies)
