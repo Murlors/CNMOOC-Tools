@@ -354,6 +354,35 @@ INSERT INTO "QuestionBank" VALUES(207728,'<p>datanode和datanode 之间存在数
 INSERT INTO "QuestionBank" VALUES(207729,'<p>nanenode的内存中的元数据等同于FSImage和Editlog的合并而成的内容 ？</p>','720083','A、<p>否</p>',2);
 INSERT INTO "QuestionBank" VALUES(207730,'<p>namenode的节点为192.168.1.120，hdfs文件访问端口为9000，现在我们hadoop客户机的地址为192.168.1.100 ,则访问 hdfs的/user/hadoop/下的myfile.txt文件内容，命令为：hdfs dfs -cat /user/hdoop/myfile.txt</p>','720085','A、<p>否</p>',2);
 INSERT INTO "QuestionBank" VALUES(207731,'<p>客户端从某一个名字节点读取一个文件快，读到块正确与否和只要取决于&nbsp;&nbsp;</p>','720087','A、<p><span>检验和</span></p>',3);
+INSERT INTO "QuestionBank" VALUES(211166,'region : store &nbsp;的数量对应是？','729876','A、1:n;',3);
+INSERT INTO "QuestionBank" VALUES(211167,'hlog和region server数量关系','729881','B、1:1;',3);
+INSERT INTO "QuestionBank" VALUES(211168,'store和region的数量关系是？','729887','D、n:1;',3);
+INSERT INTO "QuestionBank" VALUES(211169,'<p>一般性的hbase cluster和hmaster的关系是？</p>','729889','B、<p>1:1;</p>',3);
+INSERT INTO "QuestionBank" VALUES(211170,'store和memstore的关系是？','729893','B、1:1;',3);
+INSERT INTO "QuestionBank" VALUES(211171,'store和storefile的关系是？','729896','A、1:n;',3);
+INSERT INTO "QuestionBank" VALUES(211172,'table和region server的关系？','729902','C、m:n;',3);
+INSERT INTO "QuestionBank" VALUES(211173,'region server和region的数量关系？','729904','A、1:n;',3);
+INSERT INTO "QuestionBank" VALUES(211174,'hbase客户端读数据的时候，按照的顺序 ;<br>1--memstore &nbsp;2--hfile &nbsp; 3-BlockCache','729911','D、1-3-2',3);
+INSERT INTO "QuestionBank" VALUES(211175,'scan &#039;hbase:meta&#039;什么意思？','729913','B、查询hbase表空间下meta表的所有记录',3);
+INSERT INTO "QuestionBank" VALUES(211176,'<p>Zookeeper 是什么东西？扮演什么角色</p>','729916,729917,729918','A、<p>监视 region server工作状态; &nbsp;</p>
+B、<p>提供元数据(目录)入口region;</p>
+C、<p>选举master ，保证任何时候，集群中只要一个HMaster;</p>',4);
+INSERT INTO "QuestionBank" VALUES(211177,'Region Server的作用','729920,729921,729922','A、向HMaster定期汇报节点的负载状况,，RS内存使用状态、在线状态的Region等;
+B、实现用户的读写请求，如：get、multiget、mutate、scan等;
+C、实现Region服务、文件的管理(storefile信息、region操作、WAL操作等);',4);
+INSERT INTO "QuestionBank" VALUES(211178,'Hmaster的作用','729925,729926,729927','B、管理region server负载均衡，调整HRegion分布;
+C、在HRegion分裂后，负责新HRegion的分配;
+D、在HRegion服务器停机后，负责失效HRegion服务器上的HRegion迁移;',4);
+INSERT INTO "QuestionBank" VALUES(211179,'Major Compaction 要实现：','729928,729929,729930,729932','A、清理被删除的数据;
+B、清理TTL过期数据;
+C、清理版本号超过设定版本号的数据;
+E、将所有的StoreFile合并成一个StoreFile;',4);
+INSERT INTO "QuestionBank" VALUES(211180,'Minor Compaction 是指','729936','D、选取一些小的、相邻的StoreFile将他们合并成一个更大的StoreFile;',3);
+INSERT INTO "QuestionBank" VALUES(211181,'cell 的数据类型','729941','D、字节数组byte[];',3);
+INSERT INTO "QuestionBank" VALUES(211183,'hlog和hdfs的哪个东西对应关系最恰当','729943','B、fseditlog;',3);
+INSERT INTO "QuestionBank" VALUES(211184,'<p>hmaster和yarn的哪个东西对应关系最恰当</p>','729947','B、<p>resourcemanager;</p>',3);
+INSERT INTO "QuestionBank" VALUES(211185,'<p>region server和yarn的哪个东西对应关系最恰当</p>','729950','A、<p>nodemanager;</p>',3);
+INSERT INTO "QuestionBank" VALUES(211186,'hbase table中每个列簇都对应着region中的一个store，在hdfs系统中则对应着一个目录','729954','A、正确',2);
 INSERT INTO "QuestionBank" VALUES(229036,'<p><span>将类成员的访问权限设置为默认时，则该成员能被（ ）</span></p><p><span>If we set data modifier as default, then the data can be accessed?</span></p>','778080','A、<p><span>同一包中的类访问</span><span>&nbsp;</span></p><p><span>within the package</span></p>
 ',3);
 INSERT INTO "QuestionBank" VALUES(229040,'<p><span>下面的程序段创建了</span><span>BufferedReader</span><span>类的对象</span><span>in</span><span>，以便读取本机</span><span>c</span><span>盘</span><span>my</span><span>文件夹下的文件</span><span>1.txt</span><span>。</span><span>File</span><span>构造函数中正确的路径和文件名的表示是（ ）。</span></p><p><span>File f=new File(填代码处);</span></p><p><span>file =new FileReader(f);</span></p><p><span>in=new BufferedReader(file);</span></p>','778098','C、<p><span>&quot;c:\\my\\1.txt&quot;</span></p>
@@ -1916,6 +1945,61 @@ INSERT INTO "QuestionBank" VALUES(306803,'10. 在Linux中，哪个命令用于�
 B、unzip &nbsp;
 C、gunzip &nbsp;
 D、bunzip2',4);
+INSERT INTO "QuestionBank" VALUES(306804,'11. 在Linux中，哪个命令用于查看文件的权限？','998231','D、ls -l',3);
+INSERT INTO "QuestionBank" VALUES(306805,'12. 在Linux中，哪个命令用于改变文件的权限？','998233','B、chmod &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306806,'13. 在Linux中，哪个命令用于改变文件的所有者？','998238','C、chown &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306807,'14. 在ubuntu Linux中，哪个命令用于安装软件包？','998240','A、apt-get &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306808,'14. 在centos Linux中，哪个命令用于安装软件包？','998245','B、yum &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306809,'15. 在ubuntu Linux中，哪个命令用于卸载软件包？','998248','A、apt-get remove &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306810,'16. 在Linux中，哪个命令用于查找文件？','998253','B、locate &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306811,'17. 在Linux中，哪个命令用于显示网络接口的配置信息？','998259','D、ifconfig',3);
+INSERT INTO "QuestionBank" VALUES(306812,'18. 在Linux中，哪个命令用于连接到远程主机，实现交互命令操作？','998260,998261','A、ssh &nbsp;
+B、telnet &nbsp;',4);
+INSERT INTO "QuestionBank" VALUES(306813,'19. 在Linux中，哪个命令可以直接实现将一个文件的内容追加到另外一个文件中？','998265','B、cat &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306814,'在Linux中，哪些命令可接实现在命令行中实现将屏幕输入内容直接追加到另外一个文件中？','998268,998270','A、echo &nbsp;
+C、vi &nbsp;',4);
+INSERT INTO "QuestionBank" VALUES(306815,'20. 在Linux中，哪个命令用于打印当前时间和日期？','998272','A、date &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306816,'21. 如何查看当前目录下所有文件和子目录的大小？','998277','B、du -sh * &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306817,'1. 如何在Linux中安装软件包(ubuntu/centos)？','998282','C、Both A and B',3);
+INSERT INTO "QuestionBank" VALUES(306818,'2. 如何查看Linux系统的内存使用情况？','998286','D、free',3);
+INSERT INTO "QuestionBank" VALUES(306819,'1. 哪个命令可以列出当前用户所属的组？','998290','D、groups',3);
+INSERT INTO "QuestionBank" VALUES(306820,'2. 如何从一个远程服务器下载文件到本地计算机？','998293','C、scp remote_file local_directory',3);
+INSERT INTO "QuestionBank" VALUES(306821,'3. 如何进入当前用户的家(home)目录？','998295,998297,998298','A、cd
+C、cd ~/
+D、cd ~',4);
+INSERT INTO "QuestionBank" VALUES(306822,'4. 如何在Linux系统上创建一个新的文件夹？','998300','B、touch [folder-name]',3);
+INSERT INTO "QuestionBank" VALUES(306823,'5. 在Linux系统上，如何将一个目录及其所有内容复制到另一个目录？','998306','D、cp -r /source/directory destination/directory',3);
+INSERT INTO "QuestionBank" VALUES(306824,'6. 如何显示Linux系统的IP地址？','998307','A、ifconfig',3);
+INSERT INTO "QuestionBank" VALUES(306825,'7. 如何关闭现有的Linux系统(不重启)？','998314','D、initi 0',3);
+INSERT INTO "QuestionBank" VALUES(306826,'8. 如何将当前目录下所有的.txt文件复制到/home/user目录下？','998315','A、cp *.txt /home/user',3);
+INSERT INTO "QuestionBank" VALUES(306827,'9. 如何在Linux系统上安装更新(ubuntu/centos)？','998319','B、yum update',3);
+INSERT INTO "QuestionBank" VALUES(306828,'10. 如何向Linux系统添加新用户？','998323','C、Both A and B',3);
+INSERT INTO "QuestionBank" VALUES(306829,'11. 如何列出Linux系统上所有安装的软件包(ubuntu/centos)？','998324,998325','A、dpkg --list &nbsp;
+B、rpm -qa &nbsp;',4);
+INSERT INTO "QuestionBank" VALUES(306830,'12. 如何查看Linux系统上的CPU信息？','998329','B、cat /proc/cpuinfo &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306831,'13. 如何在Linux系统上压缩文件或文件夹？','998332,998333,998334','A、tar -czvf [archive-name.tar.gz] [source-directory] &nbsp;
+B、gzip [file-name] &nbsp;
+C、zip [archive-name.zip] [source-directory]',4);
+INSERT INTO "QuestionBank" VALUES(306832,'14. 如何从Linux系统中删除一个文件？','998335','A、rm [file-name] &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306833,'15. 如何查看Linux系统上的磁盘空间使用情况？','998341','C、du',3);
+INSERT INTO "QuestionBank" VALUES(306834,'<p>16. 如何在Linux系统上编辑文件？</p>','998343,998344,998345','A、<p>nano [file-name] &nbsp;</p>
+B、<p>vim [file-name] &nbsp;</p>
+C、<p>ed</p>',4);
+INSERT INTO "QuestionBank" VALUES(306835,'17. 如何在Linux系统上打印当前工作目录的完整路径？','998348','B、pwd &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306836,'1. 在Linux系统中，哪个命令可以列出当前目录下的所有文件和文件夹？','998351','A、ls',3);
+INSERT INTO "QuestionBank" VALUES(306837,'2. 在Linux系统中，如何创建一个新的空白文件？','998356','B、touch',3);
+INSERT INTO "QuestionBank" VALUES(306838,'3. 在Linux系统中，使用哪个命令可以将文件从一个目录复制到另一个目录？','998360','B、cp',3);
+INSERT INTO "QuestionBank" VALUES(306839,'4. 在Linux系统中，如何在终端中查看一个文本文件的内容？','998364','B、cat',3);
+INSERT INTO "QuestionBank" VALUES(306840,'5. 在Linux系统中，如何彻底删除一个文件，不可恢复？','998370','D、rm',3);
+INSERT INTO "QuestionBank" VALUES(306841,'1. 在命令行中，如何创建一个名为 &quot;myfolder&quot; 的文件夹？','998371','A、`mkdir myfolder`',3);
+INSERT INTO "QuestionBank" VALUES(306842,'2. 如何在Linux中列出当前目录下所有文件和文件夹的详细信息？','998377','C、`ls -la`',3);
+INSERT INTO "QuestionBank" VALUES(306843,'3. 如何将一个名为 &quot;file.txt&quot; 的文件复制到名为 &quot;backup&quot; 的文件夹中？','998381','C、`cp file.txt backup/`',3);
+INSERT INTO "QuestionBank" VALUES(306844,'4. 如何查看运行中的进程列表(信息包括：进程编号、用户、对应的程序、开启时间等)？','998383','A、`ps`',3);
+INSERT INTO "QuestionBank" VALUES(306845,'5. 如何将一个名为 &quot;example.tar.gz&quot; 的归档文件解压缩到当前目录下？','998388','B、`tar -zxvf example.tar.gz`',3);
+INSERT INTO "QuestionBank" VALUES(306846,'4. 如何查看系统资源统计信息(总体及各个用户的cpu/mem/...)？','998392','B、`top`',3);
+INSERT INTO "QuestionBank" VALUES(306847,'如何看待ls la获取的某一个文件demo的第1栏的信息为：-rw-rw-r--,下列说法正确的包括：','998395,998397,998398','A、该用户可以读取demo的内容
+C、该用户可以修改demo的内容
+D、该用户同组的其它用户也可以修改demo的内容',4);
 INSERT INTO "QuestionBank" VALUES(306848,'Docker中的“镜像”（image）指的是什么？','998401','C、一个可重复生成的文件，包含了运行应用程序所需的所有文件和配置信息',3);
 INSERT INTO "QuestionBank" VALUES(306849,'在Docker中，容器的作用是什么？','998405','C、&nbsp; &nbsp;执行Docker镜像中的应用程序',3);
 INSERT INTO "QuestionBank" VALUES(306850,'在Docker中，如何创建一个新的容器？','998409','A、docker run',3);
@@ -1926,6 +2010,86 @@ INSERT INTO "QuestionBank" VALUES(306854,'在Docker中，如何列出所有可�
 INSERT INTO "QuestionBank" VALUES(306855,'在Docker中，如何从Docker Hub下载一个镜像？','998430','B、&nbsp; &nbsp;docker pull',3);
 INSERT INTO "QuestionBank" VALUES(306856,'在Docker中，如何将一个本地镜像推送到Docker Hub？','998433','A、docker push',3);
 INSERT INTO "QuestionBank" VALUES(306857,'在Docker中，如何查看一个容器的日志输出？','998437','A、docker logs',3);
+INSERT INTO "QuestionBank" VALUES(306858,'在Docker中，如何向容器内部传递环境变量？','998442','B、使用命令行参数-e',3);
+INSERT INTO "QuestionBank" VALUES(306859,'在Docker中，如何在已经运行的容器内部执行命令？','998446,998447','B、docker exec
+C、docker attach',4);
+INSERT INTO "QuestionBank" VALUES(306860,'在Docker中，如何为容器设置端口映射？','998450','B、使用命令行参数-p',3);
+INSERT INTO "QuestionBank" VALUES(306861,'在Docker中，如何为容器设置卷挂载？','998453','A、使用命令行参数-v',3);
+INSERT INTO "QuestionBank" VALUES(306862,'在Docker中，如何从一个容器中复制文件到本地主机？<br> &nbsp; &nbsp;<br><br>答案：A','998458','B、docker cp',3);
+INSERT INTO "QuestionBank" VALUES(306863,'在Docker中，如何从本地主机复制文件到一个容器？','998461','A、docker cp',3);
+INSERT INTO "QuestionBank" VALUES(306864,'在Docker中，如何获取容器的元数据(当前容器的配置/资源等信息)？','998467','C、docker inspect',3);
+INSERT INTO "QuestionBank" VALUES(306865,'如果想在本地保存一个运行中的容器为新的镜像(image),则使用的命令为：','998472','D、docker commit',3);
+INSERT INTO "QuestionBank" VALUES(306866,'如果想在本地保存一个运行中的容器为新的快照,则使用的命令为：','998474','B、docker export',3);
+INSERT INTO "QuestionBank" VALUES(306867,'如果想在本地的镜像(image)另存为一个文件(tar),则使用的命令为：','998477','A、docker save',3);
+INSERT INTO "QuestionBank" VALUES(306901,'HDFS是什么？','998525','C、C. 一种数据库管理系统',3);
+INSERT INTO "QuestionBank" VALUES(306902,'HDFS最初是由哪个公司支持研发的？','998529','C、C. Yahoo!',3);
+INSERT INTO "QuestionBank" VALUES(306904,'HDFS使用哪种复制策略来提高可靠性？','998536','B、B. 多副本冗余',3);
+INSERT INTO "QuestionBank" VALUES(306905,'HDFS中的NameNode是什么？','998541','C、C. 管理文件系统命名空间的节点',3);
+INSERT INTO "QuestionBank" VALUES(306906,'HDFS中的DataNode是什么？','998543','A、A. 存储数据块的节点',3);
+INSERT INTO "QuestionBank" VALUES(306907,'在HDFS中，数据是如何被组织和管理的？','998548','B、B. 基于目录结构',3);
+INSERT INTO "QuestionBank" VALUES(306908,'HDFS支持哪些操作？','998551','A、A. 创建、读取、更新和删除文件',3);
+INSERT INTO "QuestionBank" VALUES(306909,'HDFS中，clients和DataNode之间通过什么协议进行通信？','998557','C、C. RPC &nbsp;',3);
+INSERT INTO "QuestionBank" VALUES(306910,'HDFS中，当一个DataNode失效时会发生什么？','998560','B、B. NameNode会指示相关datanode上针对相关块进行块复制',3);
+INSERT INTO "QuestionBank" VALUES(306911,'HDFS支持哪种类型的数据访问？','998564','B、B. 顺序读写',3);
+INSERT INTO "QuestionBank" VALUES(306912,'HDFS中，所有的文件都被分成多个块。这些块的大小可以配置吗？','998568','B、B. 不是的',3);
+INSERT INTO "QuestionBank" VALUES(306913,'在HDFS中，如果一个文件太小而无法填满一个块，会发生什么？','998573','C、C. 文件被存储在单独的块中',3);
+INSERT INTO "QuestionBank" VALUES(306914,'在HDFS中，如何查找文件或目录？','998576','B、B. 通过路径名',3);
+INSERT INTO "QuestionBank" VALUES(306916,'HDFS的主要用途是什么？','998583','A、A. 存储和处理大规模数据集',3);
+INSERT INTO "QuestionBank" VALUES(306917,'HDFS的文件目录结构之类的信息存储在哪里？','998586','A、A. NameNode',3);
+INSERT INTO "QuestionBank" VALUES(306918,'HDFS的数据存储在哪里？','998590','B、B. DataNode',3);
+INSERT INTO "QuestionBank" VALUES(306919,'HDFS的副本数量可以通过哪个参数进行配置？','998592','A、A. dfs.replication',3);
+INSERT INTO "QuestionBank" VALUES(306920,'在HDFS中，数据块的复制是如何实现的？','998596','B、B. 使用异步复制',3);
+INSERT INTO "QuestionBank" VALUES(306921,'Hadoop的MapReduce框架是如何与HDFS集成的？','998598','A、A. MapReduce框架直接读写HDFS数据',3);
+INSERT INTO "QuestionBank" VALUES(306922,'HDFS可以通过哪些协议进行访问？','998601,998603','A、A. HTTP
+C、C. HFTP',4);
+INSERT INTO "QuestionBank" VALUES(306923,'Hadoop的安全性是如何实现的？','998604,998605','A、A. 使用Kerberos认证
+B、B. 使用SSL加密',4);
+INSERT INTO "QuestionBank" VALUES(306924,'在HDFS中，如何处理数据损坏或丢失？ A','998609','C、C. 使用数据块复制',3);
+INSERT INTO "QuestionBank" VALUES(306925,'HDFS支持哪些文件操作？','998610,998611,998612','A、A. 读取
+B、B. 写入
+C、C. 删除',4);
+INSERT INTO "QuestionBank" VALUES(306928,'HDFS如何保持高可用性？','998619','A、A. 使用主备模式',3);
+INSERT INTO "QuestionBank" VALUES(306929,'哪里会有定期的HDFS的元数据备份？','998625','C、C. SecondaryNameNode',3);
+INSERT INTO "QuestionBank" VALUES(306931,'<p>HDFS的数据完整性是如何保证的？</p>','998629','A、<p>A. 使用哈希校验和</p>',3);
+INSERT INTO "QuestionBank" VALUES(306932,'HDFS的数据访问权限是如何实现的？','998633','B、B. 使用用户和组权限',3);
+INSERT INTO "QuestionBank" VALUES(306933,'HDFS的快照功能是用来做什么的？','998637','C、C. 记录历史状态',3);
+INSERT INTO "QuestionBank" VALUES(306934,'HDFS NameNode 的作用是什么？','998640,998641','B、B. 存储文件的元数据
+C、C. 处理客户端请求',4);
+INSERT INTO "QuestionBank" VALUES(306935,'HDFS 中的一个文件可以被拆分成多少个 Block？','998645','C、C. 取决于文件大小',3);
+INSERT INTO "QuestionBank" VALUES(306936,'HDFS 中的 Block 是如何复制的？','998648','B、B. 复制到同一机架内的 DataNode 上',3);
+INSERT INTO "QuestionBank" VALUES(306937,'在 HDFS 中，Block 的复制会影响什么？','998652','B、B. 读写性能',3);
+INSERT INTO "QuestionBank" VALUES(306938,'HDFS 支持哪些文件操作？','998655','A、A. 创建、读取、更新、删除',3);
+INSERT INTO "QuestionBank" VALUES(306939,'<p>在 HDFS 中，客户端与 NameNode 和 DataNode 之间的通讯采用哪种协议？</p>','998660','B、<p>B. HTTP</p>',3);
+INSERT INTO "QuestionBank" VALUES(306940,'在 HDFS 中，如果一个 DataNode 宕机，会发生什么？','998664','B、B. 文件恢复',3);
+INSERT INTO "QuestionBank" VALUES(306941,'HDFS 中的 fsimage 文件是什么？','998668','B、B. NameNode 存储的元数据持久化',3);
+INSERT INTO "QuestionBank" VALUES(306942,'HDFS 中的 editlog 文件是什么？','998673','C、C. 记录元数据变更记录信息',3);
+INSERT INTO "QuestionBank" VALUES(306943,'HDFS中的NameNode负责哪些任务？（选择所有正确答案）','998675,998678','A、a) 管理文件系统命名空间
+D、d) 协调DataNode之间的数据复制',4);
+INSERT INTO "QuestionBank" VALUES(306944,'HDFS中的Secondary NameNode负责哪些任务？（选择所有正确答案）','998680,998681','B、b) 定期合并NameNode的编辑日志和内存镜像
+C、c) 存储HDFS集群元数据备份',4);
+INSERT INTO "QuestionBank" VALUES(306945,'HDFS中的DataNode负责哪些任务？（选择所有正确答案）','998684,998686','B、b) 存储文件的实际数据块
+D、d) 维护副本数据要求的数据存储节点之间的数据复制',4);
+INSERT INTO "QuestionBank" VALUES(306946,'在HDFS中，客户端在什么时候与NameNode通信？','998687,998688','A、a) 当客户端想要读取文件时
+B、b) 当客户端想要写入文件时',4);
+INSERT INTO "QuestionBank" VALUES(306947,'在HDFS中，默认情况下，正常的hdfs集群中副本是如何管理的？','998693','C、c) 每个数据块有三个副本',3);
+INSERT INTO "QuestionBank" VALUES(306948,'<p>在HDFS中，块复制是如何工作的？</p>','998698','D、<p>d) DataNode向NameNode发送请求以创建新副本</p>',3);
+INSERT INTO "QuestionBank" VALUES(306949,'在HDFS中，当一个DataNode崩溃时会发生什么？','998700','B、b) 该DataNode存储的所有数据将被复制到其他DataNode c) 该DataNode存储的所有数据将被复制到Secondary NameNode',3);
+INSERT INTO "QuestionBank" VALUES(306950,'在HDFS中，当一个NameNode崩溃时会发生什么？','998705','D、d) 需要手动重新启动NameNode',3);
+INSERT INTO "QuestionBank" VALUES(306951,'在HDFS中，可以使用哪些命令与文件系统交互？（选择所有正确答案）','998706,998707,998708','A、a) ls
+B、b) mkdir
+C、c) rm',4);
+INSERT INTO "QuestionBank" VALUES(306952,'在HDFS中，如何查看文件的副本数？','998710','A、a) 使用“hadoop fs -getrep”命令',3);
+INSERT INTO "QuestionBank" VALUES(306953,'在HDFS中，如何更改文件的副本数？','998714','A、a) 使用“hadoop fs -setrep”命令',3);
+INSERT INTO "QuestionBank" VALUES(306954,'在HDFS中，如何查看当前连接到集群的客户端？','998718','A、a) 使用“hadoop dfsadmin -report”命令',3);
+INSERT INTO "QuestionBank" VALUES(306955,'在HDFS中，如何安全地关闭集群？','998722','A、a) 在NameNode节点上执行“hadoop dfsadmin -shutdown”命令',3);
+INSERT INTO "QuestionBank" VALUES(306956,'在HDFS中，如何进行备份和恢复？','998727','B、b) 使用“hadoop distcp”命令',3);
+INSERT INTO "QuestionBank" VALUES(306957,'在HDFS中，如何限制用户访问某些目录？','998730','A、a) 使用ACL（访问控制列表）',3);
+INSERT INTO "QuestionBank" VALUES(306958,'在HDFS中，如何限制用户对某些文件的访问？','998734','A、a) 使用ACL（访问控制列表）',3);
+INSERT INTO "QuestionBank" VALUES(306959,'HDFS支持哪些数据处理工具？（选择所有正确答案）','998738,998739','A、a) Apache Pig
+B、b) Apache Hive',4);
+INSERT INTO "QuestionBank" VALUES(306960,'在HDFS中，如何查看文件占用的空间大小？','998742','A、a) 使用“hadoop fs -du”命令',3);
+INSERT INTO "QuestionBank" VALUES(306961,'在HDFS中，如何将本地文件上传到集群中？','998745,998746','A、a) 使用“hadoop fs -put”命令
+B、b) 使用“hadoop fs -get”命令',4);
 ANALYZE "sqlite_master";
 INSERT INTO "sqlite_stat1" VALUES('QuestionBank','quiz_id','790 1');
 CREATE UNIQUE INDEX "quiz_id"
