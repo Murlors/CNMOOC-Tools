@@ -13,11 +13,16 @@ If you want to use this script on the CNMOOC platform, you need to modify the lo
 
 ## Usage
 
-1. Run `pip install -r requirements.txt` in the terminal to install the required packages.
-2. For first time, you have two choice to run the script:
-    1. Run `python run.py -u <username> -p <password> --webdriver_manager --headless` in the terminal.
-    2. Change `username` and `password` in `config.json` and run `python run.py --webdriver_manager --headless` in the terminal.
-3. After the first time, you can run `python run.py` in the terminal to start the script.
+1. Change the arguments in `run-user.bat`.
+2. Double click `run-user.bat`.
+
+> Or you can run it manually as follows:
+>
+> 1. Run `pip install -r requirements.txt` in the terminal to install the required packages.
+> 2. For first time, you have two choice to run the script:
+>    1. Run `python run.py -u <username> -p <password> --webdriver_manager --headless` in the terminal.
+>    2. Change `username` and `password` in `config.json` and run `python run.py --webdriver_manager --headless` in the terminal.
+> 3. After the first time, you can run `python run.py --webdriver_manager --headless` in the terminal to start the script.
 
 ## TODO
 
