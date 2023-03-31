@@ -2,6 +2,8 @@
 
 MOOC Auto Answer Script
 
+[中文说明](./README-CN.MD)
+
 ## Description
 
 This project is an automated script for answering questions on MOOC platforms such as CNMOOC and some SPOCs.\
@@ -38,7 +40,7 @@ If you want to use this script on the CNMOOC platform, you need to modify the lo
 
 1. Fork it.
 2. Create your feature branch.
-3. Commit your changes.
+3. Commit your changes (e.g. QuestionBank).
 4. Push to the branch.
 5. Submit a pull request.
 
