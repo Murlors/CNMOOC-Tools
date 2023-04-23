@@ -57,6 +57,7 @@ class QuestionBank:
         with open(self.SQL_NAME, 'w', encoding='utf-8') as f:
             for line in self.conn.iterdump():
                 f.write('%s\n' % line)
+            print('export sqlite3 to sql success')
 
     def delete_database(self):
         self.conn.execute('DROP TABLE IF EXISTS QuestionBank')
@@ -67,6 +68,7 @@ class QuestionBank:
             sql = f.read()
         self.conn.executescript(sql)
         self.conn.commit()
+        print('update sqlite3 success')
 
     def get_sql_hash(self):
         with open(self.SQL_NAME, 'rb') as f:
