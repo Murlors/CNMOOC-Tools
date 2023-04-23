@@ -190,14 +190,15 @@ class WebProcess:
         else:
             # 如果存在继续按钮，点击继续进入试卷
             enter_exam = self.driver.find_elements(By.CLASS_NAME, 'enter_exam')
-            try:
-                enter_exam[-1].click()
-            except IndexError:
+            if not enter_exam:
                 print(f'所选测试: {exam_select} 无效或不在开放状态\n')
                 return False
-        try:
-            # 等待试卷页面加载完成
+            enter_exam[-1].click()
+
+        try:  # 等待试卷页面加载完成
             self.wait.until(ec.presence_of_element_located((By.CLASS_NAME, 'practice-list')))
         except selenium.common.exceptions.TimeoutException:
             print('访问超时，请检查网络连接')
+            return False
+
         return True
