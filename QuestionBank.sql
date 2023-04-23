@@ -344,7 +344,10 @@ INSERT INTO "QuestionBank" VALUES(201414,'如果我们现有一个安装2.x版�
 INSERT INTO "QuestionBank" VALUES(201415,'以下哪个不是HDFS的守护进程？','702559','C、mrappmaster/yarnchild;',3);
 INSERT INTO "QuestionBank" VALUES(201418,'<p>现在在hadoop集群当中的配置文件中有这么两个配置，请问假如集群当中有一个节点宕机，主节点namenode需要多长时间才能感知到？hdfs-xml中&lt;name&gt;dfs.heartbeat.interval&lt;/name&gt;&lt;value&gt;2&lt;/value&gt;&lt;name&gt;heartbeat.recheck.interval&lt;/name&gt;&lt;value&gt;2000&lt;/value&gt;</p>','702570','B、<p>24秒;</p>',3);
 INSERT INTO "QuestionBank" VALUES(201420,'HDFS集群中的namenode职责不包括？','702579','C、负责保存客户端上传的数据;',3);
+INSERT INTO "QuestionBank" VALUES(201423,'MapReduce的Shuffle过程中哪个操作是最后做的？ ','702592','D、合并',3);
 INSERT INTO "QuestionBank" VALUES(201434,'下列关于HDFS的描述正确的是？','702635','C、NameNode磁盘元数据不保存Block的位置信息;',3);
+INSERT INTO "QuestionBank" VALUES(201443,'MapReduce框架提供了一种序列化机制，支持这种序列化的类能够在Map和Reduce过程中充当键或值，以下说法错误的是？','702671','C、Hadoop的基本类型Text并不实现WritableComparable&lt;T&gt;接口;',3);
+INSERT INTO "QuestionBank" VALUES(201445,'有关MapReduce的输入输出，说法错误的是？','702678','B、FileInputFormat中实现的getSplits()可以把输入数据划分为分片，分片数目和大小任意定义;',3);
 INSERT INTO "QuestionBank" VALUES(202309,'<p>试述大数据的4个V基本特征的英文单词(按字母升序写出):<span><span class="fill-placeholder">（1）</span>,<span><span class="fill-placeholder">（2）</span>,<span><span class="fill-placeholder">（3）</span>,<span><span class="fill-placeholder">（4）</span>。</span></span></span></span></p>','Value%$$%Variety%$$%Velocity%$$%Volume','Value%$$%Variety%$$%Velocity%$$%Volume',1);
 INSERT INTO "QuestionBank" VALUES(202312,'<p>信息技术的三次浪潮发生的年代分别是<span><span class="fill-placeholder">（1）</span>，<span><span class="fill-placeholder">（2）</span>，<span><span class="fill-placeholder">（3）</span>（填写四位数字便可）<span>。</span></span></span></span></p>','1980%$$%1995%$$%2010','1980%$$%1995%$$%2010',1);
 INSERT INTO "QuestionBank" VALUES(207725,'<p>如何使用hdfs getconf命令查看目前系统的默认副本数的参数值,写出完整的命令，单词之间保留一个空格：<span class="fill-placeholder">（1）</span></p>','hdfs getconf -confKey dfs.replication','hdfs getconf -confKey dfs.replication',1);
@@ -379,10 +382,36 @@ C、清理版本号超过设定版本号的数据;
 E、将所有的StoreFile合并成一个StoreFile;',4);
 INSERT INTO "QuestionBank" VALUES(211180,'Minor Compaction 是指','729936','D、选取一些小的、相邻的StoreFile将他们合并成一个更大的StoreFile;',3);
 INSERT INTO "QuestionBank" VALUES(211181,'cell 的数据类型','729941','D、字节数组byte[];',3);
+INSERT INTO "QuestionBank" VALUES(211182,'<p>hbase在表里存储数据使用的是四维坐标系统有：<span class="fill-placeholder">（1）</span><span class="fill-placeholder">（2）</span><span class="fill-placeholder">（3）</span><span class="fill-placeholder">（4）</span>。请按照升序罗列出相关的英文单词(复合的单词之间去掉空格，小写)</p>','columnfamily%$$%columnqualifier%$$%rowkey%$$%timestamp','columnfamily%$$%columnqualifier%$$%rowkey%$$%timestamp',1);
 INSERT INTO "QuestionBank" VALUES(211183,'hlog和hdfs的哪个东西对应关系最恰当','729943','B、fseditlog;',3);
 INSERT INTO "QuestionBank" VALUES(211184,'<p>hmaster和yarn的哪个东西对应关系最恰当</p>','729947','B、<p>resourcemanager;</p>',3);
 INSERT INTO "QuestionBank" VALUES(211185,'<p>region server和yarn的哪个东西对应关系最恰当</p>','729950','A、<p>nodemanager;</p>',3);
 INSERT INTO "QuestionBank" VALUES(211186,'hbase table中每个列簇都对应着region中的一个store，在hdfs系统中则对应着一个目录','729954','A、正确',2);
+INSERT INTO "QuestionBank" VALUES(211187,'<p>如果hbase.rootdir 设置为hdfs的/hbase下，则列出默认名字空间default下所有表ls完整命令？<span class="fill-placeholder">（1）</span>，Hdfs dfs -ls ….单词之间保留一个空格,关键给出最后的路径写法 /hbase…...</p>','hdfs dfs -ls /hbase/data/default','hdfs dfs -ls /hbase/data/default',1);
+INSERT INTO "QuestionBank" VALUES(214829,'1.有关MapReduce，下面哪个说法是正确的（）','741055','C、它是Hadoop数据处理层',3);
+INSERT INTO "QuestionBank" VALUES(214830,'<p>2. 在MapReduce中，如果将reducer数设置为0会发生怎样的情形（）</p>','741057','B、<p>仅有Map作业发生;</p>',3);
+INSERT INTO "QuestionBank" VALUES(214831,'3. 在MapReduce中，下面哪个会将输入键值对处理成中间键值对（）','741059','A、Mapper;',3);
+INSERT INTO "QuestionBank" VALUES(214832,'4. 在MapReduce中，Map数取决于（）的总量','741063','B、输入数据;',3);
+INSERT INTO "QuestionBank" VALUES(214833,'5. 在Hadoop的分区阶段，默认的Partitioner是（）','741067','C、HashPartitioner',3);
+INSERT INTO "QuestionBank" VALUES(214834,'6. 下面哪个是一种编程模型，它将大规模的数据处理工作拆分成互相独立的任务然后并行处理（）','741068','A、MapReduce;',3);
+INSERT INTO "QuestionBank" VALUES(214835,'7. 在Hadoop中，下面哪个是默认的InputFormat类型，它将每行内容作为新值，而将字节偏移量作为key（）','741072','B、TextInputFormat；',3);
+INSERT INTO "QuestionBank" VALUES(214836,'8. 在MapReduce中，对于map输出的中间结果，负责按key进行分区的是（）','741076','C、Partitioner',3);
+INSERT INTO "QuestionBank" VALUES(214837,'9. 在MapReduce中，下面哪个阶段是并行进行的（）','741078','B、Shuffle和Sort；',3);
+INSERT INTO "QuestionBank" VALUES(214838,'10. 关于MapReduce中的键值对，下面陈述正确的是（）','741081','B、Key类必须实现WritableComparable；',3);
+INSERT INTO "QuestionBank" VALUES(214839,'11. 在HDFS中，put命令用于（）','741085','B、将文件或者目录从本地文件系统拷贝到HDFS;',3);
+INSERT INTO "QuestionBank" VALUES(214840,'12. 在Hadoop中，下面哪一个是默认的OutputFormat（）','741091','D、TextOutputFormat',3);
+INSERT INTO "QuestionBank" VALUES(214841,'13. 下面哪个不是Hadoop的输入格式（）','741092','A、ByteInputFormat;',3);
+INSERT INTO "QuestionBank" VALUES(214842,'14. 在MapReduce中，下面哪个数据流的顺序是正确的（）a.InputFormat;b.Mapper;c.Combiner;d.Reducer;e.Partitioner;f.OutputFormat','741097','B、abcedf;',3);
+INSERT INTO "QuestionBank" VALUES(214843,'15. 下面哪个不属于Reducer阶段 （）','741102','C、Map;',3);
+INSERT INTO "QuestionBank" VALUES(214844,'16. Mapper排序后的输出将作为下面哪个的输入（）','741104','A、Reducer;',3);
+INSERT INTO "QuestionBank" VALUES(214845,'17. 如何禁用reduce阶段（）','741108','B、设置job.setNumreduceTasks(0);',3);
+INSERT INTO "QuestionBank" VALUES(214846,'18. shuffle和sort输出的key实现了下面哪个接口（）','741111','B、WritableComparable;',3);
+INSERT INTO "QuestionBank" VALUES(214847,'19. 在MapReduce编程时，如下阶段的顺序是（）a. Partitioner b. Mapper c. Combiner d. Shuffle/Sort;','741117','D、Mapper Combiner Partitioner Shuffle/Sort',3);
+INSERT INTO "QuestionBank" VALUES(214848,'20. 下面生成中间键值对的是（）','741119','B、Mapper;',3);
+INSERT INTO "QuestionBank" VALUES(215168,'<p>mapreduce程序的main方法中，job.setCombiner都去除其设置，会不会影响其处理的结果？</p>','742065','A、<p>是</p>',2);
+INSERT INTO "QuestionBank" VALUES(215169,'<p><br/><span style="text-decoration:underline;">Combiner只应该用于那种，Reduce的输入key/value与输出key/value类型完全一致，且不影响最终结果的场景。</span></p>','742067','A、<p>是</p>',2);
+INSERT INTO "QuestionBank" VALUES(215170,'<p>默认情况下(默认分区)，所有map输出的key和reduce对象的数量对应关系？</p>','742071','C、<p><span>n:1</span></p>',3);
+INSERT INTO "QuestionBank" VALUES(215171,'<p>hdfs中的文件和map对象之间是？</p>','742074','B、<p><span>&nbsp;m:n</span></p>',3);
 INSERT INTO "QuestionBank" VALUES(229036,'<p><span>将类成员的访问权限设置为默认时，则该成员能被（ ）</span></p><p><span>If we set data modifier as default, then the data can be accessed?</span></p>','778080','A、<p><span>同一包中的类访问</span><span>&nbsp;</span></p><p><span>within the package</span></p>
 ',3);
 INSERT INTO "QuestionBank" VALUES(229040,'<p><span>下面的程序段创建了</span><span>BufferedReader</span><span>类的对象</span><span>in</span><span>，以便读取本机</span><span>c</span><span>盘</span><span>my</span><span>文件夹下的文件</span><span>1.txt</span><span>。</span><span>File</span><span>构造函数中正确的路径和文件名的表示是（ ）。</span></p><p><span>File f=new File(填代码处);</span></p><p><span>file =new FileReader(f);</span></p><p><span>in=new BufferedReader(file);</span></p>','778098','C、<p><span>&quot;c:\\my\\1.txt&quot;</span></p>
@@ -2090,6 +2119,26 @@ B、b) Apache Hive',4);
 INSERT INTO "QuestionBank" VALUES(306960,'在HDFS中，如何查看文件占用的空间大小？','998742','A、a) 使用“hadoop fs -du”命令',3);
 INSERT INTO "QuestionBank" VALUES(306961,'在HDFS中，如何将本地文件上传到集群中？','998745,998746','A、a) 使用“hadoop fs -put”命令
 B、b) 使用“hadoop fs -get”命令',4);
+INSERT INTO "QuestionBank" VALUES(308487,'<p>NoSQL通常理解为：</p>','1002835,1002833,1002834','A、<p>Not SQL</p>
+C、<p>Non-SQL</p>
+B、<p>Not Only SQL</p>',4);
+INSERT INTO "QuestionBank" VALUES(308488,'<p>常见的NoSQL数据库类型包括：</p>','1002842,1002841,1002840,1002839,1002838','A、<p>Key-value store</p>
+D、<p>Graph store</p>
+C、<p>Wide-column store</p>
+B、<p>Document store</p>
+E、<p>In-memory store</p>',4);
+INSERT INTO "QuestionBank" VALUES(308489,'<p>CAP理论中的C、A、P 对应是指：</p>','1002844,1002843,1002847','E、<p><span>partition tolerance</span></p>
+B、<p><span>consistency</span></p>
+A、<p><span>availability</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(308490,'<p>关于Redis，以下说法正确的是：</p>','1002849,1002851,1002850','C、<p>高可用性</p>
+B、<p>易扩展</p>
+D、<p>内存中数据存储</p>',4);
+INSERT INTO "QuestionBank" VALUES(308491,'<p>Redis 主要是基于 （&nbsp; ）编程语言开发</p>','1002854','B、<p>C</p>',3);
+INSERT INTO "QuestionBank" VALUES(308492,'<p>可用与 redis 服务进行交互的命令是（不考虑具体路径）：</p>','1002858','B、<p>redis-cli</p>',3);
+INSERT INTO "QuestionBank" VALUES(308493,'<p>Redis 6.+ 常用的数据类型包括：</p>','1002865,1002864,1002861,1002862','D、<p>Geospatial</p>
+E、<p>Hash</p>
+B、<p>List</p>
+A、<p>Set</p>',4);
 ANALYZE "sqlite_master";
 INSERT INTO "sqlite_stat1" VALUES('QuestionBank','quiz_id','790 1');
 CREATE UNIQUE INDEX "quiz_id"
