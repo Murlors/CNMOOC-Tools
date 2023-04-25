@@ -1641,6 +1641,10 @@ INSERT INTO "QuestionBank" VALUES(246652,'设置磁盘高速缓冲设的主要�
 INSERT INTO "QuestionBank" VALUES(246653,'从下面的论述中选出一条错误的论述( &nbsp; &nbsp; )。','828979','C、对随机访问的文件， 可通过提前读提高对数据的访问速度；',3);
 INSERT INTO "QuestionBank" VALUES(246654,'下列方式中，( &nbsp; &nbsp;)无法提高磁盘I /O的速度。','828981','A、在磁盘上设置多个分区；',3);
 INSERT INTO "QuestionBank" VALUES(246655,'下列方式中，( &nbsp; &nbsp;)不能改善磁盘系统的可靠性。','828987','C、磁盘高速缓存；',3);
+INSERT INTO "QuestionBank" VALUES(246656,'文件的物理结构主要有顺序结构、链接结构和索引结构，其中顺序访问效率最高的是顺序结构，随机访问效率最高的是<span class="fill-placeholder">（1）</span>。','索引结构','索引结构',1);
+INSERT INTO "QuestionBank" VALUES(246658,'可将链接式文件中的文件内容装入到离散的多个盘块中，并通过<span class="fill-placeholder">（1）</span>将它们构成一个队列，显示链接文件具有较高的检索速度。','链接指针','链接指针',1);
+INSERT INTO "QuestionBank" VALUES(246659,'在利用<span class="fill-placeholder">（1）</span>来管理外存空间时，可有两种方式；一种以空闲盘块为单位拉成一条链；另一种以空闲盘区为单位拉成一条链。','空闲链表','空闲链表',1);
+INSERT INTO "QuestionBank" VALUES(246660,'在<span class="fill-placeholder">（1）</span>中，将每一组的盘块数和该组的所有盘块号记入前一组的最后一个盘块中；再将第一组的上述信息记入超级块的空闲盘块号栈中，从而将各组盘块链接起来。','成组链接法','成组链接法',1);
 INSERT INTO "QuestionBank" VALUES(246661,'文件系统最基本的目标是按名存取，它主要是通过目录管理功能实现的， 文件系统所追求的最重要的目标是( &nbsp; &nbsp;)。','828990','B、提高对文件的存取速度；',3);
 INSERT INTO "QuestionBank" VALUES(246662,'在文件系统中可命名的最小数据单位是数据项，用户以记录为单位对文件进行存取、检索等，对文件存储空间的分配则以( &nbsp; &nbsp;)为单位。','828995','C、文件；',3);
 INSERT INTO "QuestionBank" VALUES(246663,'按逻辑结构可把文件分为记录式文件和流式文件两类， LINUX 文件系统采用( &nbsp; &nbsp;)结构。','829000','D、流式文件。',3);
@@ -1657,6 +1661,15 @@ INSERT INTO "QuestionBank" VALUES(246673,'在执行close过程时，若系统打
 INSERT INTO "QuestionBank" VALUES(246674,'在执行close过程时，若系统打开文件表项引用计数 f.count=0，但内存索引结点引用计数 i.count=0不成立，则应( &nbsp; &nbsp; )。','829044','C、使用户文件描述符表项和文件表项皆为空；',3);
 INSERT INTO "QuestionBank" VALUES(246675,'在执行close过程时，若系统打开文件表项引用计数 f.count=0，i.count=0, 则应( &nbsp; &nbsp; )。','829046','A、关闭文件；',3);
 INSERT INTO "QuestionBank" VALUES(246676,'在create处理过程中，若未检索到指定文件的索引结点，此时属于创建文件； 检索到指定文件的索引结点，此时若允许写， 则此时属于( &nbsp; &nbsp;)。','829053','D、重写文件。',3);
+INSERT INTO "QuestionBank" VALUES(246677,'文件管理应具有文件存储空间的管理、<span class="fill-placeholder">（1）</span>、文件的读/写管理和文件的共享和保护等功能。','目录管理','目录管理',1);
+INSERT INTO "QuestionBank" VALUES(246678,'文件按逻辑结构可分成字符流式和记录式两种类型，现代操作系统普遍采用的是其中的<span class="fill-placeholder">（1）</span>结构。','字符流式','字符流式',1);
+INSERT INTO "QuestionBank" VALUES(246679,'数据项是用来描述一个实体的某个属性，记录是用来描述一个实体的某方面（相对完整）的属性，<span class="fill-placeholder">（1）</span>用于描述一个实体集（即群体）的某方面的属性。','文件','文件',1);
+INSERT INTO "QuestionBank" VALUES(246680,'一个文件系统模型由最低层对象及其属性，中间层对对象进行操纵和管理的软件集合和最高层<span class="fill-placeholder">（1）</span>三个层次组成。','用户接口','用户接口',1);
+INSERT INTO "QuestionBank" VALUES(246681,'文件目录的最主要功能是实现按名存取（文件名到物理地址的转换），故目录项的内容至少应包含<span class="fill-placeholder">（1）</span>和文件的物理地址。','文件名','文件名',1);
+INSERT INTO "QuestionBank" VALUES(246682,'在采用<span class="fill-placeholder">（1）</span>目录结构的文件系统中， 树的结点分为三类： 根结点表示根目录， 枝结点表示子目录文件，叶结点表示数据文件。','树形','树形',1);
+INSERT INTO "QuestionBank" VALUES(246683,'在利用线性检索法对树形目录进行检索时，系统首先读入路径名的第一分量，将它与根目录/当前工作目录文件中的各目录项中的文件名进行比较。若匹配，便可得到FCB/<span class="fill-placeholder">（1）</span>指针。','索引结点','索引结点',1);
+INSERT INTO "QuestionBank" VALUES(246684,'引入索引结点后，一个文件在磁盘中占有的资源包括一个<span class="fill-placeholder">（1）</span>、一个（或多个）目录项和若干个存放文件内容的磁盘块三部分。','磁盘索引结点','磁盘索引结点',1);
+INSERT INTO "QuestionBank" VALUES(246685,'文件在使用前必须先执行上打开操作，其主要功能是把文件的FCB/索引结点从外存复制到内存中，并在用户和指定文件之间建立一条通路，再返回给用户一个<span class="fill-placeholder">（1）</span>。','文件描述符','文件描述符',1);
 INSERT INTO "QuestionBank" VALUES(246711,'进程和程序的一个本质区别是( &nbsp; &nbsp; )。','829141','D、前者为动态的，后者为静态的。',3);
 INSERT INTO "QuestionBank" VALUES(246712,'正在等待他人释放临界资源的进程处于( &nbsp; &nbsp; &nbsp;)状态。','829143','B、阻塞；',3);
 INSERT INTO "QuestionBank" VALUES(246713,'已分配到除CPU外的所有资源的进程处于( &nbsp; &nbsp; &nbsp; )状态。','829148','C、就绪；',3);
@@ -1677,6 +1690,11 @@ INSERT INTO "QuestionBank" VALUES(246727,'设有 10 个进程共享一个互斥�
 INSERT INTO "QuestionBank" VALUES(246728,'使用共享文件进行通信的方式属于( &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;)通信。','829210','D、管道通信。',3);
 INSERT INTO "QuestionBank" VALUES(246729,'有两个程序： A程序按顺序使用 CPU 10秒、设备甲5秒、CPU 5秒、设备乙10 秒、CPU 10 秒； B程序按顺序使用设备甲10 秒、CPU 10 &nbsp;秒、设备乙5秒、CPU 5 秒、设备乙 10 秒。在顺序环境下， 执行上述程序， CPU 的利用率约为( &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; )。','829213','C、50%；',3);
 INSERT INTO "QuestionBank" VALUES(246730,'从下面的叙述中选出一条正确的叙述( &nbsp; &nbsp; &nbsp; &nbsp;)。','829216','B、当进程由执行状态变为就绪状态时，CPU现场信息必须被保存在PCB中；',3);
+INSERT INTO "QuestionBank" VALUES(246731,'进程最基本的特征是动态性和并发性。&nbsp;&nbsp;&nbsp;&nbsp;除此之外，它还有独立特征、和<span class="fill-placeholder">（1）</span>特征。','异步性','异步性',1);
+INSERT INTO "QuestionBank" VALUES(246732,'系统中共有5个用户进程， 且当前 CPU 在用户态下执行，则最多可有4个用户进程处于就绪状态，最多可有<span class="fill-placeholder">（1）</span>个用户进程处于阻塞状态。','4','4',1);
+INSERT INTO "QuestionBank" VALUES(246733,'系统中共有5个用户进程，若当前在核心态下执行，则最多可有<span class="fill-placeholder">（1）</span>个用户进程处于就绪状态，最多可有5个用户进程处于阻塞状态。','5','5',1);
+INSERT INTO "QuestionBank" VALUES(246734,'同步机制应遵循的准则有空闲让进、忙则等待、有限等待和<span class="fill-placeholder">（1）</span>。','让权等待','让权等待',1);
+INSERT INTO "QuestionBank" VALUES(246735,'利用共享的文件进行进程通信的方式被称作管道通信， 除此之外， 进程通信的类型还有共享存储器、消息系统和<span class="fill-placeholder">（1）</span>三种类型。','客户机/服务器系统','客户机/服务器系统',1);
 INSERT INTO "QuestionBank" VALUES(246736,'在面向用户的调度准则中，( &nbsp; &nbsp;)准则则是为了照顾紧急作业用户的要求而设置的。','829222','D、优先权高的作业能获得优先服务。',3);
 INSERT INTO "QuestionBank" VALUES(246737,'作业调度是从处于( &nbsp; &nbsp; &nbsp;)状态的队列中选取作业投入运行，周转时间是指作业进入系统到作业完成所经过的时间间隔。','829224','B、后备；',3);
 INSERT INTO "QuestionBank" VALUES(246738,'( &nbsp; &nbsp; &nbsp; &nbsp;)算法不适合作业调度。','829230','D、时间片轮转。',3);
@@ -1697,6 +1715,11 @@ INSERT INTO "QuestionBank" VALUES(246752,'下述解决死锁的方法中，属�
 INSERT INTO "QuestionBank" VALUES(246753,'死锁的预防是通过破坏产生死锁的四个必要条件来实现的，下列方法中，( &nbsp; &nbsp; )破坏了“诸求与保持”条件。','829288','B、一次性分配策略；',3);
 INSERT INTO "QuestionBank" VALUES(246754,'某系统中有13台磁带机，K个进程共享这些设备，每个进程最多请求使用3台，则系统不会死锁的K值是( &nbsp; ) 。','829292','B、不大于6；',3);
 INSERT INTO "QuestionBank" VALUES(246755,'从下面关于安全状态和非安全状态的论述中，选出一条正确的论述( &nbsp; &nbsp; )。','829298','D、安全状态是没有死锁的状态，非安全状态是有可能死锁的状态。',3);
+INSERT INTO "QuestionBank" VALUES(246756,'<span class="fill-placeholder">（1）</span>的主要任务是保护CPU现场、按某种算法选择一个就绪进程、把CPU分配给新进程。','进程调度','进程调度',1);
+INSERT INTO "QuestionBank" VALUES(246757,'在抢占调度方式中，抢占的原则主要有：<span class="fill-placeholder">（1）</span>、短作业优先和优先权原则。','时间片原则','时间片原则',1);
+INSERT INTO "QuestionBank" VALUES(246758,'分时系统中，时间片选得太小会造成系统开销增大的现象，因此，时间片的大小一般选择为<span class="fill-placeholder">（1）</span>一次典型的交互所需要的时间。','略大于','略大于',1);
+INSERT INTO "QuestionBank" VALUES(246759,'在采用动态优先权时，为了避免一个低优先权的进程处于<span class="fill-placeholder">（1）</span>状态，可以随着进程等待时间的增加而提高其优先权；而为了避免一个高优先权的长作业长期垄断CPU,则可以随着进程运行时间的增加而降低其优先权。','饥饿','饥饿',1);
+INSERT INTO "QuestionBank" VALUES(246760,'<span class="fill-placeholder">（1）</span>调度算法综合考虑了作业的运行时间和等待时间，因此会兼顾到长、短作业。','高响应比优先','高响应比优先',1);
 INSERT INTO "QuestionBank" VALUES(246761,'使每道程序能在不受干扰的环境下运行，主要是通过( &nbsp; &nbsp;)功能实现的。','829300','B、内存保护；',3);
 INSERT INTO "QuestionBank" VALUES(246762,'使分配到与其地址空间不一致的内存空间的程序，仍能正常运行则主要是通过（ &nbsp; ）功能实现的。','829305','C、地址映射；',3);
 INSERT INTO "QuestionBank" VALUES(246763,'静态重定位是在作业的( &nbsp; &nbsp; &nbsp;)中进行的， 动态重定位是在作业执行过程中进行的。','829308','B、装入过程；',3);
@@ -1719,6 +1742,10 @@ INSERT INTO "QuestionBank" VALUES(246778,'通常情况下，在下列存储管�
 INSERT INTO "QuestionBank" VALUES(246779,'通常情况下，在下列存储管理方式中，( &nbsp; &nbsp; &nbsp;)使内存碎片尽可能少，而且使内存利用率最高。','829373','B、页式；',3);
 INSERT INTO "QuestionBank" VALUES(246780,'下述存储管理方式中， 会产生内部碎片的是( &nbsp; &nbsp; )。','829377','B、页式和段页式；',3);
 INSERT INTO "QuestionBank" VALUES(246781,'下述存储管理方式中，会产生外部碎片的是( &nbsp; &nbsp; &nbsp;)。','829382','C、动态分区方式和段式；',3);
+INSERT INTO "QuestionBank" VALUES(246782,'在首次适应算法中，空闲分区以地址递增的次序拉链；在<span class="fill-placeholder">（1）</span>算法中，空闲分区以空闲区大小递增的次序拉链。','最佳适应','最佳适应',1);
+INSERT INTO "QuestionBank" VALUES(246783,'在连续分配方式中可通过<span class="fill-placeholder">（1）</span>来减少内存零头，它必须得到动态重定位技术的支持。','紧凑','紧凑',1);
+INSERT INTO "QuestionBank" VALUES(246784,'分页系统中若页面较小，虽有利于减少块内碎片，但会引起<span class="fill-placeholder">（1）</span>太长；而页面较大，会引起块内碎片增大。','页表','页表',1);
+INSERT INTO "QuestionBank" VALUES(246785,'分页系统中，页表的作用是实现页号到<span class="fill-placeholder">（1）</span>的转换。','物理块号','物理块号',1);
 INSERT INTO "QuestionBank" VALUES(246786,'现代操作系统中，提高内存利用率主要是通过( &nbsp; &nbsp; &nbsp;)功能实现的。','829387','D、虚拟存储器。',3);
 INSERT INTO "QuestionBank" VALUES(246787,'从下列关于非虚拟存储器的论述中， 选出一条正确的论述( &nbsp; &nbsp; &nbsp;)。','829388','A、要求作业在运行前，必须全部装入内存，且在运行过程中也必须一直驻留内存；',3);
 INSERT INTO "QuestionBank" VALUES(246788,'虚拟存储器最基本的特征是多次性，该特征主要是基于( &nbsp; &nbsp; &nbsp;)。','829395','D、局部性原理。',3);
@@ -1740,6 +1767,11 @@ INSERT INTO "QuestionBank" VALUES(246802,'虚拟存储器的功能由软硬件�
 INSERT INTO "QuestionBank" VALUES(246803,'从下面关于请求分段存储管理的叙述中选出一条正确的叙述( &nbsp; &nbsp; &nbsp;)。','829455','B、分段的尺寸受内存空间的限制，但作业总的尺寸不受内存空间的限制；',3);
 INSERT INTO "QuestionBank" VALUES(246804,'Linux 采用( &nbsp; &nbsp;)存储管理方式。','829460','C、请求分页；',3);
 INSERT INTO "QuestionBank" VALUES(246805,'Linux内核的页面分配程序采用( &nbsp; &nbsp;)算法进行页框的分配和回收。','829464','C、伙伴系统；',3);
+INSERT INTO "QuestionBank" VALUES(246806,'实现虚拟存储器，除了需要有一定容量的内存和相当容量的外存外，还需要有<span class="fill-placeholder">（1）</span>、地址变换机构和缺页中断机构的硬件支待。','页表机制','页表机制',1);
+INSERT INTO "QuestionBank" VALUES(246807,'为实现请求分页管理，应在<span class="fill-placeholder">（1）</span>的页表基础上增加状态位、访问字段、修改位和外存地址等数据项。','纯分页','纯分页',1);
+INSERT INTO "QuestionBank" VALUES(246808,'在请求调页系统中，调页的策略有预调页和<span class="fill-placeholder">（1）</span>两种方式。','请求调页','请求调页',1);
+INSERT INTO "QuestionBank" VALUES(246809,'在请求调页系统中，反复进行页面换进和换出的现象称为<span class="fill-placeholder">（1）</span>，它产生的原因主要原因是置换算法选用不当。','抖动','抖动',1);
+INSERT INTO "QuestionBank" VALUES(246810,'分段系统中的越界检查是通过<span class="fill-placeholder">（1）</span>中存放的段表长度和逻辑地址中的段号的比较，以及段表项中的段长和逻辑地址中的段内地址的比较来实现的。','段表寄存器','段表寄存器',1);
 INSERT INTO "QuestionBank" VALUES(246811,'在一般大型计算机系统中，主机对外围设备的控制可通过通道、控制器和设备三个层次来实现。从下述叙述中选出一条正确的叙述（ &nbsp; &nbsp; &nbsp;）。','829467','B、通道控制控制器，设备在控制器控制下工作；',3);
 INSERT INTO "QuestionBank" VALUES(246812,'从下面关于设备属性的论述中，选择一条正确的论述（ &nbsp; &nbsp; &nbsp;）。','829471','B、共享设备必须是可寻址的和随机访问的设备；',3);
 INSERT INTO "QuestionBank" VALUES(246813,'通道是一种特殊的处理机，具有执行I/O指令集能力。主机的CPU与通道可以并行工作，并通过( &nbsp; &nbsp; )实现彼此之间的通信和同步。','829476','C、I/O指令和I/O中断；',3);
@@ -1761,6 +1793,11 @@ INSERT INTO "QuestionBank" VALUES(246828,'从下列有关 SPOOLing系统的论�
 I、在 SPOOLing系统中， 用户程序可随时将输出数据送到输出井中，待输出设备空闲时再执行数据输出操作。',4);
 INSERT INTO "QuestionBank" VALUES(246829,'从下列论述中选出一条正确的论述( &nbsp;)。','829545','C、同一用户所使用的I/O设备也可以并行工作。',3);
 INSERT INTO "QuestionBank" VALUES(246830,'从下列关于驱动程序的论述中， 选出一条正确的论述( &nbsp;)。','829550','D、对于一台多用户机，配置了相同的8个终端， 此时可只配置一个由多个终端共享的驱动程序。',3);
+INSERT INTO "QuestionBank" VALUES(246831,'对打印机的I/O控制方式常采用<span class="fill-placeholder">（1）</span>方式，对磁盘的I/O控制方式常采用DMA控制方式。','中断驱动','中断驱动',1);
+INSERT INTO "QuestionBank" VALUES(246832,'I/O软件通常被组织成用户层软件、<span class="fill-placeholder">（1）</span>、设备驱动程序和I/O中断处理程序四个层次。','设备独立性软件','设备独立性软件',1);
+INSERT INTO "QuestionBank" VALUES(246833,'驱动程序与I/O设备特性紧密相关，如果计算机中连有3个同种类型的彩色终端和2个同种类型的黑白终端，可以为它们配置<span class="fill-placeholder">（1）</span>个设备驱动程序。','2','2',1);
+INSERT INTO "QuestionBank" VALUES(246834,'为实现设备独立性，在系统中必须设置<span class="fill-placeholder">（1）</span>， 通常它包括逻辑设备名、物理设备名和设备驱动程序入口地址三项。','逻辑设备表','逻辑设备表',1);
+INSERT INTO "QuestionBank" VALUES(246835,'实现后台打印时，SPOOLing系统中的输出进程，只为请求I/O的进程做两件事：(1)为之在<span class="fill-placeholder">（1）</span>中申请空闲缓冲区，并将待打印数据送入其中；(2)为用户进程申请一张用户请求打印表，并将用户的打印要求填入表中，再将该表排在队列中。','输出井','输出井',1);
 INSERT INTO "QuestionBank" VALUES(247744,'在计算机系统中配置操作系统的主要目的是（ &nbsp;）。','832082','B、提高系统资源的利用率；',3);
 INSERT INTO "QuestionBank" VALUES(247745,'操作系统的主要功能是管理计算机系统中的资源 ，其中包括（ &nbsp;）、存储器，以及文件和设备。','832087','C、处理机；',3);
 INSERT INTO "QuestionBank" VALUES(247746,'操作系统有多种类型：允许多个用户以交互方式使用计算机的操作系统，称为（ &nbsp;）。','832090','B、分时操作系统；',3);
@@ -1781,6 +1818,11 @@ INSERT INTO "QuestionBank" VALUES(247760,'通常，下列模块中必须包含�
 INSERT INTO "QuestionBank" VALUES(247761,'UNIX 操作系统最初是由（ &nbsp; ）推出的。','832156','D、Bell实验室。',3);
 INSERT INTO "QuestionBank" VALUES(247762,'<p>Linux 是一个多用户多任务类型的操作系统，其内核的创始人是（ &nbsp; ）。</p>','832159','C、<p>Linus Torvalds；</p>',3);
 INSERT INTO "QuestionBank" VALUES(247763,'Linux 是一个多用户多任务类型的操作系统，所谓 linux 是一个“FreeSoftware”，这意味着（ &nbsp; ）。','832162','B、Linux可以自由修改和发布；',3);
+INSERT INTO "QuestionBank" VALUES(247764,'在单处理机环境下的多道程序设计具有多道、<span class="fill-placeholder">（1）</span>和微观上交替运行的特点。','宏观上同时运行','宏观上同时运行',1);
+INSERT INTO "QuestionBank" VALUES(247765,'现代操作系统的两个最基本的特征是并发和共享，除此之外，它还具有虚拟性和<span class="fill-placeholder">（1）</span>的特征。','异步性','异步性',1);
+INSERT INTO "QuestionBank" VALUES(247766,'除了传统操作系统中的进程管理、存储器管理、设备管理、文件管理等基本功能外， 现代操作系统中还增加了<span class="fill-placeholder">（1）</span>、网络和多媒体等功能。','系统安全','系统安全',1);
+INSERT INTO "QuestionBank" VALUES(247767,'操作系统的基本类型主要有批处理系统、<span class="fill-placeholder">（1）</span>和实时系统。','分时系统','分时系统',1);
+INSERT INTO "QuestionBank" VALUES(247768,'实现分时系统的关键问题是人机交互，为此必须引入时间片的概念，并采用<span class="fill-placeholder">（1）</span>调度算法。','时间片轮转','时间片轮转',1);
 INSERT INTO "QuestionBank" VALUES(278390,'<p>如果想要做一个登陆页面，用什么面板布局登陆信息比较好？</p><p>which of following layouts is the best for arranging the login page?</p>','918779','C、<p>GridPane</p>
 ',3);
 INSERT INTO "QuestionBank" VALUES(278392,'<p>如果现在我想要用事件控制圆的大小，可以通过哪些事件完成？</p><p>Which of following events could help me control the size of the circel?</p>','918783,918784,918785,918786','A、<p>鼠标点击按钮事件</p><p>mouse click event</p>
