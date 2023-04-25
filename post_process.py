@@ -1,5 +1,6 @@
 import json
 import re
+from random import randint
 
 from web_process import WebProcess
 
@@ -52,6 +53,7 @@ class PostProcess(WebProcess):
         self._submit_data['gradeId'] = self.driver.execute_script("return $('#gradeId').val()")
         self._submit_data['reSubmit'] = self.driver.execute_script("return $('#reSubmit').val()")
         self._submit_data['submitquizs[]'] = quiz_submissions_list
+        self._submit_data['useTime'] = randint(25 * len(quiz_submissions_list), 35 * len(quiz_submissions_list))
         self._submit_data['testPaperId'] = self._exam_test_paper_id
         self._submit_data['postoken'] = self.cookies['cpstk']
 
