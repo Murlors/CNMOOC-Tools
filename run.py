@@ -20,13 +20,15 @@ def get_hparams():
 def parse_args(parser):
     args = parser.parse_args()
     if args.username and args.password:
-        with open('config.json', 'w') as f:
-            json.dump({'username': args.username, 'password': args.password}, f, indent=4)
+        pass
     elif os.path.exists('config.json'):
         with open('config.json', 'r') as f:
             config = json.load(f)
             args.username = config['username']
             args.password = config['password']
+    else:
+        args.username = input('username: ')
+        args.password = input('password: ')
 
     from selenium import webdriver
     options = webdriver.EdgeOptions()

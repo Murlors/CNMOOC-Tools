@@ -1,3 +1,4 @@
+import json
 import re
 
 import requests
@@ -9,6 +10,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
 from encrypt import encrypt
+
 
 class WebProcess:
     BASE_URL = 'http://spoc.wzu.edu.cn'
@@ -41,6 +43,9 @@ class WebProcess:
         hall_cookies = self.login_hall(username, password)
         if not hall_cookies:
             return False
+
+        with open('config.json', 'w') as f:
+            json.dump({'username': username, 'password': password}, f, indent=4)
         self.login_mooc(hall_cookies)
         self.get_mooc_cookies()
         return True
