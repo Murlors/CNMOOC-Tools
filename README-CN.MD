@@ -1,4 +1,4 @@
-# fuck-WZU-SPOC
+# WZU-SPOC-tools
 
 MOOC 自动答题脚本
 

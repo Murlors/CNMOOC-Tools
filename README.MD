@@ -1,4 +1,4 @@
-# fuck-WZU-SPOC
+# WZU-SPOC-tools
 
 MOOC Auto Answer Script
 
