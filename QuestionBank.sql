@@ -412,6 +412,7 @@ INSERT INTO "QuestionBank" VALUES(215168,'<p>mapreduce程序的main方法中，j
 INSERT INTO "QuestionBank" VALUES(215169,'<p><br/><span style="text-decoration:underline;">Combiner只应该用于那种，Reduce的输入key/value与输出key/value类型完全一致，且不影响最终结果的场景。</span></p>','742067','A、<p>是</p>',2);
 INSERT INTO "QuestionBank" VALUES(215170,'<p>默认情况下(默认分区)，所有map输出的key和reduce对象的数量对应关系？</p>','742071','C、<p><span>n:1</span></p>',3);
 INSERT INTO "QuestionBank" VALUES(215171,'<p>hdfs中的文件和map对象之间是？</p>','742074','B、<p><span>&nbsp;m:n</span></p>',3);
+INSERT INTO "QuestionBank" VALUES(215184,'<p>Reduce&nbsp;task</p><p>进程从map&nbsp;task输出的结果获取数据的过程称之为Copy过程。具体实现：Reduce进程启动一些数据copy线程(Fetcher)，通过什么协议<span class="fill-placeholder">（1）</span>请求map task所在的TaskTracker获取map task的输出文件</p>','HTTP','HTTP',1);
 INSERT INTO "QuestionBank" VALUES(229036,'<p><span>将类成员的访问权限设置为默认时，则该成员能被（ ）</span></p><p><span>If we set data modifier as default, then the data can be accessed?</span></p>','778080','A、<p><span>同一包中的类访问</span><span>&nbsp;</span></p><p><span>within the package</span></p>
 ',3);
 INSERT INTO "QuestionBank" VALUES(229040,'<p><span>下面的程序段创建了</span><span>BufferedReader</span><span>类的对象</span><span>in</span><span>，以便读取本机</span><span>c</span><span>盘</span><span>my</span><span>文件夹下的文件</span><span>1.txt</span><span>。</span><span>File</span><span>构造函数中正确的路径和文件名的表示是（ ）。</span></p><p><span>File f=new File(填代码处);</span></p><p><span>file =new FileReader(f);</span></p><p><span>in=new BufferedReader(file);</span></p>','778098','C、<p><span>&quot;c:\\my\\1.txt&quot;</span></p>
@@ -2181,6 +2182,18 @@ INSERT INTO "QuestionBank" VALUES(308493,'<p>Redis 6.+ 常用的数据类型包�
 E、<p>Hash</p>
 B、<p>List</p>
 A、<p>Set</p>',4);
+INSERT INTO "QuestionBank" VALUES(308744,'YARN是什么？','1003600','A、A. Yet Another Resource Negotiator',3);
+INSERT INTO "QuestionBank" VALUES(308745,'YARN架构中的主要节点？','1003604,1003605','A、A. Resource manager
+B、B.NodeManager &nbsp;',4);
+INSERT INTO "QuestionBank" VALUES(308746,'YARN的目标是什么？','1003608','A、A. 充分合理利用计算(硬件)资源',3);
+INSERT INTO "QuestionBank" VALUES(308747,'YARN的资源管理器负责什么？','1003612,1003613','A、A. 接受作业提交请求
+B、B. 分配资源给应用程序',4);
+INSERT INTO "QuestionBank" VALUES(308748,'YARN应用程序管理器负责什么？','1003617','B、B. 协调应用程序的执行',3);
+INSERT INTO "QuestionBank" VALUES(308749,'YARN支持哪些类型的应用程序？','1003623','D、D. 所有上述应用程序类型',3);
+INSERT INTO "QuestionBank" VALUES(308750,'YARN如何处理多租户环境中的资源管理？','1003625','B、B. 根据需要分配资源给每个用户',3);
+INSERT INTO "QuestionBank" VALUES(308751,'在YARN中，计算(数据处理)节点可以是什么类型的机器？','1003631','D、D. 所有上述类型的机器',3);
+INSERT INTO "QuestionBank" VALUES(308752,'YARN支持哪些资源调度器？','1003635','D、D. 所有上述调度器',3);
+INSERT INTO "QuestionBank" VALUES(308753,'MapReduce具体任务(task)由哪个YARN组件进行调度？','1003638','C、C. ApplicationMaster',3);
 ANALYZE "sqlite_master";
 INSERT INTO "sqlite_stat1" VALUES('QuestionBank','quiz_id','790 1');
 CREATE UNIQUE INDEX "quiz_id"
