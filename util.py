@@ -33,6 +33,7 @@ def insert_database(insert_answer_function, quiz_item: dict):
     print(f'quizId: {quiz_id}\t answerId: {answer_id}\t quizType:{quiz_type}\n'
           f'quizContent: {quiz_content}\n'
           f'answerContent: {answer_content}')
+    print('-' * 50)
     insert_answer_function(quiz_id, quiz_content, answer_id, answer_content, quiz_type)
 
 

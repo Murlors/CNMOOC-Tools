@@ -126,6 +126,7 @@ class AutoAnswer(PostProcess):
         if self.enumeration_count != 0 or self.update_anyway:
             self.goto_exam_test(exam_select)
             get_data_judge = self.driver.execute_script('return $("#exam_paper").quiz().getData()')
+            print('-' * 50)
             print('Insert:')
             print(f'quiz_submissions_list: {self.quiz_submissions_list}')
             for quiz_item in get_data_judge:
