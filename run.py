@@ -17,15 +17,23 @@ def get_hparams():
     return parser
 
 
+def get_config():
+    if os.path.exists('config.json'):
+        with open('config.json', 'r') as f:
+            config = json.load(f)
+            if config['username'] != 'yourusername' and config['password'] != 'yourpassword':
+                return config
+    return None
+
+
 def parse_args(parser):
     args = parser.parse_args()
     if args.username and args.password:
         pass
-    elif os.path.exists('config.json'):
-        with open('config.json', 'r') as f:
-            config = json.load(f)
-            args.username = config['username']
-            args.password = config['password']
+    config = get_config()
+    if config:
+        args.username = config['username']
+        args.password = config['password']
     else:
         args.username = input('username: ')
         args.password = input('password: ')
