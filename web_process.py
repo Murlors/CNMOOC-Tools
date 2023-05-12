@@ -24,6 +24,7 @@ class WebProcess:
                           'Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.26',
         }
         self.session = requests.session()
+        self.session.trust_env = False  # 绕过代理
         self.driver = driver
         self.wait = WebDriverWait(self.driver, timeout=3, poll_frequency=1)
         self.cookies = {}
@@ -59,6 +60,7 @@ class WebProcess:
         :return 门户网站登录成功的cookies字典
         """
         session = requests.session()
+        session.trust_env = False  # 绕过代理
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                           'Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.26',

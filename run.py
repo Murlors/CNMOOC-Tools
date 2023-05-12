@@ -40,6 +40,7 @@ def parse_args(parser):
 
     from selenium import webdriver
     options = webdriver.EdgeOptions()
+    options.add_argument('--no-proxy-server')  # 绕过代理
     if args.headless:
         options.add_argument("--headless=new")
 
