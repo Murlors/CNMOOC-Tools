@@ -1,35 +1,36 @@
 # WZU-SPOC-tools
 
-MOOC Auto Answer Script
+[English](README.EN.MD) | 简体中文
 
-[中文说明](./README-CN.MD)
+MOOC 自动答题脚本
 
 ## Description
 
-This project is an automated script for answering questions on MOOC platforms such as CNMOOC and some SPOCs.\
-It aims to help students save time and improve learning efficiency by automatically finding and filling in the correct answers to quizzes and exams on online education platforms.
+这个仓库是一个自动化脚本，用于在CNMOOC和一些SPOC上答题。
+
+它旨在通过自动查找并填写在线教育平台上测验和考试的正确答案，帮助学生节省时间并提高学习效率。
 
 ## Attention
 
-If you want to use this script on the CNMOOC platform, you need to modify the login script and change the way cookies are obtained.
+如果您想在CNMOOC平台上使用此脚本，您需要修改登录脚本并更改获取cookie的方式。
 
 ## Usage
 
-1. Change the arguments in `run-user.bat`.
-2. Double click `run-user.bat`.
+1. 更改`run-user.bat`中的参数。
+2. 双击打开`run-user.bat`.
 
-> Or you can run it manually as follows:
+> 或者您可以手动运行它，如下所示：
 >
-> 1. Run `pip install -r requirements.txt` in the terminal to install the required packages.
-> 2. For first time, you have two choice to run the script:
->    1. Run `python run.py -u <username> -p <password> --webdriver_manager --headless` in the terminal.
->    2. Change `username` and `password` in `config.json` and run `python run.py --webdriver_manager --headless` in the terminal.
-> 3. After the first time, you can run `python run.py --webdriver_manager --headless` in the terminal to start the script.
+> 1. 在终端中运行`pip install -r requirements.txt`以安装所需的软件包。
+> 2. 首次运行脚本有两种选择：
+>    1. 在终端中运行`python run.py -u <username> -p <password> --webdriver_manager --headless`。
+>    2. 更改config.json中的用户名和密码，然后在终端中运行`python run.py --webdriver_manager --headless`。
+> 3. 首次运行后，您可以在终端中运行`python run.py --webdriver_manager --headless`以启动脚本。
 
 ## TODO
 
-- [ ] Add support for CNMOOC login.
-- [ ] Add support for other platforms.
+- [ ] 增加对CNMOOC登录的支持。
+- [ ] 添加对其他平台的支持。
 
 ## Supported Platforms
 
@@ -38,12 +39,12 @@ If you want to use this script on the CNMOOC platform, you need to modify the lo
 
 ## Contributing
 
-1. Fork it.
-2. Create your feature branch.
-3. Commit your changes (e.g. QuestionBank).
-4. Push to the branch.
-5. Submit a pull request.
+1. `Fork`该仓库.
+2. 创建分支。
+3. 提交更改(如题库)。
+4. 推送到分支。
+5. 提交一个`pull request`.
 
 ## License
 
-[GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)
+[MIT license](LICENSE)
