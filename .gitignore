@@ -139,3 +139,6 @@ dmypy.json
 
 # hash files
 .sql_hash
+
+# installed packages
+installed_packages.txt
