@@ -28,15 +28,14 @@ def get_config():
 
 def parse_args(parser):
     args = parser.parse_args()
-    if args.username and args.password:
-        pass
-    config = get_config()
-    if config:
-        args.username = config['username']
-        args.password = config['password']
-    else:
-        args.username = input('username: ')
-        args.password = input('password: ')
+    if not args.username or not args.password:
+        config = get_config()
+        if config:
+            args.username = config['username']
+            args.password = config['password']
+        else:
+            args.username = input('username: ')
+            args.password = input('password: ')
 
     from selenium import webdriver
     options = webdriver.EdgeOptions()
