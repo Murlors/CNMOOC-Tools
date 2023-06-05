@@ -19,36 +19,42 @@ class AutoAnswer(PostProcess):
         self.process_locate = 0
         self.enumeration_count = 0
 
-        self.quiz_submissions_list = self.driver.execute_script('return $("#exam_paper").quiz().getPractice()')
+        self.quiz_submissions_list = self.driver.execute_script(
+            "return $('#exam_paper').quiz().getPractice()"
+        )
         self.submit(self.quiz_submissions_list)
         self.get_new_result()
 
-        print(f'submit_content_list: {self.submit_content_list}')
-        print(f'quiz_submissions_list: {self.quiz_submissions_list}')
+        print(f"submit_content_list: {self.submit_content_list}")
+        print(f"quiz_submissions_list: {self.quiz_submissions_list}")
 
         self.enumerate(validate=False)
 
         # 校验是否全为right
         self.submit(self.quiz_submissions_list)
         self.get_new_result()
-        print(f'submit_content_list: {self.submit_content_list}')
-        if sum(1 for i in self.submit_content_list if i['errorFlag'] == 'right') != len(self.submit_content_list):
+        print(f"submit_content_list: {self.submit_content_list}")
+        if len(self.submit_content_list) != sum(
+            1 for i in self.submit_content_list if i["errorFlag"] == "right"
+        ):
             # 若枚举之后仍存在error题目,则开始验证题库答案
             self.enumerate(validate=True)
-        print('all right!')
+        print("all right!")
 
     def db_search(self, quiz_id: str, validate: bool) -> bool:
         db_search_answer = self.question_bank.search_answer(int(quiz_id))
         if db_search_answer:  # 搜索到答案
             for quiz_submission in self.quiz_submissions_dict:
-                if str(quiz_submission['quizId']) == quiz_id:
-                    quiz_submission['userAnswer'] = db_search_answer[0]
-                    self.quiz_submissions_list = quiz_submissions_dict2list(self.quiz_submissions_dict)
+                if str(quiz_submission["quizId"]) == quiz_id:
+                    quiz_submission["userAnswer"] = db_search_answer[0]
+                    self.quiz_submissions_list = quiz_submissions_dict2list(
+                        self.quiz_submissions_dict
+                    )
                     break
 
             if validate:
-                if self.check_answer(self.quiz_submissions_list, quiz_id) == 'right':
-                    print(f'right: {quiz_id}')
+                if self.check_answer(self.quiz_submissions_list, quiz_id) == "right":
+                    print(f"right: {quiz_id}")
                 else:
                     return False
             self.process_locate += 1
@@ -63,33 +69,48 @@ class AutoAnswer(PostProcess):
         while self.process_locate < len(self.submit_content_list):
             next_error_submit_status = self.find_next_error()
             if next_error_submit_status:  # 存在error题目
-                now_quiz_id = str(next_error_submit_status['quizId'])
-                quiz = [item['quiz'] for item in self.paper_struct if str(item['quiz']['quizId']) == now_quiz_id][0]
-                quiz_id = str(quiz['quizId'])
-                self.quiz_submissions_dict = quiz_submissions_list2dict(self.quiz_submissions_list)
+                now_quiz_id = str(next_error_submit_status["quizId"])
+                quiz = [
+                    item["quiz"]
+                    for item in self.paper_struct
+                    if str(item["quiz"]["quizId"]) == now_quiz_id
+                ][0]
+                quiz_id = str(quiz["quizId"])
+                self.quiz_submissions_dict = quiz_submissions_list2dict(
+                    self.quiz_submissions_list
+                )
                 # 在数据库中寻找答案
                 found_in_db = self.db_search(quiz_id, validate)
                 if not found_in_db:  # 找不到答案则进行枚举
                     self.enumeration_count += 1
-                    quiz_type: str = quiz['quizTypeId']
-                    pre_answer: str = next_error_submit_status['userAnswer']
-                    answer_id_list = [str(quiz_option['optionId']) for quiz_option in quiz['quizOptionses']]
+                    quiz_type: str = quiz["quizTypeId"]
+                    pre_answer: str = next_error_submit_status["userAnswer"]
+                    answer_id_list = [
+                        str(quiz_option["optionId"])
+                        for quiz_option in quiz["quizOptionses"]
+                    ]
                     if quiz_type == "itt003" or quiz_type == "itt002":  # 单选 And 判断
-                        self.process_single_choice_or_judgment_quiz(quiz_id, answer_id_list, pre_answer)
+                        self.process_single_choice_or_judgment_quiz(
+                            quiz_id, answer_id_list, pre_answer
+                        )
                     elif quiz_type == "itt004":  # 多选
                         self.process_multiple_choice_quiz(quiz_id, answer_id_list)
                     elif quiz_type == "itt001":  # 填空
                         self.process_locate += 1
-                        print("在QuestionBank中找不到这个填空题，自己尝试做做吧!\n")
+                        print(
+                            "I can't find the answer in QuestionBank, try it yourself!\n"
+                        )
 
     def find_next_error(self) -> dict:
-        for submit_status in self.submit_content_list[self.process_locate:]:
-            if submit_status['errorFlag'] == 'error':
+        for submit_status in self.submit_content_list[self.process_locate :]:
+            if submit_status["errorFlag"] == "error":
                 return submit_status
             else:
                 self.process_locate += 1
 
-    def process_single_choice_or_judgment_quiz(self, quiz_id: str, answer_id_list: list, pre_answer: str):
+    def process_single_choice_or_judgment_quiz(
+        self, quiz_id: str, answer_id_list: list, pre_answer: str
+    ):
         for user_answer in answer_id_list:
             if user_answer != pre_answer:
                 if self.test_answer(quiz_id, user_answer):
@@ -98,7 +119,7 @@ class AutoAnswer(PostProcess):
     def process_multiple_choice_quiz(self, quiz_id: str, answer_id_list: list):
         for i in range(1, len(answer_id_list) + 1):
             for answer_id_tuple in itertools.combinations(answer_id_list, i):
-                user_answer = ','.join(answer_id_tuple)
+                user_answer = ",".join(answer_id_tuple)
                 if self.test_answer(quiz_id, user_answer):
                     return
 
@@ -110,13 +131,15 @@ class AutoAnswer(PostProcess):
         :return: 答案是否正确
         """
         for quiz_submission in self.quiz_submissions_dict:
-            if str(quiz_submission['quizId']) == quiz_id:
-                quiz_submission['userAnswer'] = user_answer
+            if str(quiz_submission["quizId"]) == quiz_id:
+                quiz_submission["userAnswer"] = user_answer
                 break
-        self.quiz_submissions_list = quiz_submissions_dict2list(self.quiz_submissions_dict)
+        self.quiz_submissions_list = quiz_submissions_dict2list(
+            self.quiz_submissions_dict
+        )
         error_flag = self.check_answer(self.quiz_submissions_list, quiz_id)
         print(f"{error_flag}: {quiz_id} {user_answer}")
-        return True if error_flag == 'right' else False
+        return True if error_flag == "right" else False
 
     def insert_data(self, exam_select: int):
         """
@@ -125,10 +148,12 @@ class AutoAnswer(PostProcess):
         """
         if self.enumeration_count != 0 or self.update_anyway:
             self.goto_exam_test(exam_select)
-            get_data_judge = self.driver.execute_script('return $("#exam_paper").quiz().getData()')
-            print('-' * 50)
-            print('Insert:')
-            print(f'quiz_submissions_list: {self.quiz_submissions_list}')
+            get_data_judge = self.driver.execute_script(
+                "return $('#exam_paper').quiz().getData()"
+            )
+            print("-" * 50)
+            print("Insert quiz data to database:")
+            print(f"quiz_submissions_list: {self.quiz_submissions_list}")
             for quiz_item in get_data_judge:
                 insert_database(self.question_bank.insert_answer, quiz_item)
 

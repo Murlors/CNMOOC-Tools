@@ -12,7 +12,9 @@ def des_encrypt(source_str: str, key: bytes):
     """
     secret_key = key
     # 得到加密后的16位进制密码 <class 'bytes'>
-    return des(secret_key, mode=ECB, pad=None, padmode=PAD_PKCS5).encrypt(source_str, padmode=PAD_PKCS5)
+    return des(secret_key, mode=ECB, pad=None, padmode=PAD_PKCS5).encrypt(
+        source_str, padmode=PAD_PKCS5
+    )
 
 
 def encrypt(password: str, key: str):
@@ -28,8 +30,8 @@ def encrypt(password: str, key: str):
     :return: 加密后的密码（base64格式）
     """
     # 先解码 <class 'bytes'>
-    key = binascii.a2b_base64(key.encode('utf-8'))
+    key = binascii.a2b_base64(key.encode("utf-8"))
     # 得到加密后的16位进制密码 <class 'bytes'>
     password_bytes = des_encrypt(password, key)
-    password_base64 = binascii.b2a_base64(password_bytes, newline=False).decode('utf-8')
+    password_base64 = binascii.b2a_base64(password_bytes, newline=False).decode("utf-8")
     return password_base64
