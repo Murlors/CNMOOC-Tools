@@ -342,7 +342,9 @@ INSERT INTO "QuestionBank" VALUES(201412,'Hadoop-2.x集群中的HDFS的默认的
 INSERT INTO "QuestionBank" VALUES(201413,'Hadoop-2.x集群中的HDFS的默认的副本块的个数是？','702551','C、3;',3);
 INSERT INTO "QuestionBank" VALUES(201414,'如果我们现有一个安装2.x版本的hadoop集群，在不修改默认配置的情况下存储200个每个200M的文本文件，请问最终会在集群中产生多少个数据块（包括副本）？','702556','D、1200',3);
 INSERT INTO "QuestionBank" VALUES(201415,'以下哪个不是HDFS的守护进程？','702559','C、mrappmaster/yarnchild;',3);
+INSERT INTO "QuestionBank" VALUES(201417,'以下哪种不是Hive支持的数据类型？','702568','D、Long',3);
 INSERT INTO "QuestionBank" VALUES(201418,'<p>现在在hadoop集群当中的配置文件中有这么两个配置，请问假如集群当中有一个节点宕机，主节点namenode需要多长时间才能感知到？hdfs-xml中&lt;name&gt;dfs.heartbeat.interval&lt;/name&gt;&lt;value&gt;2&lt;/value&gt;&lt;name&gt;heartbeat.recheck.interval&lt;/name&gt;&lt;value&gt;2000&lt;/value&gt;</p>','702570','B、<p>24秒;</p>',3);
+INSERT INTO "QuestionBank" VALUES(201419,'下面关于使用hive的描述中不正确的是？','702576','D、hive支持数据删除和修改',3);
 INSERT INTO "QuestionBank" VALUES(201420,'HDFS集群中的namenode职责不包括？','702579','C、负责保存客户端上传的数据;',3);
 INSERT INTO "QuestionBank" VALUES(201423,'MapReduce的Shuffle过程中哪个操作是最后做的？ ','702592','D、合并',3);
 INSERT INTO "QuestionBank" VALUES(201434,'下列关于HDFS的描述正确的是？','702635','C、NameNode磁盘元数据不保存Block的位置信息;',3);
@@ -1896,6 +1898,38 @@ INSERT INTO "QuestionBank" VALUES(280090,'以下排序方法中，需要的时�
 ',3);
 INSERT INTO "QuestionBank" VALUES(280091,'当输入序列反向排好序了，用下列哪个排序算法最快？','923745','C、堆排序；
 ',3);
+INSERT INTO "QuestionBank" VALUES(295600,'<p><span>1.&nbsp;</span><span>大数据的特点包括：</span></p>','972378,972379,972382,972380,972381','E、<p><span>Veracity</span></p>
+C、<p><span>Volume</span></p>
+A、<p><span>Velocity</span></p>
+D、<p><span>Value</span></p>
+B、<p><span>Variety</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(295603,'<p><span>Hadoop项目生态组件包括：</span></p>','972395,972396,972392,972393','D、<p><span>MapReduce</span></p>
+B、<p><span>YARN</span></p>
+A、<p><span>HDFS</span></p>
+E、<p><span>Ozone</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(295604,'<p><span>大数据的数据来源包括：（&nbsp; &nbsp; ）</span></p>','972400,972397,972399,972401,972398','D、<p><span>移动通信设备的移动通信数据</span></p>
+C、<p><span>机器和传感器创建或生成的数据</span></p>
+B、<p><span>日常的行为数据</span></p>
+A、<p><span>企业和用户的交易数据</span></p>
+E、<p><span>从其他系统中迁移的数据</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(295648,'<p>Scala中定义变量使用的关键字是：</p>','972478,972475','D、<p>var</p>
+A、<p>val</p>',4);
+INSERT INTO "QuestionBank" VALUES(295649,'<p>Scala中循环控制可以使用</p>','972480,972482,972483,972484','D、<p>do ... while</p>
+C、<p>while</p>
+E、<p>foreach</p>
+A、<p>for</p>',4);
+INSERT INTO "QuestionBank" VALUES(295650,'<p>Scala整型 var 变量 a 的自增操作，使用：</p>','972486','B、<p>a += 1</p>',2);
+INSERT INTO "QuestionBank" VALUES(295651,'<p>Scala中可以使用 break 语句脱出循环。</p>','972488','B、<p>错误</p>',2);
+INSERT INTO "QuestionBank" VALUES(297313,'<p>大数据的发展历程大致包括：</p>','976771,976768,976772','A、<p><span>萌芽期</span></p>
+E、<p><span>大规模应用期</span></p>
+D、<p><span>成熟期</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(297314,'<p>信息科技为大数据时代提供的支撑技术包括：</p>','976773,976774,976775','C、<p><span>通信技术</span></p>
+A、<p><span>存储技术</span></p>
+B、<p><span>微电子技术</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(297315,'<p>数据产生方式大致经历的阶段包括：</p>','976779,976781,976780','B、<p><span>用户原创内容阶段</span></p>
+D、<p><span>感知式系统阶段</span></p>
+C、<p><span>运营式系统阶段</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(297323,'<p>Scala中类成员变量默认为 public</p>','976816','A、<p>正确</p>',2);
 INSERT INTO "QuestionBank" VALUES(301360,'下列哪个命题为真？','985560','C、构造函数可以访问类的静态成员
 ',3);
 INSERT INTO "QuestionBank" VALUES(301361,'下列哪一项说法最好地描述了Java中的对象？（ &nbsp; ）','985564','C、对象是一种数据结构，它具有操作数据的方法
@@ -2194,6 +2228,28 @@ INSERT INTO "QuestionBank" VALUES(308750,'YARN如何处理多租户环境中的�
 INSERT INTO "QuestionBank" VALUES(308751,'在YARN中，计算(数据处理)节点可以是什么类型的机器？','1003631','D、D. 所有上述类型的机器',3);
 INSERT INTO "QuestionBank" VALUES(308752,'YARN支持哪些资源调度器？','1003635','D、D. 所有上述调度器',3);
 INSERT INTO "QuestionBank" VALUES(308753,'MapReduce具体任务(task)由哪个YARN组件进行调度？','1003638','C、C. ApplicationMaster',3);
+INSERT INTO "QuestionBank" VALUES(309041,'<p>Hive可用作（&nbsp; &nbsp;）</p>','1004469','D、<p>以上所有</p>',3);
+INSERT INTO "QuestionBank" VALUES(309042,'<p>以下关于Hive说法正确的是 （&nbsp; ）</p>','1004472','C、<p>不支行级更新</p>',3);
+INSERT INTO "QuestionBank" VALUES(309043,'<p>删除外部表（external table）时，</p>','1004476','C、<p><span>不删除数据 但删除 Schema</span></p>',3);
+INSERT INTO "QuestionBank" VALUES(309045,'<p>以类SQL的方式对Hadoop中的数据进行分析的是：</p>','1004483','B、<p>Hive</p>',3);
+INSERT INTO "QuestionBank" VALUES(309047,'<p>Hive支持的键约束（Keys / Constraints）包括：</p>','1004493','D、<p>不支持以上约束</p>',3);
+INSERT INTO "QuestionBank" VALUES(309048,'<p>Hive中STRUCT数据类型的缺省分隔符是： （&nbsp; ）</p>','1004495','B、<p><span>&#39;\002&#39;</span></p>',3);
+INSERT INTO "QuestionBank" VALUES(309051,'<p>Hive 架构中的核心组件包括：</p>','1004508,1004510,1004511','B、<p>Driver</p>
+D、<p>Metastore</p>
+E、<p>User Interface</p>',4);
+INSERT INTO "QuestionBank" VALUES(309052,'<p>Hive 的计算引擎可以使用：</p>','1004512,1004514,1004515','A、<p>Tez</p>
+C、<p>Spark</p>
+D、<p>MapReduce</p>',4);
+INSERT INTO "QuestionBank" VALUES(310303,'<p><span>研究机构&nbsp;</span><span>Gartner&nbsp;</span><span>给出</span>的大数据定义更强调大数据的：</p>','1007751','D、<p>资产属性</p>',3);
+INSERT INTO "QuestionBank" VALUES(310304,'<p>大数据的关键技术包括：</p>','1007756,1007754,1007755,1007752,1007753','C、<p>数据可视化</p>
+A、<p>数据采集</p>
+D、<p>数据存贮</p>
+B、<p>数据分析</p>
+E、<p>数据安全</p>',4);
+INSERT INTO "QuestionBank" VALUES(310305,'<p>VirtualBox 6.1+ 虚拟机软件，可以安装在以下哪些系统中？</p>','1007757,1007759,1007758','B、<p>Ubuntu 20.02</p>
+C、<p>Mac OS X</p>
+A、<p>Windows 11</p>',4);
+INSERT INTO "QuestionBank" VALUES(310306,'<p>在 Win 10 的 VirtualBox 应用中安装 Ubuntu Desktop 22.04，这里的 Win 10 是：</p>','1007764','C、<p>Host OS</p>',3);
 ANALYZE "sqlite_master";
 INSERT INTO "sqlite_stat1" VALUES('QuestionBank','quiz_id','790 1');
 CREATE UNIQUE INDEX "quiz_id"
