@@ -53,10 +53,12 @@ def parse_args(parser):
         from selenium.webdriver.edge.service import Service as EdgeService
         from webdriver_manager.microsoft import EdgeChromiumDriverManager, DriverCacheManager
 
+        os.environ['WDM_LOCAL']= "true"
+
         args.driver = webdriver.Edge(
             service=EdgeService(
                 EdgeChromiumDriverManager(
-                    cache_manager=DriverCacheManager(root_dir="", valid_range=7)
+                    cache_manager=DriverCacheManager(valid_range=7)
                 ).install()
             ),
             options=options,
