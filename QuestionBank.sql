@@ -1929,7 +1929,57 @@ B、<p><span>微电子技术</span></p>',4);
 INSERT INTO "QuestionBank" VALUES(297315,'<p>数据产生方式大致经历的阶段包括：</p>','976779,976781,976780','B、<p><span>用户原创内容阶段</span></p>
 D、<p><span>感知式系统阶段</span></p>
 C、<p><span>运营式系统阶段</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(297316,'<p>Spark SQL 支持的数据源包括 （&nbsp; ）</p>','976784,976787,976785,976783,976786','C、<p><span>CSV Files</span></p>
+B、<p><span>JSON Files</span></p>
+D、<p><span>Text Files</span></p>
+A、<p><span>Hive Tables</span></p>
+E、<p><span>JDBC To Other Databases</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(297317,'<p>Spark SQL的开发语言可直接使用（&nbsp; ）</p>','976792,976788,976789,976790','A、<p><span>Java</span></p>
+B、<p><span>Scala</span></p>
+C、<p><span>R</span></p>
+E、<p><span>Python</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(297318,'<p>RDD 的操作通常分为转换（Transformation）和行动（Action），以下属于Action的操作包括（&nbsp;&nbsp;<span>）</span></p>','976795,976797,976796,976794','B、<p><span>reduce</span></p>
+E、<p><span>collect</span></p>
+C、<p><span>count</span></p>
+D、<p><span>countByKey</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(297319,'<p>RDD 的操作通常分为转换（Transformation）和行动（Action），以下属于Transformation 的操作包括（&nbsp; ）</p>','976800,976799,976798,976802','A、<p><span>map</span></p>
+E、<p><span>groupByKey</span></p>
+C、<p><span>sample</span></p>
+B、<p><span>filter</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(297320,'<p>关于Spark说法正确的是（&nbsp; ）</p>','976803,976804,976805','C、<p><span>支持SQL开发</span></p>
+B、<p><span>处理速度快</span></p>
+A、<p><span>是大数据分析引擎</span></p>',4);
 INSERT INTO "QuestionBank" VALUES(297323,'<p>Scala中类成员变量默认为 public</p>','976816','A、<p>正确</p>',2);
+INSERT INTO "QuestionBank" VALUES(298379,'<p>Spark 3.3.x 的部署模式包括：</p>','978984,978986,978983,978985,978982','B、<p>YARN</p>
+C、<p>Mesos</p>
+A、<p>Local</p>
+D、<p>Standalone</p>
+E、<p>Kubernetes</p>',4);
+INSERT INTO "QuestionBank" VALUES(298380,'<p>Spark 3.x项目组件包括：</p>','978987,978989,978990,978988','B、<p>Spark Streaming</p>
+D、<p>MLlib</p>
+A、<p>Spark Core</p>
+C、<p>GraphX</p>',4);
+INSERT INTO "QuestionBank" VALUES(298381,'<p>启动 Spark Scala shell 交互式环境的命令是（不考虑路径影响）：</p>','978995','D、<p><span>./bin/spark-shell</span></p>',3);
+INSERT INTO "QuestionBank" VALUES(298382,'<p>Spark Executor运行于：</p>','978997','B、<p>Worker Node</p>',3);
+INSERT INTO "QuestionBank" VALUES(298414,'<p>Spark&nbsp; 不能运行于 Windows 系统</p>','979081','B、<p>错误</p>',2);
+INSERT INTO "QuestionBank" VALUES(298569,'<p>关于 SparkContext 初始化，以下用法正确地是：</p>','979417,979415,979414','C、<p><span>val sc = new SparkContext(appName=&quot;MyApp&quot;, master=&quot;local&quot;)</span></p>
+E、<p><span>val sc = new SparkContext()</span></p>
+B、<p><span><span>val cf = new SparkConf()</span></span></p><p><span>val sc = new SparkContext(cf)</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(298572,'<p>以下使用SparkContext sc 创建 RDD 用法正确的是：</p>','979427,979429','C、<p><span>val rdd = sc.textFile(&quot;hdfs://localhost:9000/path/to/file.txt&quot;)</span></p>
+A、<p><span>val xs = (1 to 10000).toList</span></p><p><span>val rdd = sc.parallelize(xs)</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(299534,'<p>Spark中的DataFrame是可变数据集。</p>','981159','B、<p>错误</p>',2);
+INSERT INTO "QuestionBank" VALUES(299535,'<p>Spark DataFrame中某一列包含的行数，可以与不同于其他列所包含的行数。</p>','981161','B、<p>错误</p>',2);
+INSERT INTO "QuestionBank" VALUES(299547,'<p>想要了解所加载的 DataFrame（val 类型变量 df）的数据内容，可以使用的操作是：</p>','981165,981163,981162,981166','B、<p>df.take(5)</p>
+D、<p>df.head(5)</p>
+E、<p>df.tail(5)</p>
+A、<p>df.show(5)</p>',4);
+INSERT INTO "QuestionBank" VALUES(299776,'<p>构造SparkSession对象，是通过 SparkSession伴生类的 builder() 方法构建。</p>','981725','A、<p>正确</p>',2);
+INSERT INTO "QuestionBank" VALUES(299778,'<p>获取 DataFrame (df) 所对应的 RDD 方法是：</p>','981735','D、<p><span>val rdd = df.rdd</span></p>',3);
+INSERT INTO "QuestionBank" VALUES(300363,'<p>以下使用SparkSession对象 sp 将 abcd.csv 文件加载为DataFrame用法正确的是：</p>','983189,983188','C、<p><span>val df = sp.read.format(&quot;csv&quot;).load(&quot;abcd.csv&quot;)</span></p>
+D、<p><span>val df = sp.read.csv(&quot;abcd.csv&quot;)</span></p>',4);
+INSERT INTO "QuestionBank" VALUES(300364,'<p>以下使用SparkSession对象 sp 将 DataFrame df 输出 parquet 格式文件到 efgh.par，用法正确的是：</p>','983195,983192,983193','B、<p><span>df.write.<span>format(&quot;parquet&quot;).save(&quot;efgh.par&quot;)</span></span></p>
+C、<p><span>df.write.save(&quot;efgh.par&quot;)</span></p>
+E、<p><span>df.write.parquet</span><span>(&quot;efgh.par&quot;)</span></p>',4);
 INSERT INTO "QuestionBank" VALUES(301360,'下列哪个命题为真？','985560','C、构造函数可以访问类的静态成员
 ',3);
 INSERT INTO "QuestionBank" VALUES(301361,'下列哪一项说法最好地描述了Java中的对象？（ &nbsp; ）','985564','C、对象是一种数据结构，它具有操作数据的方法
