@@ -1,16 +1,20 @@
 @echo off
 
-if not defined PYTHON (set PYTHON=python)
-if not defined GIT_PATH (set GIT=git)
+if not defined GIT (
+    :: check if git is installed, if not, install git using winget
+    where.exe /Q git || winget install Git.Git
+    set GIT=git
+)
+
 if not defined VENV_DIR (set VENV_DIR=%~dp0%venv)
+if not defined PYTHON (
+    :: check if python is installed, if not, install python using winget
+    where.exe /Q python || winget install Python.Python.3.11
+    set PYTHON=python
+)
+
 if defined USERNAME (set COMMANDLINE_ARGS=%COMMANDLINE_ARGS% --username %USERNAME%)
 if defined PASSWORD (set COMMANDLINE_ARGS=%COMMANDLINE_ARGS% --password %PASSWORD%)
-
-:: check if python is installed, if not, install python using winget
-where.exe /Q %PYTHON% || winget install Python.Python.3.11
-
-:: check if git is installed, if not, install git using winget
-where.exe /Q %GIT% || winget install Git.Git
 
 :: keep git up to date
 git pull || (
@@ -70,4 +74,4 @@ if not exist run.py (
 )
 
 :: run python script
-%PYTHON% run.py %COMMANDLINE_ARGS%
+python run.py %COMMANDLINE_ARGS%
