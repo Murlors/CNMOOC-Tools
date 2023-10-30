@@ -17,7 +17,7 @@ if defined USERNAME (set COMMANDLINE_ARGS=%COMMANDLINE_ARGS% --username %USERNAM
 if defined PASSWORD (set COMMANDLINE_ARGS=%COMMANDLINE_ARGS% --password %PASSWORD%)
 
 :: keep git up to date
-git pull || (
+%GIT% pull || (
     echo Failed to update git repository
     exit /b 1
 )
