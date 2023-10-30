@@ -3,4 +3,4 @@ pydes
 lxml
 beautifulsoup4
 selenium
-webdriver-manager
+webdriver-manager>=4.0.0

@@ -51,11 +51,13 @@ def parse_args(parser):
 
     if args.webdriver_manager:
         from selenium.webdriver.edge.service import Service as EdgeService
-        from webdriver_manager.microsoft import EdgeChromiumDriverManager
+        from webdriver_manager.microsoft import EdgeChromiumDriverManager, DriverCacheManager
 
         args.driver = webdriver.Edge(
             service=EdgeService(
-                EdgeChromiumDriverManager(path="", cache_valid_range=7).install()
+                EdgeChromiumDriverManager(
+                    cache_manager=DriverCacheManager(root_dir="", valid_range=7)
+                ).install()
             ),
             options=options,
         )
