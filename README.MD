@@ -1,4 +1,4 @@
-# WZU-SPOC-tools
+# CNMOOC Tools
 
 [English](README.EN.MD) | 简体中文
 
@@ -6,7 +6,7 @@ MOOC 自动答题脚本
 
 ## Description
 
-这个仓库是一个自动化脚本，用于在CNMOOC和一些SPOC上答题。
+这个仓库是一个自动化脚本，用于在CNMOOC和一些SPOC(如WZU-SPOC)等平台上答题。
 
 它旨在通过自动查找并填写在线教育平台上测验和考试的正确答案，帮助学生节省时间并提高学习效率。
 

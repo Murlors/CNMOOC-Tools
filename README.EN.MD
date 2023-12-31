@@ -1,4 +1,4 @@
-# WZU-SPOC-tools
+# CNMOOC Tools
 
 English | [简体中文](README.MD)
 
@@ -6,7 +6,7 @@ MOOC Auto Answer Script
 
 ## Description
 
-This project is an automated script for answering questions on MOOC platforms such as CNMOOC and some SPOCs.
+This project is an automated script for answering questions on MOOC platforms such as CNMOOC and some SPOCs(like WZU-SPOC).
 
 It aims to help students save time and improve learning efficiency by automatically finding and filling in the correct answers to quizzes and exams on online education platforms.
 
