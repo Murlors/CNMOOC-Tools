@@ -22,14 +22,14 @@ if defined PASSWORD set COMMANDLINE_ARGS=!COMMANDLINE_ARGS! --password !PASSWORD
 :: Keep git up to date
 !GIT! pull || (
     echo Failed to update git repository
-    exit /b 1
+    pause
 )
 
 :: Check and create virtual environment
 if not exist !VENV_DIR! (
     !PYTHON! -m venv "!VENV_DIR!" || (
         echo Failed to create venv in directory !VENV_DIR!
-        exit /b 1
+        pause
     )
     echo Creating venv in directory !VENV_DIR!
 )
@@ -46,7 +46,7 @@ if not exist !INSTALLED_PACKAGES_FILE! (
     echo No installed packages found. Installing from !PACKAGES_FILE!.
     !PYTHON! -m pip install -r !PACKAGES_FILE! --disable-pip-version-check || (
         echo Failed to install packages from !PACKAGES_FILE!
-        exit /b 1
+        pause
     )
 ) else (
     echo Installed packages file found. Checking for updates.
@@ -55,7 +55,7 @@ if not exist !INSTALLED_PACKAGES_FILE! (
         findstr /i /c:"%%i" !INSTALLED_PACKAGES_FILE! > nul || (
             !PYTHON! -m pip install -q "%%i" --disable-pip-version-check || (
                 echo Failed to install or update package %%i
-                exit /b 1
+                pause
             ) && (
                 echo Installed or updated package %%i
             )
@@ -66,13 +66,13 @@ if not exist !INSTALLED_PACKAGES_FILE! (
 :: Update installed packages file
 !PYTHON! -m pip freeze > !INSTALLED_PACKAGES_FILE! || (
     echo Failed to update !INSTALLED_PACKAGES_FILE!
-    exit /b 1
+    pause
 )
 echo Updated !INSTALLED_PACKAGES_FILE!
 
 :: Run python script
 !PYTHON! run.py !COMMANDLINE_ARGS! || (
     echo Failed to run run.py
-    exit /b 1
+    pause
 )
 endlocal
