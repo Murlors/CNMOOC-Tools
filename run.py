@@ -16,6 +16,8 @@ def get_hparams():
     parser.add_argument("--headless", action="store_true", help="是否使用无头模式")
 
     parser.add_argument("--update_anyway", action="store_true", help="是否强制更新题库")
+
+    parser.add_argument("--cnmooc", action="store_true", help="是否使用cnmooc登录")
     return parser
 
 
@@ -78,18 +80,27 @@ def main():
 
     auto_answer = AutoAnswer(hparams.driver, hparams.update_anyway)  # 实例化
     # run auto_answer.py
-    if auto_answer.login(username, password):  # 登录
-        while True:
-            auto_answer.select_courses()  # 课程选择
-            auto_answer.get_exam_select()  # 试卷选择
-            for exam in auto_answer.exam_select:
-                if auto_answer.goto_exam_test(exam):  # 进入对应试卷
-                    auto_answer.auto_answer()
-                    auto_answer.insert_data(exam)
-            print("input continue to continue.")
-            if input() != "continue":
-                break
-    del auto_answer
+    if hparams.cnmooc:
+        auto_answer.BASE_URL = "http://180.76.151.202:7010"
+        auto_answer.headers["Host"] = "180.76.151.202:7010"
+        is_login = auto_answer.login_by_cnmooc(username, password)
+    else:
+        auto_answer.BASE_URL = "http://spoc.wzu.edu.cn"
+        auto_answer.headers["Host"] = "spoc.wzu.edu.cn"
+        is_login = auto_answer.login_by_wzu_hall(username, password)
+    if not is_login:
+        print("登录失败")
+        return
+    while True:
+        auto_answer.select_courses()
+        auto_answer.get_exam_select()
+        for exam in auto_answer.exam_select:
+            if auto_answer.goto_exam_test(exam):
+                auto_answer.auto_answer()
+                auto_answer.insert_data(exam)
+        print("input continue to continue.")
+        if input() != "continue":
+            break
 
 
 if __name__ == "__main__":

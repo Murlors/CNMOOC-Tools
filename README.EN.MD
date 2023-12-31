@@ -12,7 +12,7 @@ It aims to help students save time and improve learning efficiency by automatica
 
 ## Attention
 
-If you want to use this script on the CNMOOC platform, you need to modify the login script and change the way cookies are obtained.
+If you want to use this script on the CNMOOC platform, you just need to add `--cnmooc` into the COMMANDLINE_ARGS.
 
 ## Usage
 
@@ -29,12 +29,12 @@ If you want to use this script on the CNMOOC platform, you need to modify the lo
 
 ## TODO
 
-- [ ] Add support for CNMOOC login.
+- [x] Add support for CNMOOC login.
 - [ ] Add support for other platforms.
 
 ## Supported Platforms
 
-- [ ] [CNMOOC](https://www.cnmooc.org/)
+- [x] [CNMOOC](https://180.76.151.202:7010/)
 - [x] [WZU-SPOC](http://spoc.wzu.edu.cn/)
 
 ## Contributing

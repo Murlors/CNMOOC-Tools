@@ -12,7 +12,7 @@ MOOC 自动答题脚本
 
 ## Attention
 
-如果您想在CNMOOC平台上使用此脚本，您需要修改登录脚本并更改获取cookie的方式。
+如果您想在CNMOOC平台上使用此脚本，您只需要在COMMANDLINE_ARGS中添加`--cnmooc`。
 
 ## Usage
 
@@ -29,12 +29,12 @@ MOOC 自动答题脚本
 
 ## TODO
 
-- [ ] 增加对CNMOOC登录的支持。
+- [x] 增加对CNMOOC登录的支持。
 - [ ] 添加对其他平台的支持。
 
 ## Supported Platforms
 
-- [ ] [CNMOOC](https://www.cnmooc.org/)
+- [x] [CNMOOC](https://180.76.151.202:7010/)
 - [x] [WZU-SPOC](http://spoc.wzu.edu.cn/)
 
 ## Contributing

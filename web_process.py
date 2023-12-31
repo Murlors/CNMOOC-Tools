@@ -34,7 +34,7 @@ class WebProcess:
     def __del__(self):
         self.driver.quit()
 
-    def login(self, username: str, password: str) -> bool:
+    def login_by_wzu_hall(self, username: str, password: str) -> bool:
         """
         登录SPOC平台
         :param username: 学号
@@ -48,6 +48,22 @@ class WebProcess:
         with open("config.json", "w") as f:
             json.dump({"username": username, "password": password}, f, indent=4)
         self.login_mooc(hall_cookies)
+        self.get_mooc_cookies()
+        return True
+
+    def login_by_cnmooc(self, username: str, password: str) -> bool:
+        """
+        登录中国大学MOOC平台
+        :param username: 学号
+        :param password: 密码
+        :return: 是否登录成功
+        """
+        self.driver.get("http://180.76.151.202:7010/home/login.mooc")
+        self.wait.until(ec.title_contains("CNMOOC"))
+        self.driver.find_element(By.ID, "loginName").send_keys(username)
+        self.driver.find_element(By.ID, "password").send_keys(password)
+        self.driver.find_element(By.ID, "userLogin").click()
+        self.wait.until(ec.presence_of_element_located((By.CLASS_NAME, "person-center")))
         self.get_mooc_cookies()
         return True
 
@@ -126,7 +142,7 @@ class WebProcess:
         """
         # 访问课程列表页面
         self.driver.get(f"{self.BASE_URL}/portal/myCourseIndex/1.mooc?checkEmail=false")
-        self.wait.until(ec.title_contains("SPOC"))
+        self.wait.until(ec.presence_of_element_located((By.CLASS_NAME, "person-center")))
         # 如果存在引导按钮，则点击
         skip_button = self.driver.find_elements(By.CLASS_NAME, "introjs-skipbutton")
         if skip_button:
